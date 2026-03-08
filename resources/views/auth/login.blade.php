@@ -25,7 +25,7 @@ body {
 }
 </style>
 
-<body class="fade-in" style="background-color: #e9ecf2;">
+<body style="background-color: #e9ecf2;">
 
     <div class="container-fluid vh-100">
         <div class="row h-100">
@@ -50,8 +50,7 @@ body {
 
                 <div class="card shadow-lg border-0 p-4" style="width: 100%; max-width: 420px; border-radius: 16px;">
 
-                    <a href="{{ route('home') }}"
-                        class="position-absolute top-0 end-0 m-4 text-dark text-decoration-none fs-3">
+                    <a href="/" class="position-absolute top-0 end-0 m-4 text-dark text-decoration-none fs-3">
                         &times;
                     </a>
 
@@ -60,7 +59,7 @@ body {
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="mb-3">
+                        <div class=" mb-3">
                             <label class="form-label">Correo electrónico</label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email') }}" required>

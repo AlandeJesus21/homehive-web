@@ -14,8 +14,12 @@
         padding: 0;
     }
 
+    .fondo {
+        background-color: #e9ecf2;
+    }
+
     .hero {
-        height: 90vh;
+        height: 92vh;
         background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
         url('{{ asset('images/j.jpg') }}') center/cover no-repeat;
         display: flex;
@@ -24,6 +28,7 @@
         text-align: center;
         color: white;
     }
+
 
     footer {
         background-color: #111;
@@ -39,6 +44,9 @@
     footer a:hover {
         color: white;
     }
+
+
+
 
     .h:hover {
         background-color: #3003c4;
@@ -64,6 +72,7 @@
         animation-delay: 0.6s;
     }
 
+
     @keyframes fadeUp {
         to {
             opacity: 1;
@@ -73,12 +82,12 @@
     </style>
 </head>
 
-<body>
+<body class="fondo hero-content">
 
-    <nav class="navbar navbar-expand-lg bg-light shadow-sm h-60 inline-block ">
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm h-60 inline-block" style="background-color: #fbfcff;">
         <div class="container hero-content">
-            <a class="navbar-brand fw-bold" href="">
-                HomeHive
+            <a href="" class="navbar-brand fw-bold">
+                <img src="{{ asset('images/Logo2.png') }}" alt="HomeHive" height="50"> HomeHive
             </a>
 
             <ul class="navbar-nav ms-auto flex-row gap-4">
