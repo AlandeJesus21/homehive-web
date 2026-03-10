@@ -96,7 +96,7 @@ Route::get('/propietario', function () {
 Route::get('/admin', function () {
     return view('admin.index');
 })->middleware('auth')->name('admin.index');
-})->name('admin.index');
+
 
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
 
