@@ -105,6 +105,7 @@ Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users
 Route::get('/inquilino', function () {
     return view('inquilino.index');
 })->name('inquilino.index');
+})->name('inquilino.index');
 
 Route::get('/vermas', [InquilinoController::class,'vermas'])->name('vermas');
 
