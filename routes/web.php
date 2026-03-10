@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
@@ -17,10 +18,10 @@ use App\Models\User;
 Route::get('/google-auth/redirect', function () {
     return Socialite::driver('google')->redirect();
 });
- 
+
 Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
- 
+
     $user = User::updateOrCreate( [
         'google_id' => $user_google->id,
     ],
@@ -104,3 +105,8 @@ Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users
 Route::get('/inquilino', function () {
     return view('inquilino.index');
 })->name('inquilino.index');
+})->name('inquilino.index');
+
+Route::get('/vermas', [InquilinoController::class,'vermas'])->name('vermas');
+
+Route::get('/solicitud', [InquilinoController::class,'solicitud'])->name('solicitud');
