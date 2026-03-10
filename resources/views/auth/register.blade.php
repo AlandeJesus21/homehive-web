@@ -51,8 +51,7 @@ body {
 
                 <div class="card shadow-lg border-0 p-4" style="width: 100%; max-width: 450px; border-radius: 16px;">
 
-                    <a href="{{ route('home') }}"
-                        class="position-absolute top-0 end-0 m-4 text-dark text-decoration-none fs-3">
+                    <a href="/" class="position-absolute top-0 end-0 m-4 text-dark text-decoration-none fs-3">
                         &times;
                     </a>
 
@@ -106,7 +105,7 @@ body {
 
                         {{-- ROL --}}
                         <div class="mb-3">
-                            <label class="form-label">Tipo de cuenta</label>
+                            <label class="form-label">Seleccione su rol</label>
 
                             <select name="role" class="form-select @error('role') is-invalid @enderror" required>
                                 <option value="">Selecciona una opción</option>
