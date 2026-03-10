@@ -13,8 +13,8 @@ class HomeController extends Controller
 
     public function index() {
         $user = Auth::user();
-        if ($user->role === "arendador") {
-            return redirect()->route('arendador.index');
+        if ($user->role === "propietario") {
+            return redirect()->route('propietario.index');
         }
 
         if ($user->role === "inquilino") {
@@ -24,6 +24,7 @@ class HomeController extends Controller
         if ($user->role === "admin") {
             return redirect()->route('admin.index');
         }
+
     }
-    
+
 }

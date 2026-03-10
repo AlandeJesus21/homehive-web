@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use GuzzleHttp\Middleware;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -38,7 +39,12 @@ Route::post('/logout', function() {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+//rutas para el propietario
+Route::get('/propietario', function () {
+    return view('propietario.index');
+})->middleware('auth')->name('propietario.index');
+
 //rutas para el admin
 Route::get('/admin', function () {
     return view('admin.index');
-})->name('admin.index');
+})->middleware('auth')->name('admin.index');
