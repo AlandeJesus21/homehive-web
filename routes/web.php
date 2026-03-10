@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
@@ -7,13 +8,60 @@ use GuzzleHttp\Middleware;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Laravel\Socialite\Socialite;
+use App\Models\User;
 
 
 //rutas que se pueden acceder sin autenticacion
 
+Route::get('/google-auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+ 
+Route::get('/google-auth/callback', function () {
+    $user_google = Socialite::driver('google')->user();
+ 
+    $user = User::updateOrCreate( [
+        'google_id' => $user_google->id,
+    ],
+        [
+            'email' => $user_google->email,
+            'name' => $user_google->name,
+            'avatar' => $user_google->avatar,
+        ]
+    );
+
+    FacadesAuth::login($user);
+
+    if($user->role == null){
+        return redirect('/select_rol');
+    }
+
+    return redirect('/home');
+});
+
+Route::post('/select_role', function () {
+
+    $user = FacadesAuth::user();
+
+    if ($user->role !== null) {
+        return redirect('/home');
+    }
+
+    $user->role = request('role');
+    $user->save();
+
+    return redirect('/home');
+
+});
+
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/select_rol', function () {
+    return view('auth.select_rol');
+})->name('select_rol');
 
 
 Route::get('/login', function () {
@@ -48,3 +96,11 @@ Route::get('/propietario', function () {
 Route::get('/admin', function () {
     return view('admin.index');
 })->middleware('auth')->name('admin.index');
+})->name('admin.index');
+
+Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+
+//ruta para inquilinos
+Route::get('/inquilino', function () {
+    return view('inquilino.index');
+})->name('inquilino.index');
