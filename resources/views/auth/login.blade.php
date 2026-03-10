@@ -97,12 +97,23 @@ body {
                             <a href="{{ route('register') }}">Regístrate aquí</a>
                         </small>
                     </div>
-
+                    <!-- <p class="text-center mb-4">o</p> -->
+                    <hr>
+                    <div class="text-center mt-3">
+                        <div class="navbar-brand btn btn-outline-secondary rounded-pill py-2 ">
+                            <a href="/google-auth/redirect" class="text-decoration-none text-dark">
+                                <img src="{{ asset('images/Google.png') }}" alt="HomeHive" height="30"> Iniciar sesión
+                                con Google
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
         </div>
+
+    </div>
     </div>
 
     <script>
