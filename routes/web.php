@@ -3,8 +3,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AppReviewController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PdfController;
 use GuzzleHttp\Middleware;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,7 @@ Route::get('/google-auth/redirect', function () {
 Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
 
+    
     $user = User::updateOrCreate( [
         'google_id' => $user_google->id,
     ],
@@ -64,6 +67,17 @@ Route::get('/select_rol', function () {
     return view('auth.select_rol');
 })->name('select_rol');
 
+Route::get('/acerca', function () {
+    return view('main.acerca');
+})->name('acerca');
+
+Route::get('/terminos', function () {
+    return view('main.terminos');
+})->name('terminos');
+
+Route::get('/politica', function () {
+    return view('main.politicas');
+})->name('politica');
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -76,6 +90,12 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/comentarios', [AppReviewController::class, 'main']
+)->name('comentarios');
+
+Route::post('/save_review', [AppReviewController::class, 'store']
+)->name('save_review');
 
 Route::post('/logout', function() {
     FacadesAuth::logout();
@@ -98,13 +118,14 @@ Route::get('/admin', function () {
     return view('admin.index');
 })->middleware('auth')->name('admin.index');
 
-
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+
+Route::get('/reporte', [PdfController::class, 'Reporuser']);
+
 
 //ruta para inquilinos
 Route::get('/inquilino', function () {
     return view('inquilino.index');
-})->name('inquilino.index');
 })->name('inquilino.index');
 
 Route::get('/vermas', [InquilinoController::class,'vermas'])->name('vermas');

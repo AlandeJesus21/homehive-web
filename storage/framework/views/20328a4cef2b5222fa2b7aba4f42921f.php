@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ $title ?? 'HomeHive' }}</title>
+    <title><?php echo e($title ?? 'HomeHive'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/Styles.css')); ?>">
 
     <style>
     .hero {
         height: 92vh;
         background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-        url('{{ asset('images/j.jpg') }}') center/cover no-repeat;
+        url('<?php echo e(asset('images/j.jpg')); ?>') center/cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -28,32 +28,33 @@
     <nav class="navbar navbar-expand-lg bg-light shadow-sm h-60 inline-block" style="background-color: #fbfcff;">
         <div class="container hero-content">
             <a href="" class="navbar-brand fw-bold">
-                <img src="{{ asset('images/Logo2.png') }}" alt="HomeHive" height="50"> HomeHive
+                <img src="<?php echo e(asset('images/Logo2.png')); ?>" alt="HomeHive" height="50"> HomeHive
             </a>
 
             <ul class="navbar-nav ms-auto flex-row gap-4">
-                @guest
+                <?php if(auth()->guard()->guest()): ?>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                    <a class="nav-link" href="<?php echo e(route('register')); ?>">Registrarse</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                    <a class="nav-link" href="<?php echo e(route('login')); ?>">Iniciar sesión</a>
                 </li>
-                @endguest
-                @auth
+                <?php endif; ?>
+                <?php if(auth()->guard()->check()): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/home">Inicio</a>
                 </li>
-                @endauth
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
 
-    {{ $slot }}
+    <?php echo e($slot); ?>
+
 
     <footer>
         <div class="container text-center">
@@ -84,4 +85,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH C:\webapps\laravel\homehive-web\resources\views/components/layout.blade.php ENDPATH**/ ?>
