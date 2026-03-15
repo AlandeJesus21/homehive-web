@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HomeHive</title>
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('bootstrap/css/bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('bootstrap/css/style.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('bootstrap/css/bootstrap.min.css')); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo e(asset('images/favicon.ico')); ?>" type="image/x-icon">
 
 
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/style.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('bootstrap/css/style.css')); ?>">
 
-    <title> @yield('plantilla')</title>
+    <title> <?php echo $__env->yieldContent('plantilla'); ?></title>
 
 </head>
 
@@ -27,7 +27,7 @@
     <nav class="navbar navbar-expand-lg" id="mynavbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('Logo/logo sin fondo.png') }}" alt="Bootstrap" width="80px" height="80px">
+                <img src="<?php echo e(asset('Logo/logo sin fondo.png')); ?>" alt="Bootstrap" width="80px" height="80px">
                 HomeHive</a>
             <div class="d-flex">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -43,7 +43,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" width="40px"
-                                height="40px" src="{{ asset('images/user.jpeg') }}" alt="Logo" />
+                                height="40px" src="<?php echo e(asset('images/user.jpeg')); ?>" alt="Logo" />
                             Mi perfil</a>
 
                         <ul class="dropdown-menu">
@@ -56,8 +56,8 @@
                                             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                     </svg></a></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
+                                <form action="<?php echo e(route('logout')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
                                     <button class="dropdown-item text-danger">
                                         <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                                     </button>
@@ -70,7 +70,7 @@
         </div>
     </nav>
     <div id="content">
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
 
     </div>
 
@@ -115,9 +115,9 @@
 
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
-    {{-- {{ $js ?? '' }} --}}
-    @yield('js')
+    
+    <?php echo $__env->yieldContent('js'); ?>
 
 </body>
 
-</html>
+</html><?php /**PATH C:\webapps\laravel\homehive-web\resources\views/inquilino/index.blade.php ENDPATH**/ ?>

@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>">
 
-    <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/Styles.css')); ?>">
 
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo e(asset('images/favicon.ico')); ?>" type="image/x-icon">
 
 
 
@@ -22,23 +22,24 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
             <div class="container-fluid mx-5">
 
-                <!-- LOGO -->
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/propietario') }}">
-                    <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" alt="Logo HomeHIve"
+                <a class="navbar-brand d-flex align-items-center" href="<?php echo e(url('/admin')); ?>">
+                    <img src="<?php echo e(asset('images/Logo2.png')); ?>" alt="Logo HomeHIve" width="50" height="50"
                         class="navbar-logo me-2">
-                    <span class="fw-bold text-tu-hogar fs-5">HomeHome</span>
+                    <span class="fw-bold text-tu-hogar fs-5">HomeHIve</span>
                 </a>
 
                 <div class="dropdown order-lg-2 ms-2">
 
-                    <button class="btn p-0 border-0 bg-transparent " data-bs-toggle="dropdown">
+                    <button class="btn p-0 border-0 bg-transparent" data-bs-toggle="dropdown">
 
                         <div class="d-flex align-items-center">
-                            <span class="text-muted me-2 small d-none d-lg-inline">
-                                {{ Auth::user()->name }}
-                            </span>
+                            <span class="text-muted me-2 small d-none d-lg-inline"><?php echo e(Auth::user()->name); ?></span>
 
-                            <img src="{{ asset('images/user.svg') }}" class="rounded-circle" width="38" height="38">
+                            <img src="<?php echo e(Auth::user()->avatar
+        ? (Str::startsWith(Auth::user()->avatar, 'http')
+            ? Auth::user()->avatar
+            : asset('images/perfiles/' . Auth::user()->avatar))
+        : asset('images/user.svg')); ?>" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
                         </div>
 
                     </button>
@@ -46,7 +47,9 @@
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
 
                         <li>
-                            <a class="dropdown-item" href="/perfil">Perfil</a>
+                            <a class="dropdown-item" href="/perfil">
+                                <i class="bi bi-person me-2"></i> Perfil
+                            </a>
                         </li>
 
                         <li>
@@ -54,10 +57,10 @@
                         </li>
 
                         <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
+                            <form action="<?php echo e(route('logout')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
                                 <button class="dropdown-item text-danger">
-                                    Cerrar sesión
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                                 </button>
                             </form>
                         </li>
@@ -65,12 +68,32 @@
                     </ul>
                 </div>
 
+                <button class="navbar-toggler order-lg-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarAdmin">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse order-lg-0" id="navbarAdmin">
+
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="<?php echo e(url('/admin')); ?>">Inicio</a>
+                        </li>
+
+
+
+                    </ul>
+
+                </div>
+
             </div>
         </nav>
     </header>
 
     <main class="container py-4">
-        {{ $slot }}
+        <?php echo e($slot); ?>
+
     </main>
 
     <section class="footer bg-light mt-5">
@@ -136,4 +159,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH C:\webapps\laravel\homehive-web\resources\views/components/admin/layout.blade.php ENDPATH**/ ?>

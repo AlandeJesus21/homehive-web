@@ -6,26 +6,14 @@
     <title>HomeHive</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+
 </head>
 
-<style>
-body {
-    animation: fadeIn 0.8s ease forwards;
-}
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-</style>
-
-<body class="page-transition" style="background-color: #e9ecf2;">
+<body class="fadeIn" style="background-color: #e9ecf2;">
 
     <div class="container-fluid vh-100">
         <div class="row h-100">

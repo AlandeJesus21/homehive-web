@@ -1,4 +1,13 @@
-<x-admin.layout>
+<?php if (isset($component)) { $__componentOriginal7651faf8e4a1e278424aad70c82de3ba = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7651faf8e4a1e278424aad70c82de3ba = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.admin.layout','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('admin.layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="container">
 
         <div class="mt-4 mb-4 text-center">
@@ -44,10 +53,11 @@
             </div>
         </div>
 
-        @isset($users)
+        <?php if(isset($users)): ?>
 
         <div class="mb-2 fw-bold">
-            Total de usuarios: {{ $users->count() }}
+            Total de usuarios: <?php echo e($users->count()); ?>
+
         </div>
 
         <div class="table-responsive border shadow-sm">
@@ -63,24 +73,33 @@
                 </thead>
 
                 <tbody>
-                    @forelse ($users as $user)
+                    <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr class="text-center">
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>{{ $user->created_at }}</td>
+                        <td><?php echo e($user->name); ?></td>
+                        <td><?php echo e($user->email); ?></td>
+                        <td><?php echo e($user->role); ?></td>
+                        <td><?php echo e($user->created_at); ?></td>
                     </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="4" class="text-center">No se encontraron resultados</td>
                     </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
 
             </table>
         </div>
 
-        @endisset
+        <?php endif; ?>
 
     </div>
-</x-admin.layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal7651faf8e4a1e278424aad70c82de3ba)): ?>
+<?php $attributes = $__attributesOriginal7651faf8e4a1e278424aad70c82de3ba; ?>
+<?php unset($__attributesOriginal7651faf8e4a1e278424aad70c82de3ba); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal7651faf8e4a1e278424aad70c82de3ba)): ?>
+<?php $component = $__componentOriginal7651faf8e4a1e278424aad70c82de3ba; ?>
+<?php unset($__componentOriginal7651faf8e4a1e278424aad70c82de3ba); ?>
+<?php endif; ?><?php /**PATH C:\webapps\laravel\homehive-web\resources\views/admin/users/index.blade.php ENDPATH**/ ?>

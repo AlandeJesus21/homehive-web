@@ -6,9 +6,9 @@
     <title>Login - HomeHive</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap.min.css')); ?>">
 
-    <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/Styles.css')); ?>">
 
 </head>
 
@@ -20,7 +20,7 @@
         <div class="row h-100">
 
             <div class="col-md-7 d-none d-md-block p-0 position-relative">
-                <div class="h-100 w-100" style="background: url('{{ asset('images/j.jpg') }}') center/cover no-repeat;">
+                <div class="h-100 w-100" style="background: url('<?php echo e(asset('images/j.jpg')); ?>') center/cover no-repeat;">
 
                     <div class="position-absolute top-50 start-50 translate-middle text-white text-center px-4">
                         <h4 class="fw-bold">
@@ -45,31 +45,61 @@
 
                     <h3 class="text-center mb-4">Inicia sesión</h3>
 
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('login')); ?>">
+                        <?php echo csrf_field(); ?>
 
                         <div class=" mb-3">
                             <label class="form-label">Correo electrónico</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                value="<?php echo e(old('email')); ?>" required>
 
-                            @error('email')
+                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <div class="invalid-feedback">
-                                {{ $message }}
+                                <?php echo e($message); ?>
+
                             </div>
-                            @enderror
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Contraseña</label>
                             <input type="password" name="password"
-                                class="form-control @error('password') is-invalid @enderror" required>
+                                class="form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" required>
 
-                            @error('password')
+                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <div class="invalid-feedback">
-                                {{ $message }}
+                                <?php echo e($message); ?>
+
                             </div>
-                            @enderror
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="d-grid">
@@ -83,7 +113,7 @@
                     <div class="text-center mt-4">
                         <small>
                             ¿No tienes cuenta?
-                            <a href="{{ route('register') }}">Regístrate aquí</a>
+                            <a href="<?php echo e(route('register')); ?>">Regístrate aquí</a>
                         </small>
                     </div>
                     <!-- <p class="text-center mb-4">o</p> -->
@@ -91,7 +121,7 @@
                     <div class="text-center mt-3">
                         <div class="navbar-brand btn btn-outline-secondary rounded-pill py-2 ">
                             <a href="/google-auth/redirect" class="text-decoration-none text-dark">
-                                <img src="{{ asset('images/Google.png') }}" alt="HomeHive" height="30"> Iniciar sesión
+                                <img src="<?php echo e(asset('images/Google.png')); ?>" alt="HomeHive" height="30"> Iniciar sesión
                                 con Google
                             </a>
                         </div>
@@ -121,4 +151,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH C:\webapps\laravel\homehive-web\resources\views/auth/login.blade.php ENDPATH**/ ?>
