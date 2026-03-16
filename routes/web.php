@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\Auth\LoginController;
@@ -15,7 +16,7 @@ use Laravel\Socialite\Socialite;
 use App\Models\User;
 
 
-//rutas que se pueden acceder sin autenticacion
+
 
 Route::get('/google-auth/redirect', function () {
     return Socialite::driver('google')->redirect();
@@ -24,7 +25,6 @@ Route::get('/google-auth/redirect', function () {
 Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
 
-    
     $user = User::updateOrCreate( [
         'google_id' => $user_google->id,
     ],
@@ -104,30 +104,65 @@ Route::post('/logout', function() {
     return redirect('/login');
 })->name('logout');
 
-// rutas segun rol
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-//rutas para el propietario
-Route::get('/propietario', function () {
-    return view('propietario.index');
-})->middleware('auth')->name('propietario.index');
 
-//rutas para el admin
+
+
+
+    Route::get('/propietario',
+     [PropiedadController::class, 'dashboard'])
+        ->name('propietario.index');
+
+
+    Route::get('/propiedades', [PropiedadController::class, 'index'])
+        ->name('propiedades.index');
+
+
+    Route::get('/propiedades/crear',
+     [PropiedadController::class, 'create'])
+    ->name('propiedades.create');
+
+    Route::post('/propiedades', [PropiedadController::class, 'store'])
+        ->name('propiedades.store');
+
+    Route::get('/propiedades/{id}',
+     [PropiedadController::class, 'show'])
+        ->name('propiedades.show');
+
+    Route::get('/propiedades/{id}/editar', [PropiedadController::class,
+    'edit'])
+        ->name('propiedades.edit');
+
+    Route::put('/propiedades/{id}',
+     [PropiedadController::class, 'update'])
+        ->name('propiedades.update');
+
+    Route::delete('/propiedades/{propiedad}',
+    [PropiedadController::class, 'destroy'])
+        ->name('propiedades.destroy');
+
+    Route::delete('/propiedades/foto/{id}', [PropiedadController::class,
+    'destroyFoto'])
+        ->name('propiedades.foto.destroy');
+
+
+
+
+
 Route::get('/admin', function () {
     return view('admin.index');
 })->middleware('auth')->name('admin.index');
 
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
 
-Route::get('/reporte', [PdfController::class, 'Reporuser']);
 
 
-//ruta para inquilinos
+
+
 Route::get('/inquilino', function () {
     return view('inquilino.index');
 })->name('inquilino.index');
 
-Route::get('/vermas', [InquilinoController::class,'vermas'])->name('vermas');
-
-Route::get('/solicitud', [InquilinoController::class,'solicitud'])->name('solicitud');

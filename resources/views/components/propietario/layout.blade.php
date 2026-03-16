@@ -61,20 +61,43 @@
                     </ul>
                 </div>
 
+                <!-- BOTÓN SANDWICH -->
+                <button class="navbar-toggler order-lg-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#arrendadorNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- MENÚ COLAPSABLE -->
+                <div class="collapse navbar-collapse order-lg-0" id="arrendadorNavbar">
+
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{ url('/propietario') }}">Inicio</a>
+                        </li>
+
+
+
+                    </ul>
+
+                </div>
+
             </div>
         </nav>
     </header>
 
-    <main class="container py-4">
+    <!-- CONTENIDO -->
+    <main>
         {{ $slot }}
     </main>
 
-    <section class="footer bg-light mt-5">
+    <section class="footer bg-light">
         <!-- Footer -->
         <footer class="bg-dark text-white text-center">
 
 
-            <div class="container p-4">
+            <!-- Grid container -->
+            <div class="container py-3">
                 <section class="mb-4">
                     <a data-mdb-ripple-init class="text-white me-3" href="https://www.facebook.com/share/18Dr35ekcu/"
                         role="button"><i class="bi bi-facebook"></i></a>
@@ -147,6 +170,7 @@
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {{ $scripts ?? '' }}
 
 </body>
 
