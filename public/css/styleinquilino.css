@@ -1,0 +1,257 @@
+/*navbar*/
+.minavbar {
+    background-color: #ffffff;
+
+}
+.main{
+    background-color: #d4d5e3;
+
+}
+a{
+    text-decoration: none;
+    color: #111;
+}
+ul>li {
+    width: 200px;
+    height: 20px;
+    margin: 15px;
+    color: black;
+    font-size: 20px;
+
+}
+
+/*footer*/
+footer {
+    background-color: #111;
+    color: #ccc;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #ccc;
+    color: #ccc;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white;
+}
+
+/* .cards-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+} */
+
+/*Tarjetas*/
+.card {
+    width: 300px;
+    min-height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    margin-top: 40px;
+}
+
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+.conten{
+    padding-top: 80px;
+}
+html,body{
+    overflow-x: clip;
+}
+
+/*estilo para la galeria*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* .gallery-view .body{
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+} */
+
+.box-1{grid-area: box1;}
+.box-2{grid-area: box2;}
+.box-3{grid-area: box3;}
+.box-4{grid-area: box4;}
+.box-5{grid-area: box5;}
+.box-6{grid-area: box6;}
+.gallery-view {
+    display: grid;
+    grid-template-areas:
+    "box1 box1 box2"
+    "box1 box1 box3"
+    "box4 box5 box6";
+
+    grid-template-columns: repeat(3,1fr);
+    grid-auto-rows: 210px;
+    gap:10px 20px;
+
+}
+.gallery-view img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+
+}
+/*para responsive de la galeria*/
+@media(max-width:850px){
+    .gallery-view {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        order: 1;
+    }
+
+    .gallery-view div {
+        height: 250px; /* Altura fija para fotos en móvil */
+    }
+}
+
+.contenedor{
+    display: flex;
+    gap: 1.5em;
+    align-items:flex-start;
+    position: relative;
+    width: 100%;
+
+
+}
+
+.left-section {
+padding: 1rem;
+    flex: 0 0 65%;
+    top:90px;
+    max-width: 65%;
+}
+
+.right-section {
+    padding: 1rem;
+    flex: 0 0 30%;
+    max-width: 35%;
+    top: 90px;
+
+}
+
+
+
+.right-section .card{
+    width: 100%;
+    max-width:100%;
+
+}
+#vermas{
+    display: block;
+    min-height:100vh;
+    padding:1.5rem;
+}
+.aside-card {
+    position: relative;
+    top: 0;
+}
+
+@media (max-width: 768px)
+{ .contenedor {
+        flex-direction: column; /* Apila las secciones */
+    }
+
+    .right-section {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+        margin: 1.5rem 0;
+    }
+    .left-section{
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+        order: 3;
+    }
+    .aside-card {
+        top: 100px;
+    }
+
+
+}
+
+
+/*boton*/
+.boton{
+    color: #ffffff;
+    background-color:#065F46;
+    border:none;
+    border-radius:8px;
+    padding:10px 20px;
+    font-weight:600;
+}
+.boton:hover{
+    background-color:#13644d;
+
+}
+
+/*caja de comentarios*/
+.comentarios-encabezado {
+
+    border-bottom: 2px solid #8B8B8B;
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+.comentarios-encabezado p{
+    font-family: sans-serif;
+    color: #696565;
+}
+.comentarios{
+    min-height: 100vh;
+    font-family: sans-serif;
+}
+.section-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+/*boton de reseña*/
+#resenia{
+    background-color: #1E3A8AEE;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+}
+/*tabla de solicitudes*/
+.table tbody tr td {
+    padding: 20px 10px;
+    color: #333;
+    table-layout:fixed;
+}
+.header-solicitudes th{
+background-color: #CDD3EE !important;
+}
+.header-solicitudes th {
+    font-weight: 600;
+    color: #000;
+    border: none;
+}
+
+.content-expanded {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
