@@ -10,5 +10,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/users', [UserController::class, 'Users']);
+Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/propiedades', [PropiedadController::class, 'Propiedades']);
+
+Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+
+Route::post('/register', [UserController::class, 'register']);

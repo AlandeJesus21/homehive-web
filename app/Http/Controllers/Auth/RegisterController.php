@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -36,6 +36,12 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         FacadesAuth::login($user);
+
+        $token = $user->createToken('mobile')->plainTextToken;
+
+        if ($request->has('from') && $request->from === 'app') {
+            return response()->view('redirect_app', ['token' => $token]);
+        }
 
         return redirect($this->redirectTo);
     }

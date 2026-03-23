@@ -17,7 +17,7 @@ class PropiedadController extends Controller
                 'message' => 'No se encontraron propiedades',
                 'status' => 200,
             ];
-            return response()->json($data, 202);
+            return response()->json(['success' => false, 'data' => ['message' => 'No se encontraron propiedades']]);
         }
 
         $data = [

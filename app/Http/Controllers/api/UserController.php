@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use League\Config\Exception\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class UserController extends Controller
 {
@@ -29,6 +34,64 @@ class UserController extends Controller
         
     }
 
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required'
+        ]);
+
+        // Intentar login
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Las credenciales son incorrectas'
+            ], 401);
+        }
+
+        // Obtener usuario autenticado
+        $user = Auth::user();
+
+        // Eliminar token anterior del mismo dispositivo
+        $user->tokens()->where('name', $validated['device_name'])->delete();
+
+        // Crear nuevo token
+        $token = $user->createToken($validated['device_name'])->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login exitoso',
+            'data' => [
+                'user' => $user,
+                'token' => $token
+            ]
+        ]);
+    }
+
+    public function register(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password'=> 'required|min:8|confirmed'
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = $user->createToken('mobile')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
+    }
+
+    
+
     public function show($id) {
         $user = User::find($id);
 
@@ -47,6 +110,7 @@ class UserController extends Controller
 
         return response()->json($data, 200);
     }
+
 
     public function destroy($id) {
         $user = User::find($id);
@@ -85,4 +149,21 @@ class UserController extends Controller
         ]);
 
     }
+
+    public function logout(Request $request)
+{
+    if (!$request->user()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Usuario no autenticado'
+        ], 401);
+    }
+
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Sesión cerrada'
+    ]);
+}
 }

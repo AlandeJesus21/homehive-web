@@ -48,6 +48,8 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+                        <input type="hidden" name="from" value="{{ request()->query('from') }}">
+
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
