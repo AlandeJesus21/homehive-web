@@ -1,85 +1,122 @@
 <x-layout>
 
-    <section class="hero slide-out-up fondo">
-        <div class="hero-content">
-            <h1 class="fw-bold">Bienvenidos a HomeHive</h1>
+    <!-- HERO -->
+    <section class="py-5 text-center fondo">
+        <div class="container">
+            <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-            <h3 class="mt-3">
-                Encuentra Tu Hogar, Vive Un Nuevo <br>
-                Comienzo... en Ocosingo
-            </h3>
+            <!-- Barra de búsqueda -->
+            <form method="GET" action="{{ route('busqueda') }}">
+                <div class="d-flex justify-content-center">
 
-            <a href="#propiedades" class="btn btn-light btn-lg mt-4 px-4 rounded-pill shadow h">
-                Ver propiedades
-            </a>
+                    <div class="search-bar shadow rounded-pill px-3 py-2 d-flex align-items-center gap-3">
+                        <img src="{{ asset('images/ubicacion.png') }}" alt="Zona" width="20" height="20">
+
+                        <select name="barrio_id" class="form-select border-0">
+                            <option value="">Zona</option>
+                            @foreach ($barrios as $barrio)
+                            <option value="{{ $barrio->id }}"
+                                {{ request('barrio_id') == $barrio->id ? 'selected' : '' }}>
+                                {{ $barrio->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+
+                        <span>|</span>
+
+                        <img src="{{ asset('images/casa.png') }}" alt="Tipo" width="20" height="20">
+
+                        <select name="tipo" class="form-select border-0">
+                            <option value="">Tipo</option>
+                            <option value="casa" {{ request('tipo') == 'casa' ? 'selected' : '' }}>Casa</option>
+                            <option value="departamento" {{ request('tipo') == 'departamento' ? 'selected' : '' }}>
+                                Departamento</option>
+                            <option value="cuarto" {{ request('tipo') == 'cuarto' ? 'selected' : '' }}>Cuarto</option>
+                        </select>
+
+                        <span>|</span>
+
+                        <input type="number" name="precio" class="form-control border-0" placeholder="Precio max">
+
+                        <span>|</span>
+
+                        <input type="text" name="servicio" class="form-control border-0" placeholder="Servicios">
+
+                    </div>
+
+                    <button type="submit" class="btn rounded-circle ms-2">
+                        <img src="{{ asset('images/busqueda.png') }}" alt="Buscar" width="20" height="20">
+                    </button>
+
+                </div>
+            </form>
         </div>
     </section>
 
-    <div class="fondo">
-        <div class="container py-5">
-            <h2 class="text-center mb-4">Busca una propiedad</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <!-- aquí va la api de mapas -->
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container py-5">
+        @if ($cuartos->isNotEmpty())
+        <h3 class="mb-4">Cuartos</h3>
 
-    <hr>
+        <div class="d-flex align-items-center">
 
-    <div class="container py-5 slide-out-up" id="propiedades">
-        <h2 class="text-center mb-5">Propiedades destacadas</h2>
+            <!-- Flecha izquierda -->
+            <button class="btn btn-light shadow me-3 rounded-circle"
+                onclick="scrollCarousel('cuartos', -300)">‹</button>
 
-        <div class="row g-4">
+            <div id="cuartos" class="d-flex overflow-auto gap-4 w-100">
+                @foreach ($cuartos as $cuarto)
+                <x-card-propiedad :propiedad="$cuarto" />
+                @endforeach
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Casa en el centro</h5>
-                        <p class="card-text">3 habitaciones, 2 baños, jardín amplio.</p>
-                    </div>
-                </div>
             </div>
 
+            <!-- Flecha derecha -->
+            <button class="btn btn-light shadow ms-3 rounded-circle" onclick="scrollCarousel('cuartos', 300)">›</button>
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Departamento moderno</h5>
-                        <p class="card-text">2 habitaciones, cocina equipada.</p>
-                    </div>
-                </div>
+        </div>
+        @endif
+
+        @if ($casas->isNotEmpty())
+        <h3>Casas</h3>
+
+        <div class="d-flex align-items-center">
+
+            <!-- Flecha izquierda -->
+            <button class="btn btn-light shadow me-3 rounded-circle" onclick="scrollCarousel('casas', -300)">‹</button>
+
+            <div id="casas" class="d-flex overflow-auto gap-4 w-100">
+                @foreach ($casas as $casa)
+                <x-card-propiedad :propiedad="$casa" />
+                @endforeach
+
             </div>
 
+            <!-- Flecha derecha -->
+            <button class="btn btn-light shadow ms-3 rounded-circle" onclick="scrollCarousel('casas', 300)">›</button>
+        </div>
+        @endif
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Cuarto económico</h5>
-                        <p class="card-text">Ideal para estudiantes.</p>
-                    </div>
-                </div>
+        @if ($departamentos->isNotEmpty())
+        <h3>Departamentos</h3>
+
+        <div class="d-flex align-items-center">
+
+            <button class="btn btn-light shadow me-3 rounded-circle"
+                onclick="scrollCarousel('departamentos', -300)">‹</button>
+
+            <div id="departamentos" class="d-flex overflow-auto gap-4 w-100">
+                @foreach ($departamentos as $departamento)
+                <x-card-propiedad :propiedad="$departamento" />
+                @endforeach
+
             </div>
 
+            <!-- Flecha derecha -->
+            <button class="btn btn-light shadow ms-3 rounded-circle"
+                onclick="scrollCarousel('departamentos', 300)">›</button>
         </div>
+        @endif
 
-        <div class="text-center mt-5">
-            <a href="{{ route('login') }}" class="btn btn-primary">
-                Ver todas las propiedades
-            </a>
-        </div>
-    </div>
-
-    <hr>
-
-    <div>
-        <div class="container py-5 text-center">
-            <h2 class="text-center mb-4">¿Tienes alguna propiedad?</h2>
-            <p class="text-center">Publica tu cuarto, casa o departamento gratis</p>
-            <a class="btn btn-lg mt-4" style="background-color: #C9C00F;" href="{{ route('login') }}">Publicar
-                propiedad</a>
-        </div>
     </div>
 
 

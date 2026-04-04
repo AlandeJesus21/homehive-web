@@ -27,7 +27,8 @@
                             Encuentra tu nuevo comienzo.
                         </h4>
                         <p>
-                            Crea tu cuenta y forma parte de la colmena HomeHive.
+                            Comienza una nueva etapa con HomeHive Regístrate y forma parte de nuestra colmena de
+                            hogares.
                         </p>
                     </div>
                 </div>

@@ -1,41 +1,82 @@
 <x-admin.layout>
-    <main class="main-contenent">
-        <div class="container cards-wrapper">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card border-secondary text-center shadow" onclick="location.href= '/admin/users';"
-                        style="cursor: pointer;">
-                        <img class="rounded-circle d-block mx-auto mt-3" width="80" height="80"
-                            src=" {{ asset('images/users.jpeg') }} " alt="Logo">
-                        <div class="card-body">
-                            <h4 class="card-title">Usuarios</h4>
-                            <p class="card-text">Gestión de usuarios</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card border-secondary text-center shadow">
-                        <img class="rounded-circle d-block mx-auto mt-3" width="80" height="80"
-                            src=" {{ asset('images/casa.jpeg') }} " alt="Logo">
-                        <div class="card-body">
-                            <h4 class="card-title">Propiedades</h4>
-                            <p class="card-text">Gestión de propiedades</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-8 col-md-4 mb-4 position-relative">
-                    <div class="card border-secondary text-center shadow">
-                        <img class="rounded-circle d-block mx-auto mt-3" width="80" height="80"
-                            src=" {{ asset('images/escribiendo.png') }} " alt="Logo">
-                        <div class="card-body">
-                            <h4 class="card-title">Comentarios</h4>
-                            <p class="card-text">Gestión de comentarios</p>
-                        </div>
-                    </div>
+
+    <!-- 🔶 HERO -->
+    <section class="hero-admin">
+        <div class="container hero-content text-white">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="fw-bold">
+                        El motor de la colmena está en tus manos.
+                    </h3>
+                    <p class="mt-3">
+                        Supervisa el crecimiento de la plataforma, gestiona comentarios,
+                        genera reportes de usuarios y propiedades.
+                        Asegura que cada rincón funcione con excelencia.
+                    </p>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
+
+    <!-- 🔷 CARDS -->
+    <div class="container admin-stats">
+        <div class="row">
+
+            <!-- PROPIEDADES -->
+            <div class="col-md-4 mb-4">
+                <div class="admin-card">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-icon bg-primary bg-opacity-25 me-3">
+                            🏠
+                        </div>
+                        <div>
+                            <h4 class="mb-0">{{ $totalPropiedades }}</h4>
+                            <small class="text-muted">Propiedades TOTALES</small>
+                        </div>
+                    </div>
+
+                    <a href="/admin/propiedades" class="btn btn-primary mt-3">Ver más</a>
+                </div>
+            </div>
+
+            <!-- USUARIOS -->
+            <div class="col-md-4 mb-4">
+                <div class="admin-card">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-icon bg-secondary bg-opacity-25 me-3">
+                            👤
+                        </div>
+                        <div>
+                            <h4 class="mb-0">{{ $totalUsers }}</h4>
+                            <small class="text-muted">Usuarios TOTALES</small>
+                        </div>
+                    </div>
+
+                    <a href="/admin/users" class="btn btn-primary mt-3">Ver más</a>
+                </div>
+            </div>
+
+            <!-- COMENTARIOS -->
+            <div class="col-md-4 mb-4">
+                <div class="admin-card">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-icon bg-warning bg-opacity-25 me-3">
+                            ⚠️
+                        </div>
+                        <div>
+                            <h4 class="mb-0">{{ $totalReviews }}</h4>
+                            <small class="text-muted">Comentarios TOTALES</small>
+                            <div class="text-danger small">+5 Para revisar</div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="btn btn-primary mt-3">Ver más</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </x-admin.layout>

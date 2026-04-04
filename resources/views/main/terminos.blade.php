@@ -1,11 +1,9 @@
 <x-layout>
+    <div class="container my-5 d-flex justify-content-center">
+        <div class="card shadow-lg border-0 rounded-4" style="max-width: 900px; width: 100%;">
+            <div class="card-body p-5 bg-light rounded-4">
 
-    <body>
-
-        <div class="container my-5">
-            <div class="terms-container">
-                <h1 class="text-center mb-4">Términos y Condiciones de Uso</h1>
-                <p class="text-center text-muted mb-5">HomeHive</p>
+                <h2 class="text-center fw-bold mb-4">Términos y Condiciones de Uso</h2>
 
                 <h5>1. Aceptación de los términos</h5>
                 <p>
@@ -106,8 +104,9 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </x-layout>
