@@ -16,14 +16,14 @@
 
 </head>
 
-<body class="fade-in">         
+<body class="fade-in fondo d-flex flex-column min-vh-100">
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
             <div class="container-fluid mx-5">
 
                 <!-- LOGO -->
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/propietario') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" alt="Logo HomeHIve"
                         class="navbar-logo me-2">
                     <span class="fw-bold text-tu-hogar fs-5">HomeHome</span>
@@ -50,7 +50,8 @@
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
 
                         <li>
-                            <a class="dropdown-item" href="/perfil">Perfil</a>
+                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#perfilModal"
+                                href="/perfil">Perfil</a>
                         </li>
 
                         <li>
@@ -69,72 +70,113 @@
                     </ul>
                 </div>
 
-            </div>
+                <button class="navbar-toggler order-lg-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/users">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/propiedades">Propiedades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/reviews">Comentarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/home">Inicio</a>
+                        </li>
+                    </ul>
+                </div>
         </nav>
     </header>
 
-    <main class="container py-4">
+
+
+    <main class="container py-4 flex-grow-1">
         {{ $slot }}
     </main>
 
-    <section class="footer bg-light mt-5">
-        <footer class="bg-dark text-white text-center">
+    <footer>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>COMPROMISO</h6>
+                    <small>
+                        En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres
+                        de propiedades.
+                    </small>
+                </div>
 
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <strong>© 2026 DevSquad</strong>
+                </div>
 
-            <div class="container p-4">
-                <section class="mb-4">
-                    <a data-mdb-ripple-init class="text-white me-3" href="https://www.facebook.com/share/18Dr35ekcu/"
-                        role="button"><i class="bi bi-facebook"></i></a>
-
-                    <a data-mdb-ripple-init class="text-white me-3" href="https://www.instagram.com/homehive384/"
-                        role="button"><i class="bi bi-instagram"></i></a>
-
-                </section>
-                <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Compromiso</h5>
-
-                        <p>
-                            En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres de propiedades.
-                            Valoramos tus comentarios y sugerencias para mejorar continuamente nuestra plataforma y
-                            servicios.
-                        </p>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Más </h5>
-
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a class="text-white me-3" href="/comentarios">Comentarios</a>
-
-                            </li>
-                            <li>
-                                <a class="text-white me-3" href="/acerca">Acerca de nosotros</a>
-                            </li>
-                        </ul>
-
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase mb-0">Legal</h5>
-
-                        <ul class="list-unstyled">
-                            <li><a class="text-white me-3" href="/politicas">Política de privacidad</a></li>
-                            <li><a class="text-white me-3" href="/terminos">Términos y condiciones</a></li>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-md-4">
+                    <h6>MÁS</h6>
+                    <a href="/comentarios">Comentarios</a><br>
+                    <a href="/acerca">Acerca de nosotros</a><br><br>
+                    <h6>LEGAL</h6>
+                    <a href="/politica">Política de privacidad</a><br>
+                    <a href="/terminos">Términos y condiciones</a>
                 </div>
             </div>
+        </div>
+    </footer>
 
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-                © 2026 Copyright:
-                <a class="text-reset fw-bold" href="/">HomeHive.com</a>
+    <div class="modal fade" id="perfilModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="text-center mb-3 position-relative">
+
+                            <img src="{{ Auth::user()->avatar
+                            ? asset('images/perfiles/' . Auth::user()->avatar)
+                            : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
+
+                            <label for="profile_photo" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
+                                ✏️
+                            </label>
+
+                            <input type="file" name="profile_photo" id="profile_photo" hidden>
+                        </div>
+
+                        <input type="text" name="name" class="form-control mb-2" value="{{ Auth::user()->name }}"
+                            required>
+
+                        <input type="email" name="email" class="form-control mb-2" value="{{ Auth::user()->email }}"
+                            required>
+
+                        <input type="password" name="password" class="form-control mb-2" placeholder="Nueva contraseña">
+
+                        <input type="password" name="password_confirmation" class="form-control mb-3"
+                            placeholder="Confirmar contraseña">
+
+                        <button class="btn btn-primary w-100">
+                            Guardar cambios
+                        </button>
+
+                    </form>
+
+                </div>
+
             </div>
-        </footer>
-    </section>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

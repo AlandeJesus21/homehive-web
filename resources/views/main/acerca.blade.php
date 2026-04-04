@@ -1,35 +1,56 @@
 <x-layout>
     <div class="container py-5">
-        <header class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">Conócenos Mejor</h1>
-            <p class="lead text-muted">Descubre quiénes somos y cómo podemos ayudarte a encontrar tu lugar ideal.</p>
-            <hr class="my-4">
-        </header>
+        <section class="hero-about d-flex align-items-center text-white position-relative">
 
-        <div class="row g-4 justify-content-center mb-5">
+            <div class="container" style="margin-top: -150px;">
+                <h1 class="display-4 fw-bold">Conócenos Mejor</h1>
+                <p class="lead">
+                    Descubre quiénes somos y cómo podemos <br> ayudarte a encontrar tu lugar ideal.
+                </p>
+            </div>
 
-            <div class="col-lg-10 mb-4">
-                <div class="card shadow-lg border-0 h-100">
-                    <div class="card-body p-md-5">
-                        <h2 class="card-title text-secondary mb-4">Acerca de nosotros</h2>
-                        <p class="fs-5 text-dark">
-                            En <strong>HomeHive</strong>, creemos que cada espacio tiene el potencial de convertirse en
-                            un
-                            verdadero hogar. Somos una plataforma dedicada a conectar a personas con las mejores
-                            opciones de renta de inmuebles, ofreciendo un servicio confiable, accesible y adaptado a tus
-                            necesidades.
-                        </p>
-                        <p class="text-muted">
-                            Nuestro objetivo es brindarte una experiencia sencilla, segura y eficiente para que
-                            encuentres el lugar ideal donde comenzar nuevas historias. Ya sea que busques un cuarto o
-                            casa, en HomeHive te ayudamos a dar ese importante paso con confianza.
-                        </p>
-                        <a href="/inquilino" class="btn btn-primary mt-3">Ver Propiedades</a>
+            <div style="margin-top: 150px;"></div>
+
+            <div class="container position-absolute start-50 translate-middle-x" style="bottom: -80px;">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-lg border-0 rounded-4">
+                            <div class="card-body p-md-5 text-dark">
+                                <h2 class="card-title text-center mb-4">Acerca de nosotros</h2>
+
+                                <p class="fs-5">
+                                    En <strong>HomeHive</strong>, creemos que cada espacio tiene el potencial de
+                                    convertirse en un verdadero hogar.
+                                </p>
+
+                                <p class="text-muted">
+                                    Nuestro objetivo es brindarte una experiencia sencilla, segura y eficiente para
+                                    encontrar el lugar ideal.
+                                </p>
+
+                                <div class="text-center mt-3">
+                                    <a href="#contactanos" class="btn btn-primary rounded-pill px-4">
+                                        Contactanos
+                                    </a>
+
+                                    <a href="#concenos" class="btn btn-outline-primary rounded-pill px-4 ms-2">
+                                        Conoce a nuestro equipo
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-10">
+        </section>
+
+        <div style="margin-top: 120px;"></div>
+
+        <div class="row g-4 justify-content-center mb-5">
+
+            <div class="col-lg-10 border-top pt-5" id="contactanos">
                 <div class="card border-info shadow-sm h-100">
                     <div class="card-body p-md-5">
                         <h2 class="card-title text-info mb-4">Contáctanos</h2>
@@ -75,7 +96,7 @@
         </div>
 
         <div class="text-center mt-5 pt-4 border-top">
-            <h2 class="text-secondary mb-4">Conoce a Nuestro Equipo</h2>
+            <h2 class="text-secondary mb-4" id="concenos">Conoce a Nuestro Equipo</h2>
             <p class="lead text-muted mb-5">Personas dedicadas a ayudarte a encontrar tu hogar.</p>
         </div>
 

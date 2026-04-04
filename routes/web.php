@@ -7,24 +7,22 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AppReviewController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-
+use Illuminate\Validation\Rules\In;
 
 /*
 | RUTAS PUBLICAS
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/inicio', function () {
-    return view('index');
-})->name('inicio');
+Route::get('/inicio', [IndexController::class, 'index'])->name('inicio');
 
 Route::get('/acerca', function () {
     return view('main.acerca');
@@ -40,6 +38,9 @@ Route::get('/politica', function () {
 
 Route::get('/comentarios', [AppReviewController::class, 'main'])
 ->name('comentarios');
+
+Route::get('/propiedades/{id}', [IndexController::class, 'show'])->name('propiedades.show');
+Route::get('/busqueda', [IndexController::class, 'search'])->name('busqueda');
 
 
 /*
@@ -107,6 +108,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+    Route::get('/perfil', [UserController::class, 'edit'])->name('perfil');
+
+    Route::put('/perfil', [UserController::class, 'update'])->name('perfil.update');
+
     Route::get('/select_rol', function () {
         return view('auth.select_rol');
     })->name('select_rol');
@@ -138,14 +143,27 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth','role:admin'])->group(function () {
 
-    Route::get('/admin', function () {
-        return view('admin.index');
-    })->name('admin.index');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-    Route::get('/admin/users', [AdminController::class, 'index'])
+    Route::get('/admin/users', [AdminController::class, 'usersview'])
     ->name('admin.users');
 
-    Route::get('/reporte', [PdfController::class, 'Reporuser']);
+    Route::get('/admin/propiedades', [AdminController::class, 'propiedadesview'])
+    ->name('admin.propiedades');
+
+    Route::get('/admin/reviews', [AdminController::class, 'reviewsview']);
+
+    Route::get('/admin/propiedades/search', [AdminController::class, 'propiedadessearch'])->name('propiedades.search');
+
+    Route::get('/admin/reviews/search', [AdminController::class, 'reviewsearch'])->name('reviews.search');
+
+    Route::get('/admin/users/search', [AdminController::class, 'userssearch'])->name('users.search');
+
+    Route::get('/reporte', [PdfController::class, 'ReportUser']);
+
+    Route::get('/reportepropiedades', [PdfController::class, 'ReportPropiedad']);
+
+
 
 });
 
@@ -161,13 +179,7 @@ Route::middleware(['auth','role:propietario'])->group(function () {
         return view('propietario.index');
     })->name('propietario.index');
 
-});
-
-
-
-
-
-    Route::get('/propietario',
+        Route::get('/propietario',
      [PropiedadController::class, 'dashboard'])
         ->name('propietario.index');
 
@@ -205,11 +217,14 @@ Route::middleware(['auth','role:propietario'])->group(function () {
 
 
 
+});
 
 
-Route::get('/admin', function () {
-    return view('admin.index');
-})->middleware('auth')->name('admin.index');
+
+
+
+
+
 
 /*
 | RUTAS INQUILINO

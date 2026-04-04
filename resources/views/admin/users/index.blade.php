@@ -1,86 +1,98 @@
 <x-admin.layout>
     <div class="container">
 
-        <div class="mt-4 mb-4 text-center">
-            <h1 class="fw-bold">Generar Reporte de Usuarios</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
+            <h4 class="fw-bold">Listado de usuarios</h4>
+
+            <form method="GET" action="{{ route('users.search') }}" class="d-flex gap-2 flex-wrap align-items-end">
+
+                <div>
+                    <label class="form-label small">Desde</label>
+                    <input type="date" name="start_date" class="form-control form-control-sm">
+                </div>
+
+                <div>
+                    <label class="form-label small">Hasta</label>
+                    <input type="date" name="end_date" class="form-control form-control-sm">
+                </div>
+
+                <div>
+                    <label class="form-label small">Tipo</label>
+                    <select name="role" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        <option value="inquilino" {{ request('role') == 'inquilino' ? 'selected' : '' }}>Inquilinos
+                        </option>
+                        <option value="propietario" {{ request('role') == 'propietario' ? 'selected' : '' }}>
+                            Propietarios</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-sm mt-2">
+                    <img src="{{ asset('images/busqueda.png') }}" alt="Buscar" width="20" height="20">
+
+                </button>
+
+            </form>
+
         </div>
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
+        <div class="text-end mb-3">
+            <button class="btn btn-light shadow-sm">
+                ➕ Generar reporte
+            </button>
+        </div>
 
-                <form method="GET" action="/reporte">
+        <div class="table-card p-3">
 
-                    <div class="row g-3">
-
-                        <div class="col-md-4">
-                            <label class="form-label">Tipo de usuario</label>
-                            <select name="role" class="form-select">
-                                <option value="">Todos</option>
-                                <option value="inquilino">Inquilinos</option>
-                                <option value="propietario">Propietarios</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label">Fecha inicio</label>
-                            <input type="date" name="start_date" class="form-control">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label">Fecha fin</label>
-                            <input type="date" name="end_date" class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-primary">
-                            Generar reporte
-                        </button>
-                    </div>
-
-                </form>
-
+            @isset($users)
+            <div class="mb-2 fw-bold">
+                Total de usuarios: {{ $users->count() }}
             </div>
+            @endisset
+
+            <div class="table-responsive">
+                <table class="table align-middle">
+
+                    <thead class="table-header text-center">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+
+                        @forelse ($users as $user)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+
+                            <td>
+                                <span class="badge 
+                                {{ $user->role == 'admin' ? 'bg-dark' : '' }}
+                                {{ $user->role == 'propietario' ? 'bg-primary' : '' }}
+                                {{ $user->role == 'inquilino' ? 'bg-success' : '' }}">
+                                    {{ ucfirst($user->role) }}
+                                </span>
+                            </td>
+
+                            <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No se encontraron resultados</td>
+                        </tr>
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+            </div>
+
         </div>
-
-        @isset($users)
-
-        <div class="mb-2 fw-bold">
-            Total de usuarios: {{ $users->count() }}
-        </div>
-
-        <div class="table-responsive border shadow-sm">
-            <table class="table table-striped table-hover align-middle mb-0">
-
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Fecha registro</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @forelse ($users as $user)
-                    <tr class="text-center">
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->role }}</td>
-                        <td>{{ $user->created_at }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4" class="text-center">No se encontraron resultados</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-
-            </table>
-        </div>
-
-        @endisset
 
     </div>
 </x-admin.layout>

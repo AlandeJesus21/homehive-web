@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 class PdfController extends Controller
 {
 
-    public function Reporuser(Request $request)
+    public function ReporUser(Request $request)
     {
 
         $query = User::query();

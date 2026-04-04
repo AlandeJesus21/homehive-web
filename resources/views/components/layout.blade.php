@@ -23,7 +23,7 @@
 
 </head>
 
-<body class="fondo hero-content">
+<body class="fondo hero-content d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg bg-light shadow-sm h-60 inline-block" style="background-color: #fbfcff;">
         <div class="container hero-content">
@@ -44,16 +44,78 @@
                     <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
                 </li>
                 @endguest
+
                 @auth
+                @if(Auth::user()->role == 'admin')
+                <button class="navbar-toggler order-lg-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/users">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/propiedades">Propiedades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/admin/reviews">Comentarios</a>
+                        </li>
+                </div>
+                @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="/home">Inicio</a>
+                    <a class="nav-link text-black" href="/home">Inicio</a>
                 </li>
+
+                <div class="dropdown order-lg-2 ms-2">
+
+                    <button class="btn p-0 border-0 bg-transparent " data-bs-toggle="dropdown">
+
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted me-2 small d-none d-lg-inline">
+                                {{ Auth::user()->name }}
+                            </span>
+
+                            <img src="{{ Auth::user()->avatar
+        ? (Str::startsWith(Auth::user()->avatar, 'http')
+            ? Auth::user()->avatar
+            : asset('images/perfiles/' . Auth::user()->avatar))
+        : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
+                        </div>
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+
+                        <li>
+                            <a class="dropdown-item" href="/perfil">Perfil</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="dropdown-item text-danger">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+
+                    </ul>
+                </div>
                 @endauth
             </ul>
         </div>
     </nav>
 
-    {{ $slot }}
+    <main class="container py-4 flex-grow-1">
+        {{ $slot }}
+    </main>
 
     <footer>
         <div class="container text-center">
@@ -81,6 +143,19 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    function scrollCarousel(id, amount) {
+        const container = document.getElementById(id);
+        container.scrollBy({
+            left: amount,
+            behavior: 'smooth'
+        });
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 

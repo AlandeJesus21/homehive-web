@@ -27,7 +27,8 @@
                             Todo gran cambio empieza con un buen lugar.
                         </h4>
                         <p>
-                            Inicia sesión y continúa formando parte de la colmena.
+                            Todo gran cambio empieza con un buen lugar. Inicia sesión y continúa formando parte de la
+                            colmena.
                         </p>
                     </div>
                 </div>

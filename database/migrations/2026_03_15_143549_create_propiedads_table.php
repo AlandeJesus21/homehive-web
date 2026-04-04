@@ -20,7 +20,6 @@ return new class extends Migration
             
             $table->string('titulo');
             $table->string('tipo'); 
-            $table->string('barrio');
             $table->string('calle');
 
             
