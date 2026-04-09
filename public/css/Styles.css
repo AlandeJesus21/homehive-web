@@ -30,6 +30,58 @@
         align-items: center;
     }
 
+    /* estilos para las busquedas */
+   .search-bar {
+    background: #fff;
+    padding: 10px 15px;
+    gap: 10px;
+    max-width: 800px;
+    width: 100%;
+}
+
+
+
+    .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .filter-item select,
+    .filter-item input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+        -webkit-appearance: none;
+        -moz-appearance: none;    
+        appearance: none;         
+        box-shadow: none;         
+    }
+
+    .divider {
+        width: 1px;
+        height: 25px;
+        background: #ddd;
+    }
+
+    .search-btn {
+        background: #f1f1f1;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .search-btn:hover {
+        background: #e0e0e0;
+    }
+
     /* estilos de carrusel */
 
     overflow-auto::-webkit-scrollbar {
@@ -37,6 +89,26 @@
 }
 
 overflow-auto {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-container .card-container {
+    min-width: 250px;
+    max-width: 250px;
+    flex: 0 0 auto;
+}   
+
+/* Ocultar scrollbar */
+.carousel-container div::-webkit-scrollbar {
+    display: none;
+}
+.carousel-container div {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -59,6 +131,12 @@ overflow-auto {
     }
 
 
+/* resposive */
+@media (max-width: 767px) {
+    .search-bar {
+        display: none;
+    }
+}
 
 
 

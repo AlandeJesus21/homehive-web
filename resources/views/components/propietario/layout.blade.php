@@ -19,7 +19,7 @@
             <div class="container-fluid mx-5">
 
                 <!-- LOGO -->
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/propietario') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" alt="Logo HomeHIve"
                         class="navbar-logo me-2">
                     <span class="fw-bold text-tu-hogar fs-5">HomeHome</span>
@@ -34,10 +34,8 @@
                                 {{ Auth::user()->name }}
                             </span>
 
-                            <img src="{{ Auth::user()->avatar
-        ? (Str::startsWith(Auth::user()->avatar, 'http')
-            ? Auth::user()->avatar
-            : asset('images/perfiles/' . Auth::user()->avatar))
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
         : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
                         </div>
 

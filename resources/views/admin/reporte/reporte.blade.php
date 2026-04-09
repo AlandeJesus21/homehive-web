@@ -93,7 +93,8 @@
     \Carbon\Carbon::setLocale('es');
     @endphp
     <p>
-        Total de propiedades registradas este mes: <strong>{{ now()->translatedFormat('F Y') }}</strong>
+        Reporte de las propiedades registradas en el barrio <strong>{{$barrio->first()->nombre}}</strong> <br>
+
     </p>
 
     <table>
@@ -107,11 +108,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($properties as $propiedad)
+            @foreach($propiedades as $propiedad)
             <tr>
                 <td>{{ $propiedad->titulo }}</td>
                 <td>{{ ucfirst($propiedad->tipo) }}</td>
-                <td>{{ $propiedad->barrio }}</td>
+                <td>{{ $propiedad->barrio->nombre }}</td>
                 <td>{{ $propiedad->user->name }}
                     <br>
                     <small>{{ $propiedad->user->email }}</small>

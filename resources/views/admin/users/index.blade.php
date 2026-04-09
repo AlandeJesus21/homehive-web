@@ -9,12 +9,14 @@
 
                 <div>
                     <label class="form-label small">Desde</label>
-                    <input type="date" name="start_date" class="form-control form-control-sm">
+                    <input type="date" value="{{ request('start_date') }}" name="start_date"
+                        class="form-control form-control-sm">
                 </div>
 
                 <div>
                     <label class="form-label small">Hasta</label>
-                    <input type="date" name="end_date" class="form-control form-control-sm">
+                    <input type="date" value="{{ request('end_date') }}" name="end_date"
+                        class="form-control form-control-sm">
                 </div>
 
                 <div>
@@ -38,9 +40,9 @@
         </div>
 
         <div class="text-end mb-3">
-            <button class="btn btn-light shadow-sm">
+            <a href="/reporte" class="btn btn-light shadow-sm">
                 ➕ Generar reporte
-            </button>
+            </a>
         </div>
 
         <div class="table-card p-3">

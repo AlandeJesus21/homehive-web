@@ -10,6 +10,9 @@
 
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
 
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+
+
 </head>
 
 
@@ -136,6 +139,34 @@
 
         </div>
     </div>
+
+    <footer>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>COMPROMISO</h6>
+                    <small>
+                        En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres
+                        de propiedades.
+                    </small>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <strong>© 2026 DevSquad</strong>
+                </div>
+
+                <div class="col-md-4">
+                    <h6>MÁS</h6>
+                    <a href="/comentarios">Comentarios</a><br>
+                    <a href="/acerca">Acerca de nosotros</a><br><br>
+                    <h6>LEGAL</h6>
+                    <a href="/politica">Política de privacidad</a><br>
+                    <a href="/terminos">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {

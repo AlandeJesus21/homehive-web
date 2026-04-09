@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Barrio;
+use App\Models\Propiedad;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -28,6 +31,28 @@ class PdfController extends Controller
         $users = $query->get();
 
         $pdf = Pdf::loadView('admin.reporte.reporteuser', compact('users'));
+
+        return $pdf->stream('reporte.pdf');
+    }
+
+    public function ReporProp(Request $request)
+    {
+        $query = Propiedad::query();
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('created_at', [
+                $request->start_date,
+                $request->end_date
+            ]);
+        }
+
+        if($request->tipo) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        $propiedades = $query->get();
+        $barrio = Barrio::all();
+
+        $pdf = Pdf::loadView('admin.reporte.reporte', compact('propiedades', 'barrio'));
 
         return $pdf->stream('reporte.pdf');
     }

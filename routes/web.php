@@ -1,20 +1,26 @@
 <?php
 
 use App\Http\Controllers\PropiedadController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AppReviewController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-use Illuminate\Validation\Rules\In;
 
 /*
 | RUTAS PUBLICAS
@@ -42,6 +48,27 @@ Route::get('/comentarios', [AppReviewController::class, 'main'])
 Route::get('/propiedades/{id}', [IndexController::class, 'show'])->name('propiedades.show');
 Route::get('/busqueda', [IndexController::class, 'search'])->name('busqueda');
 
+// Mostrar aviso de verificación
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+
+// Verificar correo (link del email)
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+// Reenviar correo
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Correo de verificación reenviado');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 /*
 | AUTENTICACION
@@ -52,6 +79,23 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [LoginController::class, 'login']);
+
+
+// Mostrar formulario (correo)
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+// Enviar correo
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Mostrar formulario con token
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Guardar nueva contraseña
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
 
 Route::get('/register', function () {
     return view('auth.register');
@@ -80,15 +124,31 @@ Route::get('/google-auth/callback', function () {
 
     $user_google = Socialite::driver('google')->user();
 
+
     $user = User::updateOrCreate( [
         'google_id' => $user_google->id,
     ],
         [
             'email' => $user_google->email,
             'name' => $user_google->name,
-            'avatar' => $user_google->avatar,
         ]
     );
+
+    if(!$user->avatar){
+        
+            $avatarsave = Http::get($user_google->avatar)->body();
+
+             $avatarname = 'avatars/'. Str::uuid() . '.jpg';
+
+            Storage::disk('public')->put($avatarname, $avatarsave);
+            $user->avatar = $avatarname;
+            $user->save();
+    }
+
+    if (!$user->email_verified_at) {
+        $user->email_verified_at = now();
+        $user->save();
+    }
 
     FacadesAuth::login($user);
 
@@ -104,7 +164,7 @@ Route::get('/google-auth/callback', function () {
 | RUTAS PROTEGIDAS (LOGIN)
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -141,7 +201,7 @@ Route::middleware('auth')->group(function () {
 | RUTAS ADMIN
 */
 
-Route::middleware(['auth','role:admin'])->group(function () {
+Route::middleware(['auth','role:admin', 'verified'])->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
@@ -159,9 +219,10 @@ Route::middleware(['auth','role:admin'])->group(function () {
 
     Route::get('/admin/users/search', [AdminController::class, 'userssearch'])->name('users.search');
 
-    Route::get('/reporte', [PdfController::class, 'ReportUser']);
+    Route::get('/reporte', [PdfController::class, 'ReporUser']);
 
-    Route::get('/reportepropiedades', [PdfController::class, 'ReportPropiedad']);
+    Route::get('/reportepropiedades', [PdfController::class, 'ReporProp']);
+
 
 
 
@@ -173,7 +234,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
 */
 
 
-Route::middleware(['auth','role:propietario'])->group(function () {
+Route::middleware(['auth','role:propietario', 'verified'])->group(function () {
 
     Route::get('/propietario', function () {
         return view('propietario.index');
@@ -230,7 +291,7 @@ Route::middleware(['auth','role:propietario'])->group(function () {
 | RUTAS INQUILINO
 */
 
-Route::middleware(['auth','role:inquilino'])->group(function () {
+Route::middleware(['auth','role:inquilino', 'verified'])->group(function () {
 //ruta para inquilinos
 
 Route::get('/inquilino', [InquilinoController::class,'index'])->name('inquilino.index');
