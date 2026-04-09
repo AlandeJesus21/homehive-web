@@ -38,10 +38,8 @@
                                 {{ Auth::user()->name }}
                             </span>
 
-                            <img src="{{ Auth::user()->avatar
-        ? (Str::startsWith(Auth::user()->avatar, 'http')
-            ? Auth::user()->avatar
-            : asset('images/perfiles/' . Auth::user()->avatar))
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
         : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
                         </div>
 
@@ -51,7 +49,7 @@
 
                         <li>
                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#perfilModal"
-                                href="/perfil">Perfil</a>
+                                href="">Perfil</a>
                         </li>
 
                         <li>
@@ -116,12 +114,23 @@
                 </div>
 
                 <div class="col-md-4">
-                    <h6>MÁS</h6>
-                    <a href="/comentarios">Comentarios</a><br>
-                    <a href="/acerca">Acerca de nosotros</a><br><br>
-                    <h6>LEGAL</h6>
-                    <a href="/politica">Política de privacidad</a><br>
-                    <a href="/terminos">Términos y condiciones</a>
+                    <div class="row">
+
+                        <!-- Columna 1 -->
+                        <div class="col-6">
+                            <h6>MÁS</h6>
+                            <a href="/comentarios">Comentarios</a><br>
+                            <a href="/acerca">Acerca de nosotros</a>
+                        </div>
+
+                        <!-- Columna 2 -->
+                        <div class="col-6">
+                            <h6>LEGAL</h6>
+                            <a href="/politica">Política de privacidad</a><br>
+                            <a href="/terminos">Términos y condiciones</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,11 +157,11 @@
                             ? asset('images/perfiles/' . Auth::user()->avatar)
                             : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
 
-                            <label for="profile_photo" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
+                            <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
                                 ✏️
                             </label>
 
-                            <input type="file" name="profile_photo" id="profile_photo" hidden>
+                            <input type="file" name="avatar" id="avatar" hidden>
                         </div>
 
                         <input type="text" name="name" class="form-control mb-2" value="{{ Auth::user()->name }}"

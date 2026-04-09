@@ -13,9 +13,11 @@ class IndexController extends Controller
     public function index() 
     {
         $barrios = Barrio::all();
-        $cuartos = Propiedad::where('tipo', 'cuarto')->get();
-        $casas = Propiedad::where('tipo', 'casa')->get();
-        $departamentos = Propiedad::where('tipo', 'departamento')->get();
+        $cuartos = Propiedad::where('tipo', 'cuarto')->get()->take(8);
+        $casas = Propiedad::where('tipo', 'casa')->get()->take(8);
+        $departamentos = Propiedad::where('tipo', 'departamento')->get()->take(8);
+
+        // dd($cuartos, $casas, $departamentos, $barrios);
 
         return view('index', compact('barrios', 'cuartos', 'casas', 'departamentos'));
     }
@@ -45,15 +47,14 @@ class IndexController extends Controller
         if ($request->filled('precio_max')) {
             $query->where('precio', '<=', $request->input('precio_max'));
         }
-        $propiedad = $query->get();
-
-        $resultado = $query->get();
 
         $cuartos = (clone $query)->where('tipo', 'cuarto')->get();
         $departamentos = (clone $query)->where('tipo', 'departamento')->get();
         $casas = (clone $query)->where('tipo', 'casa')->get();
 
         $barrios = Barrio::all();
+        
+
 
         return view('index', compact('cuartos', 'departamentos', 'casas', 'barrios'));
     }
