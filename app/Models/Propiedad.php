@@ -4,32 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Propiedad extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    
     protected $table = 'propiedades';
 
     
-    
-    protected $fillable = [
-        'user_id',      
-        'titulo',       
-        'tipo',         
-        'barrio',
-        'calle',
-        'latitud',      
-        'longitud',     
-        'precio',
-        'forma_pago',   
-        'servicio',     
-        'descripcion',
-        'reglas',
-        'cercanias',    
-        'imagen',       
-    ];
+protected $fillable = [
+    'user_id',
+    'titulo',
+    'tipo',
+    'barrio_id', 
+    'calle',
+    'latitud',
+    'longitud',
+    'precio',
+    'forma_pago',
+    'servicio',
+    'descripcion',
+    'reglas',
+    'cercanias',
+];
 
     
     public function user()
@@ -44,8 +42,9 @@ class Propiedad extends Model
         return $this->hasMany(PropiedadImagen::class, 'propiedad_id');
     }
 
-    public function barrio()
-    {
-        return $this->belongsTo(Barrio::class);
-    }
+    public function barrio() 
+{
+    
+    return $this->belongsTo(Barrio::class, 'barrio_id'); 
+}
 }

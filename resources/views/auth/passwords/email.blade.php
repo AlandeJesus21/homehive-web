@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
 </head>
 
 <body class="fondo fadeIn">

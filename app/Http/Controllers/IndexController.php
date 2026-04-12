@@ -25,7 +25,7 @@ class IndexController extends Controller
     public function show($id)
     {
         $propiedad = Propiedad::findOrFail($id);
-        return view('propiedad.show', compact('propiedad'));
+        return view('propietario.propiedades.show', compact('propiedad'));
     }
 
     public function search(Request $request)

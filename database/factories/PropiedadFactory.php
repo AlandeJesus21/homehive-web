@@ -32,10 +32,10 @@ public function definition(): array
         'descripcion' => $this->faker->paragraph(),
         'reglas' => $this->faker->sentence(),
         'cercanias' => $this->faker->sentence(),
-        // 🔥 ESTA ES LA LÍNEA CLAVE
+        
         'user_id' => User::factory(),
 
-        'barrio_id' => 1, // o random si tienes varios
+        'barrio_id' => random_int(1, 10), // o random si tienes varios
     ];
 }
 }

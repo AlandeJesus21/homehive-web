@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class PropiedadController extends Controller
 {
     public function propiedades() {
-        $propiedades = Propiedad::all();
+        $propiedades = Propiedad::with('barrio', 'imagenes')->get();
 
         if($propiedades->isEmpty()) {
             $data = [
@@ -28,8 +28,25 @@ class PropiedadController extends Controller
         return response()->json($data,200);
     }
 
+    public function getByUser()
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'No autenticado'
+            ], 401);
+        }
+
+        $propiedades = Propiedad::with('barrio', 'propiedad_imagenes')->where('user_id', $user->id)->get();
+
+        return response()->json([
+            'data' => $propiedades
+        ], 200);
+    }
+
     public function vermas($id){
-        $prop = Propiedad::find($id);
+        $prop = Propiedad::with('barrio', 'propiedad_imagenes')->find($id);
 
         if(!$prop) {
             return response()->json(['message' => 'No se encontro la propiedad', 'status'=>404],404);
@@ -39,7 +56,7 @@ class PropiedadController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $prop = Propiedad::find($id);
+        $prop = Propiedad::with('barrio')->find($id);
 
         if(!$prop) {
             return response()->json(['success' => false, 'data' => ['message' => 'No se encontro la propiedad']]);

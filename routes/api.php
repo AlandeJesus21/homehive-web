@@ -14,6 +14,10 @@ Route::get('/users', [UserController::class, 'Users']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/propiedades', [PropiedadController::class, 'propiedades']);
+Route::middleware('auth:sanctum')->get(
+    '/propiedades/user',
+    [PropiedadController::class, 'getbyuser']
+);
 Route::get('/vermas/{id}', [PropiedadController::class, 'vermas']);
 
 
