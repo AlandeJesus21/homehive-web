@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create();
 
-         Propiedad::factory()->count(100)->create();
+         Propiedad::factory()->count(1000)->create();
     }
 }

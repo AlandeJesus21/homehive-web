@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="fadeIn" style="background-color: #e9ecf2;">
@@ -17,7 +17,7 @@
         <div class="row h-100">
 
             <div class="col-md-7 d-none d-md-block p-0 position-relative">
-                <div class="h-100 w-100" style="background: url('{{ asset('images/j.jpg') }}') center/cover no-repeat;">
+                <div class="h-100 w-100" style="background: url('{{ asset('images/j.jpeg') }}') center/cover no-repeat;">
                     <div class="position-absolute top-50 start-50 translate-middle text-white text-center px-4">
                         <h4 class="fw-bold">
                             Todo gran cambio empieza con un buen lugar.

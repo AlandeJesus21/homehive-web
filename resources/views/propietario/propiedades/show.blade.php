@@ -1,6 +1,7 @@
 <x-propietario.layout>
 
-<div class="container py-5">
+<div style="background: linear-gradient(180deg, #D2D4E5 40%, #B0B3D3 100%); min-height: 100vh; padding: 0px 0; font-family: 'Segoe UI', sans-serif;">
+<div class="container py-5" >
 
     @php $fotos = $propiedad->imagenes; @endphp
 
@@ -57,17 +58,13 @@
                 </div>
 
                 <p class="mb-1"><strong>Barrio:</strong></p>
-                <p class="text-muted">{{ $propiedad->barrio }}</p>
+                <p class="text-muted">{{ $propiedad->barrio->nombre ?? 'Sin barrio' }}</p>
 
                 <p class="mb-1"><strong>Calle:</strong></p>
                 <p class="text-muted">{{ $propiedad->calle }}</p>
 
                 <p class="mb-1"><strong>Forma de pago:</strong></p>
                 <p class="text-muted">{{ ucfirst($propiedad->forma_pago) }}</p>
-
-                <button class="btn w-100 mt-3 py-2 fw-bold" style="background:#0f5132; color:white; border-radius:10px;">
-                    Solicitar Renta
-                </button>
             </div>
         </div>
     </div>
@@ -79,21 +76,46 @@
                 <h4 class="fw-bold mb-3">Descripción General</h4>
                 <p class="text-muted">{{ $propiedad->descripcion }}</p>
 
-                <h4 class="fw-bold mt-4">Servicios</h4>
-                <ul class="list-unstyled text-muted">
-                    @php
-                        $listaServicios = array_filter(array_map('trim', explode(',', $propiedad->servicio)));
-                    @endphp
+                <h4 class="fw-bold mt-4 mb-3">Servicios</h4>
+<ul class="list-unstyled">
+    @php
+        $labels = [
+            'wifi' => 'WiFi / Internet',
+            'agua' => 'Agua',
+            'luz' => 'Luz',
+            'gas' => 'Gas',
+            'basura' => 'Recolección de basura',
+            'baño_privado' => 'Baño privado',
+            'aire' => 'Aire acondicionado',
+            'ventilador' => 'Ventilador de techo',
+            'entrada_independiente' => 'Entrada independiente',
+            'cama' => 'Cama incluida',
+            'escritorio' => 'Escritorio y silla',
+            'closet' => 'Clóset',
+            'frigobar' => 'Frigobar',
+            'parrilla' => 'Parrilla',
+            'cocina' => 'Cocina compartida',
+            'lavado' => 'Área de lavado',
+            'estacionamiento' => 'Estacionamiento',
+            'camaras' => 'Cámaras de seguridad',
+            'limpieza' => 'Limpieza de áreas comunes'
+        ];
 
-                    @foreach($listaServicios as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </ul>
+        $listaServicios = json_decode($propiedad->servicio, true) ?? [];
+    @endphp
+
+    @foreach($listaServicios as $item)
+        <li class="mb-2 d-flex align-items-center text-muted">
+            <span class="badge rounded-pill bg-primary me-2" style="width: 8px; height: 8px; padding: 0;">&nbsp;</span>
+            {{ $labels[$item] ?? $item }}
+        </li>
+    @endforeach
+</ul>
 
                 <h4 class="fw-bold mt-4">Lugar de referencia</h4>
                 <p class="text-muted">{{ $propiedad->cercanias ?? 'Sin referencia cercana registrada' }}</p>
 
-                <h4 class="fw-bold mt-4">Reglas de convivencia</h4>
+                <h4 class="fw-bold mt-4">Reglamento</h4>
                 <div class="text-muted">
                     {!! nl2br(e($propiedad->reglas)) !!}
                 </div>

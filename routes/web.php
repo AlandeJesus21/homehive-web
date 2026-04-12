@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\SolicitudController;
 
 /*
 | RUTAS PUBLICAS
@@ -202,6 +204,7 @@ Route::middleware('auth', 'verified')->group(function () {
 */
 
 Route::middleware(['auth','role:admin', 'verified'])->group(function () {
+    
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
@@ -224,66 +227,54 @@ Route::middleware(['auth','role:admin', 'verified'])->group(function () {
     Route::get('/reportepropiedades', [PdfController::class, 'ReporProp']);
 
 
-
-
 });
 
 
 /*
 | RUTAS PROPIETARIO
 */
+Route::middleware(['auth', 'role:propietario', 'verified'])->prefix('propietario')->group(function () {
 
-
-Route::middleware(['auth','role:propietario', 'verified'])->group(function () {
-
-    Route::get('/propietario', function () {
-        return view('propietario.index');
-    })->name('propietario.index');
-
-        Route::get('/propietario',
-     [PropiedadController::class, 'dashboard'])
+    // Dashboard principal: /propietario
+    Route::get('/', [PropiedadController::class, 'index'])
         ->name('propietario.index');
 
+    // Gestión de Propiedades: /propietario/propiedades
+    Route::prefix('propiedades')->group(function () {
+        
+        // Crear: /propietario/propiedades/crear
+        Route::get('/crear', [PropiedadController::class, 'create'])
+            ->name('propiedades.create');
 
-    Route::get('/propiedades', [PropiedadController::class, 'index'])
-        ->name('propiedades.index');
+        // Guardar: /propietario/propiedades
+        Route::post('/', [PropiedadController::class, 'store'])
+            ->name('propiedades.store');
 
+        // Ver Detalle: /propietario/propiedades/detalle/{id}
+        Route::get('/detalle/{id}', [PropiedadController::class, 'show'])
+            ->name('propiedades.show');
 
-    Route::get('/propiedades/crear',
-     [PropiedadController::class, 'create'])
-    ->name('propiedades.create');
+        // Editar: /propietario/propiedades/{id}/editar
+        Route::get('/{id}/editar', [PropiedadController::class, 'edit'])
+            ->name('propiedades.edit');
 
-    Route::post('/propiedades', [PropiedadController::class, 'store'])
-        ->name('propiedades.store');
+        // Actualizar: /propietario/propiedades/{id}
+        Route::put('/{id}', [PropiedadController::class, 'update'])
+            ->name('propiedades.update');
 
-    Route::get('/propiedades/{id}',
-     [PropiedadController::class, 'show'])
-        ->name('propiedades.show');
+        // Eliminar: /propietario/propiedades/{propiedad}
+        Route::delete('/{propiedad}', [PropiedadController::class, 'destroy'])
+            ->name('propiedades.destroy');
+    }); 
 
-    Route::get('/propiedades/{id}/editar', [PropiedadController::class,
-    'edit'])
-        ->name('propiedades.edit');
+    
+    Route::get('/pagos', [PagoController::class, 'index'])
+        ->name('pagos.index');
 
-    Route::put('/propiedades/{id}',
-     [PropiedadController::class, 'update'])
-        ->name('propiedades.update');
-
-    Route::delete('/propiedades/{propiedad}',
-    [PropiedadController::class, 'destroy'])
-        ->name('propiedades.destroy');
-
-    Route::delete('/propiedades/foto/{id}', [PropiedadController::class,
-    'destroyFoto'])
-        ->name('propiedades.foto.destroy');
-
-
+    Route::get('/solicitudes', [SolicitudController::class, 'index'])
+        ->name('solicitudes.index'); 
 
 });
-
-
-
-
-
 
 
 
@@ -291,7 +282,7 @@ Route::middleware(['auth','role:propietario', 'verified'])->group(function () {
 | RUTAS INQUILINO
 */
 
-Route::middleware(['auth','role:inquilino', 'verified'])->group(function () {
+Route::middleware(['auth','role:inquilino'])->group(function () {
 //ruta para inquilinos
 
 Route::get('/inquilino', [InquilinoController::class,'index'])->name('inquilino.index');
