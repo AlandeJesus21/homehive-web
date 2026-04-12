@@ -12,6 +12,12 @@ use Illuminate\Routing\Controller;
 
 class ReviewController extends Controller
 {
+
+ //Mostrar reseñas
+public function index(){
+    $review=Review::all();
+    return view('inquilino.vermas', compact('review'));
+}
     // Guardar reseña
     public function store(Request $request, $idPropiedad)
     {
@@ -36,7 +42,9 @@ class ReviewController extends Controller
             'comentario' => $request->comentario
         ]);
 
-        return back()->with('success', '¡Tu reseña fue publicada!');
+        return redirect()
+        ->route('vermas', $idPropiedad)
+        ->with('success', 'Reseña enviada correctamente');
     }
 
     // Formulario de edición
@@ -72,7 +80,7 @@ class ReviewController extends Controller
         ]);
 
         return redirect()
-            ->route('inquilino.comentarios', $review->propiedad_id)
+            ->route('vermas', $review->propiedad_id)
             ->with('success', 'Reseña actualizada correctamente');
     }
 
@@ -87,6 +95,8 @@ class ReviewController extends Controller
 
         $review->delete();
 
-        return back()->with('success', 'Reseña eliminada');
+        return redirect()
+        ->route('vermas', $review->propiedad_id)
+        ->with('success', 'Reseña eliminada correctamente');
     }
 }

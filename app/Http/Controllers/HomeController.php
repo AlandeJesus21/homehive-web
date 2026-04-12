@@ -18,7 +18,7 @@ class HomeController extends Controller
         }
 
         if ($user->role === "inquilino") {
-            return redirect()->route('inquilino.index');
+            return redirect()->route('buscar');
         }
 
         if ($user->role === "admin") {

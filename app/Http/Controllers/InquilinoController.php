@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Review;
 use App\Models\Propiedad;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class InquilinoController extends Controller {
         if ($request->barrio) {
             $query->where('barrio', $request->barrio);
         }
-        
+
 
         $propiedades = $query->paginate(10);
 
@@ -42,13 +43,14 @@ class InquilinoController extends Controller {
 
     public function vermas($id){
         $propiedad=Propiedad::findOrFail($id);
-        return view('inquilino.vermas',['propiedad' => $propiedad]);
+        $review = Review::where('propiedad_id', $id)->with('usuario')->get();
+        return view('inquilino.vermas', compact('propiedad', 'review'));
     }
     public function solicitar(){
         return view('inquilino.solicitud');
     }
     public function solicitudes(){
-        return view('inquilino.missolicitudes');
+        return view('inquilino.solicitudes');
     }
 
     public function versolicitud(){
@@ -57,7 +59,9 @@ class InquilinoController extends Controller {
     public function pagos(){
         return view('inquilino.mispagos');
     }
-
+    public function favoritos(){
+        return view('inquilino.favoritos');
+    }
 }
 
 ?>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barrio;
 use App\Models\Propiedad;
 use App\Models\PropiedadImagen;
+use App\Models\Barrio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +13,12 @@ use Illuminate\Routing\Controller;
 
 class PropiedadController extends Controller
 {
+
     public function dashboard()
     {
         return view('propietario.index');
     }
+
 
     public function index()
     {
@@ -28,11 +31,13 @@ class PropiedadController extends Controller
         return view('propietario.index', compact('propiedades', 'user'));
     }
 
+
     public function create()
     {
         $barrios = Barrio::all();
         return view('propietario.propiedades.create', compact('barrios'));
     }
+
 
     public function store(Request $request)
     {
@@ -92,15 +97,18 @@ class PropiedadController extends Controller
         }
     }
 
+
     public function show($id)
     {
         $propiedad = Propiedad::with(['imagenes', 'barrio'])->findOrFail($id);
         return view('propietario.propiedades.show', compact('propiedad'));
     }
 
+
     public function edit($id)
     {
         $propiedad = Propiedad::with('imagenes')->findOrFail($id);
+
 
         if ($propiedad->user_id !== Auth::id()) {
             abort(403, 'No tienes permiso para editar esta propiedad.');
@@ -109,13 +117,11 @@ class PropiedadController extends Controller
         return view('propietario.propiedades.edit', compact('propiedad'));
     }
 
+
     public function update(Request $request, $id)
     {
         $propiedad = Propiedad::findOrFail($id);
 
-        if ($propiedad->user_id !== Auth::id()) {
-            abort(403);
-        }
 
         $request->validate([
             'titulo'      => 'required|string|max:255',
@@ -128,12 +134,19 @@ class PropiedadController extends Controller
             'imagenes.*'  => 'image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        try {
-            $totalActual = $propiedad->imagenes()->count();
-            $nuevas = $request->hasFile('imagenes') ? count($request->file('imagenes')) : 0;
 
-            if (($totalActual + $nuevas) > 6) {
-                return back()->with('error', 'Máximo 6 imágenes permitidas.');
+        $propiedad->update($request->only([
+            'titulo', 'precio', 'tipo', 'reglas', 'descripcion'
+        ]));
+
+
+        if ($request->hasFile('imagenes')) {
+            foreach ($request->file('imagenes') as $foto) {
+                $path = $foto->store('propiedades', 'public');
+                PropiedadImagen::create([
+                    'propiedad_id' => $propiedad->id,
+                    'ruta' => $path
+                ]);
             }
 
             $propiedad->fill($request->only([
@@ -176,33 +189,32 @@ class PropiedadController extends Controller
         }
     }
 
+
     public function destroyFoto($id)
     {
         $foto = PropiedadImagen::findOrFail($id);
 
-        // SEGURIDAD
-        if ($foto->propiedad->user_id !== Auth::id()) {
-            abort(403);
-        }
 
         if (Storage::disk('public')->exists($foto->ruta)) {
             Storage::disk('public')->delete($foto->ruta);
         }
+
 
         $foto->delete();
 
         return response()->json(['success' => true]);
     }
 
+
     public function destroy(Propiedad $propiedad)
     {
-        try {
-            // NO BORRA DE BD (usa SoftDeletes)
-            if ($propiedad->user_id !== Auth::id()) {
-                abort(403);
-            }
 
-            $propiedad->delete();
+        foreach($propiedad->imagenes as $imagen) {
+            Storage::disk('public')->delete($imagen->ruta);
+        }
+
+
+        $propiedad->delete();
 
             return redirect()->route('propietario.index')
                              ->with('success', 'La propiedad se ocultó correctamente.');
@@ -212,4 +224,42 @@ class PropiedadController extends Controller
                              ->with('error', 'Ocurrió un error al ocultar la propiedad.');
         }
     }
+
+    public function buscar(Request $request)
+{
+
+
+    $query = Propiedad::with('imagenes');
+    if ($request->filled('barrios')) {
+        $query->whereIn('barrio', $request->barrios);
+    }
+    if ($request->filled('tipo')) {
+        $query->where('tipo', $request->tipo);
+    }
+    if ($request->filled('min')) {
+        $query->where('precio', '>=', $request->min);
+    }
+    if ($request->filled('max')) {
+        $query->where('precio', '<=', $request->max);
+    }
+    // if ($request->has('servicio') && is_array($request->servicio)) {
+    //     foreach ($request->servicios as $servicioSeleccionado) {
+    //         // Buscamos el nombre del servicio dentro de tu cadena de texto
+    //         $query->where('servicio', 'like', '%' . $servicioSeleccionado . '%');
+    //     }
+    // }
+
+    if ($request->filled('servicio')) {
+    foreach($request->servicio as $servicio) {
+        $query->where('servicio', 'like', '%' .trim ($servicio). '%');
+    }
+}
+
+    $propiedades = $query->get();
+    $barrio = Barrio::all();
+
+    return view('inquilino.index', compact('propiedades', 'barrio'));
+
+}
+}
 }

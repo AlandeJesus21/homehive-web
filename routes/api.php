@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\PropiedadController;
 use App\Http\Controllers\Api\ReseñasController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,16 @@ Route::delete('reseñas/{id}', [ReseñasController::class, 'destroy']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 
 Route::post('/register', [UserController::class, 'register']);
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('propiedades/{idPropiedad}/reviews', [ReviewController::class, 'store']);
+
+    Route::apiResource('reviews', ReviewController::class)->except(['store']);
+});
+
+
+
+

@@ -10,6 +10,7 @@ use App\Http\Controllers\AppReviewController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PdfController;
@@ -295,9 +296,13 @@ Route::get('/inqulino/solicitud', [InquilinoController::class,'solicitar'])->nam
 Route::get('/inqulino/versolicitud', [InquilinoController::class,'versolicitud'])->name('versolicitud');
 
 Route::get('/inqulino/pagos', [InquilinoController::class,'pagos'])->name('pagos');
-
 // Route::post('/comentarios', [ReviewController::class, 'store'])->name('comentarios')->middleware('auth');
-
-    Route::get('/filtro', [InquilinoController::class, 'filtrado']);
+Route::post('/inquilino/crearsolicitud', [SolicitudController::class,'store'])->name('crearsolicitud');//ruta para crear la solicitud
+Route::post('/inquilino/review/{id}', [ReviewController::class,'store'])->name('review');
+Route::get('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
+Route::put('/inquilino/editreview/{id}', [ReviewController::class,'update'])->name('updatereview');
+Route::delete('/inquilino/destroyreview/{id}', [ReviewController::class,'destroy'])->name('destroyreview');
+//Route::post('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
+Route::get('/filtro', [InquilinoController::class, 'filtrado']);
 
 });
