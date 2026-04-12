@@ -8,8 +8,10 @@
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
-
+    {{-- <link rel="stylesheet" href="{{ asset('css/Styles.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title> @yield('plantilla')</title>
 </head>
 
 <body class="fondo fade-in">
@@ -22,7 +24,7 @@
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/propietario') }}">
                     <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" alt="Logo HomeHIve"
                         class="navbar-logo me-2">
-                    <span class="fw-bold text-tu-hogar fs-5">HomeHome</span>
+                    <span class="fw-bold text-tu-hogar fs-5">HomeHive</span>
                 </a>
 
                 <div class="dropdown order-lg-2 ms-2">
@@ -35,10 +37,11 @@
                             </span>
 
                             <img src="{{ Auth::user()->avatar
-        ? (Str::startsWith(Auth::user()->avatar, 'http')
-            ? Auth::user()->avatar
-            : asset('images/perfiles/' . Auth::user()->avatar))
-        : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
+                                ? (Str::startsWith(Auth::user()->avatar, 'http')
+                                    ? Auth::user()->avatar
+                                    : asset('images/perfiles/' . Auth::user()->avatar))
+                                : asset('images/user.svg') }}"
+                                class="rounded-circle" width="38" height="38" style="object-fit: cover;">
                         </div>
 
                     </button>
@@ -77,13 +80,16 @@
                     <ul class="navbar-nav ms-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="{{ url('inquilino.index') }}">Inicio</a>
+                            <a class="nav-link text-dark" href="{{ route('buscar')}}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="{{ url('pagos') }}">Pagos</a>
+                            <a class="nav-link text-dark" href="{{route('pagos')}}">Pagos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="{{ url('solicitudes') }}">Solicitudes</a>
+                            <a class="nav-link text-dark" href="{{route('favoritos')}}">Favoritos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{ route('solicitudes')}}">Solicitudes</a>
                         </li>
                     </ul>
 
@@ -94,11 +100,11 @@
     </header>
 
     <!-- CONTENIDO -->
-    <main>
+    <main class="flex-fill degradado">
         {{ $slot }}
     </main>
 
-    <section class="footer bg-light">
+    <section class="bg-light" id="footer">
         <!-- Footer -->
         <footer class="bg-dark text-white text-center">
 

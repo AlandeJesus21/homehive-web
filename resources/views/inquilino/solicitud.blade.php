@@ -1,56 +1,85 @@
 <x-inquilino.layout>
 
-        <main class="container-fluid min-vh-100 main">
-
-            <div class="d-flex justify-content-center">
-                <div class="card shadow-lg border-0 p-4" style="width: 100%; max-width: 420px; border-radius: 16px;">
-
-                    <a href="/" class="position-absolute top-0 end-0 m-4 text-dark text-decoration-none fs-3">
-                        &times;
-                    </a>
-
-                    <h3 class="text-center mb-4">Solicitud de renta</h3>
-
-                    <form method="POST" action="">
+    <main class="container-fluid">
+        <div class="row g-0">
 
 
-                        <div class=" mb-3">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" name="name" class="form-control" value="" required>
+            <div class="col-md-7 d-none d-md-block position-sticky top-0 p-0" style="height:100vh;">
+                <img src="{{ asset('images/fondo-soli.jpeg') }}" class="w-100 h-100"
+                    style="object-fit:cover; object-position:30% center;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white p-4 w-100">
+
+                    <p class="fs-5 fw-bold">
+                        Da el siguiente paso hacia tu nuevo hogar.<br>Completa tus datos y envía tu solicitud de renta
+                        en unos segundos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-5 d-flex justify-content-center py-3 ">
+
+
+                <div class="card shadow-lg p-4 my-3"
+                    style="width:100%; max-width:500px; border-radius:15px; border:none;">
+
+                    <h2 class="mb-4 fw-bold">
+                        Solicitud de renta
+                    </h2>
+
+
+                    <form method="POST" action="{{ route('crearsolicitud', $propiedad->id)  }}" enctype="multipart/form-data">
+
+                        @csrf
+                        <input type="hidden" name="titulo" value="{{ $propiedad->titulo }}">
+                        <input type="hidden" name="precio" value="{{ $propiedad->precio }}">
+
+
+                        <div class="mb-3">
+                            <label class="form-label">CURP:</label>
+                            <input type="text" class="form-control" name="curp" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Edad:</label>
-                            <input type="text" name="password" class="form-control required">
+                            <input type="number" class="form-control" name="edad" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Ocupacion:</label>
-                            <input type="text" name="ocupation " class="form-control required">
+                            <input type="text" class="form-control" name="ocupacion" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Fecha estimada de mudanza:</label>
-                            <input type="date" name="date-mudanza " class="form-control required">
+                            <input type="date" class="form-control" name="fecha" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Telefono:</label>
-                            <input type="number" name="telefono " class="form-control required">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" name="telefono" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Mensaje:</label>
-                            <textarea class="form-control" rows="3" placeholder="Escriba un mensaje" name="mensaje"></textarea>
+                            <textarea class="form-control" name="mensaje" rows="4" placeholder="Escriba un mensaje"></textarea>
                         </div>
-                        <div class="d-flex justify-content-center mt-3">
-                            <a href="" class="btn boton me-5">Cancelar</a>
-                            <a href="" class="btn boton ">Enviar</a>
-                            </div>
 
-
+                        <button type="submit" class="btn w-100 btn-lg shadow-sm boton">
+                            Enviar Solicitud
+                        </button>
 
                     </form>
 
-
                 </div>
-        </main>
+
+            </div>
+
+        </div>
+
+
+    </main>
 
 
 </x-inquilino.layout>

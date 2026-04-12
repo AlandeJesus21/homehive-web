@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Propiedad;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,4 +52,9 @@ class User extends Authenticatable
         ];
     }
 
+    public function favoritos()
+    {
+
+        return $this->belongsToMany(Propiedad::class, 'favorites', 'user_id', 'propiedad_id');
+    }
 }

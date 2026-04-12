@@ -1,0 +1,218 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main.flex-fill {
+    flex: 1;
+    padding: 20px;
+}
+
+.degradado {
+    margin: 0;
+    background: linear-gradient(to right,
+            #D2D4E5 43%,
+            #B0B3D3 81%);
+}
+
+.search {
+    font-size: 0.8 rem;
+    color: #adb5bd;
+}
+
+.boton {
+    color: #FAFAFA;
+    background-color: #1E3A8A;
+}
+
+.dropdown-menu {
+        margin-top: 15px !important;
+        border: none !important;
+    }
+    .dropdown-item:active {
+        background-color: #2b448c;
+    }
+    .form-check-input:checked {
+        background-color: #2b448c;
+        border-color: #2b448c;
+    }
+    input[type=number]::-webkit-inner-spin-button {
+        display: none;
+    }
+
+/* .fixed-card {
+
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+    flex-shrink: 0;
+} */
+/*
+.fixed-card.custom-card {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    height: 380px !important;
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    flex-shrink: 0;
+}
+
+.fixed-card .card-body {
+    flex: 1 !important;
+    padding: 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow: hidden;
+
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 20px;
+    scroll-behavior: smooth;
+    align-items: flex-start;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 20px;
+    align-items: flex-start;
+}
+
+/* Cards */
+/* .custom-card {
+    min-width: 260px;
+    max-width: 260px;
+    height: 380px;
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.img-container {
+    width: 100% !important;
+    height: 180px !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+
+
+}
+
+.img-container img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+
+
+.no-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+}
+
+
+
+/* Botones */
+/* .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+
+    border: none;
+    cursor: pointer;
+
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    color: #333;
+
+    transition: all 0.2s ease;
+}
+
+
+
+.scroll-btn.left {
+    left: -10px;
+}
+
+.scroll-btn.right {
+    right: -10px;
+}
+
+.scroll-btn:hover {
+    background: #f1f1f1;
+}
+
+.scroll-btn span {
+    line-height: 1;
+} */
+
+.carrusel-horizontal {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 20px;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .carrusel-horizontal::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+    }
+.card-propiedad {
+        flex: 0 0 280px; /* IMPORTANTE: No crece, no se encoge, base de 280px */
+        background: white;
+        border-radius: 25px;
+        border: none;
+        overflow: hidden;
+    }
+
+
