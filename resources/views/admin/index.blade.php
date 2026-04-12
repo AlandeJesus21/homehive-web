@@ -1,7 +1,5 @@
 <x-admin.layout>
 
-
-
     <!-- 🔶 HERO -->
     <section class="hero-admin">
         <div class="container hero-content text-white">

@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
 
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
 
 

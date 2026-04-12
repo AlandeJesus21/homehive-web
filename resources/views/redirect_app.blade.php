@@ -7,7 +7,7 @@
 
 <body>
     <script>
-    window.location.href = "miapp://auth?token={{ $token }}";
+    window.location.href = "homehive://auth?token={{ $token }}";
     </script>
 </body>
 
