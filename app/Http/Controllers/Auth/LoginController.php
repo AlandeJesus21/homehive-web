@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -28,22 +29,40 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     public function login(Request $request) {
-        
+
     $credentials = $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+    $key = 'login:' . $request->email . '|' . $request->ip();
 
-        return redirect()->intended('/home');
+    if (RateLimiter::tooManyAttempts($key, 3)) {
+        $seconds = RateLimiter::availableIn($key);
+
+    return back()
+        ->withErrors([
+            'email' => "Demasiados intentos."
+        ])
+        ->with('blocked', true)
+        ->with('seconds', $seconds)
+        ->onlyInput('email');
+        }
+
+    if (!Auth::attempt($credentials)) {
+        RateLimiter::hit($key, 60);
+
+        return back()->withErrors([
+            'email' => 'Credenciales son incorrectas. Intenta nuevamente.',
+        ])->onlyInput('email');
     }
 
-    return back()->withErrors([
-        'email' => 'Credenciales incorrectas',
-    ])->onlyInput('email');
-    }
+    RateLimiter::clear($key);
+
+    $request->session()->regenerate();
+
+    return redirect()->intended('/home');
+}
 
     /**
      * Create a new controller instance.

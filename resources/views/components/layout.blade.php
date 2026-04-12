@@ -23,37 +23,87 @@
 
 </head>
 
-<body class="fondo hero-content">
+<body class="fondo hero-content d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg bg-light shadow-sm h-60 inline-block" style="background-color: #fbfcff;">
-        <div class="container hero-content">
-            <a href="/inicio" class="navbar-brand fw-bold">
-                <img src="{{ asset('images/Logo2.png') }}" alt="HomeHive" height="50"> HomeHive
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="/inicio">
+                <img src="{{ asset('images/Logo2.png') }}" alt="HomeHive" height="50" class="me-2">
+                HomeHive
             </a>
 
-            <ul class="navbar-nav ms-auto flex-row gap-4">
-                @guest
+            <!-- Botón hamburguesa -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
-                </li>
-                @endguest
-                @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Inicio</a>
-                </li>
-                @endauth
-            </ul>
+            <!-- Menú colapsable -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    @endguest
+
+                    @auth
+                    @if(Auth::user()->role == 'admin')
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/propiedades">Propiedades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/reviews">Comentarios</a>
+                    </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Inicio</a>
+                    </li>
+
+                    <!-- Dropdown de usuario -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link  d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span class="text-muted me-2 d-none d-lg-inline">{{ Auth::user()->name }}</span>
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
+        : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li>
+                                <a class="dropdown-item" href="/perfil">Perfil</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button class="dropdown-item text-danger">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    @endauth
+                </ul>
+            </div>
         </div>
     </nav>
 
-    {{ $slot }}
+    <main class="container py-4 flex-grow-1">
+        {{ $slot }}
+    </main>
 
     <footer>
         <div class="container text-center">
@@ -71,16 +121,40 @@
                 </div>
 
                 <div class="col-md-4">
-                    <h6>MÁS</h6>
-                    <a href="/comentarios">Comentarios</a><br>
-                    <a href="/acerca">Acerca de nosotros</a><br><br>
-                    <h6>LEGAL</h6>
-                    <a href="/politica">Política de privacidad</a><br>
-                    <a href="/terminos">Términos y condiciones</a>
+                    <div class="row">
+
+                        <!-- Columna 1 -->
+                        <div class="col-6">
+                            <h6>MÁS</h6>
+                            <a href="/comentarios">Comentarios</a><br>
+                            <a href="/acerca">Acerca de nosotros</a>
+                        </div>
+
+                        <!-- Columna 2 -->
+                        <div class="col-6">
+                            <h6>LEGAL</h6>
+                            <a href="/politica">Política de privacidad</a><br>
+                            <a href="/terminos">Términos y condiciones</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script>
+    function scrollCarousel(id, amount) {
+        const container = document.getElementById(id);
+        container.scrollBy({
+            left: amount,
+            behavior: 'smooth'
+        });
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 

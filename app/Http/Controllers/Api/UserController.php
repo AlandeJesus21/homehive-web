@@ -42,7 +42,6 @@ class UserController extends Controller
             'device_name' => 'required'
         ]);
 
-        // Intentar login
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'success' => false,
@@ -50,13 +49,10 @@ class UserController extends Controller
             ], 401);
         }
 
-        // Obtener usuario autenticado
         $user = Auth::user();
 
-        // Eliminar token anterior del mismo dispositivo
         $user->tokens()->where('name', $validated['device_name'])->delete();
 
-        // Crear nuevo token
         $token = $user->createToken($validated['device_name'])->plainTextToken;
 
         return response()->json([

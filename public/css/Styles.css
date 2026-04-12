@@ -3,7 +3,6 @@
         /* Azul botones */
         --secondary-bg: #f1f5f9;
         /* Fondo gris claro */
-        --dark-footer: #1f2937;
         /* Footer */
     }
 
@@ -11,18 +10,113 @@
  body {
         margin: 0;
         padding: 0;
-        
-
     }
 
     .fondo {
         background-color: #e9ecf2;
     }
 
+    .hero-about {
+        width: 100%;
+        height: 500px;
+
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                    url('/images/viejitoEdit.png');
+
+        background-size: cover;
+        background-position: center;
+
+        display: flex;
+        align-items: center;
+    }
+
+    /* estilos para las busquedas */
+   .search-bar {
+    background: #fff;
+    padding: 10px 15px;
+    gap: 10px;
+    max-width: 800px;
+    width: 100%;
+}
+
+
+
+    .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .filter-item select,
+    .filter-item input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+        -webkit-appearance: none;
+        -moz-appearance: none;    
+        appearance: none;         
+        box-shadow: none;         
+    }
+
+    .divider {
+        width: 1px;
+        height: 25px;
+        background: #ddd;
+    }
+
+    .search-btn {
+        background: #f1f1f1;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .search-btn:hover {
+        background: #e0e0e0;
+    }
+
+    /* estilos de carrusel */
+
+    overflow-auto::-webkit-scrollbar {
+    display: none;
+}
+
+overflow-auto {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-container .card-container {
+    min-width: 250px;
+    max-width: 250px;
+    flex: 0 0 auto;
+}   
+
+/* Ocultar scrollbar */
+.carousel-container div::-webkit-scrollbar {
+    display: none;
+}
+.carousel-container div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 
 
     footer {
-        background-color: #111;
+        background-color: #191531;
         color: #ccc;
         padding: 20px 0;
     }
@@ -35,6 +129,15 @@
     footer a:hover {
         color: white;
     }
+
+
+/* resposive */
+@media (max-width: 767px) {
+    .search-bar {
+        display: none;
+    }
+}
+
 
 
 
@@ -63,6 +166,69 @@
         animation-delay: 0.6s;
     }
 
+    /* estilos para administrador */
+
+    .hero-admin {
+    height: 350px;
+
+    background: linear-gradient(rgba(180,120,60,0.7), rgba(180,120,60,0.7)),
+                url('/images/viejitoEdit.png'); 
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.admin-stats {
+    margin-top: -60px;
+}
+
+.admin-card {
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+}
+
+.admin-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.table-card {
+    background: #f5f6fa;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.table-header {
+    background-color: #d9deea;
+}
+
+.table thead th {
+    border: none;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+/* animaciones */
 
     @keyframes fadeUp {
         to {

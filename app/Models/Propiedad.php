@@ -43,4 +43,9 @@ class Propiedad extends Model
     {
         return $this->hasMany(PropiedadImagen::class, 'propiedad_id');
     }
+
+    public function barrio()
+    {
+        return $this->belongsTo(Barrio::class);
+    }
 }

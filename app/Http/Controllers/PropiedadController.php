@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barrio;
 use App\Models\Propiedad;
 use App\Models\PropiedadImagen;
 use App\Models\Barrio;
@@ -22,14 +23,15 @@ class PropiedadController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $propiedades = Propiedad::with('imagenes')->where('user_id', $user->id)->get();
+        $propiedades = Propiedad::with('imagenes', 'barrio')->where('user_id', $user->id)->get();
         return view('propietario.propiedades.index', compact('propiedades', 'user'));
     }
 
 
     public function create()
     {
-        return view('propietario.propiedades.create');
+        $barrios = Barrio::all();
+        return view('propietario.propiedades.create', compact('barrios'));
     }
 
 
@@ -38,7 +40,7 @@ class PropiedadController extends Controller
         $request->validate([
             'titulo'      => 'required|string|max:255',
             'tipo'        => 'required|string',
-            'barrio'      => 'required|string',
+            'barrio_id'   => 'required|numeric|exists:barrios,id',
             'calle'       => 'required|string',
             'latitud'     => 'required|numeric',
             'longitud'    => 'required|numeric',
@@ -56,7 +58,7 @@ class PropiedadController extends Controller
         $propiedad->user_id     = Auth::id();
         $propiedad->titulo      = $request->titulo;
         $propiedad->tipo        = $request->tipo;
-        $propiedad->barrio      = $request->barrio;
+        $propiedad->barrio_id   = $request->barrio_id;
         $propiedad->calle       = $request->calle;
         $propiedad->latitud     = $request->latitud;
         $propiedad->longitud    = $request->longitud;
@@ -203,5 +205,6 @@ class PropiedadController extends Controller
 
     return view('inquilino.index', compact('propiedades', 'barrio'));
 
+}
 }
 }

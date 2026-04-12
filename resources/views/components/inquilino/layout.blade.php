@@ -104,86 +104,32 @@
         {{ $slot }}
     </main>
 
-    <section class="bg-light" id="footer">
-        <!-- Footer -->
-        <footer class="bg-dark text-white text-center">
-
-
-            <!-- Grid container -->
-            <div class="container py-3">
-                <section class="mb-4">
-                    <a data-mdb-ripple-init class="text-white me-3" href="https://www.facebook.com/share/18Dr35ekcu/"
-                        role="button"><i class="bi bi-facebook"></i></a>
-
-                    <!-- Twitter -->
-                    <a data-mdb-ripple-init class="text-white me-3" href="https://www.instagram.com/homehive384/"
-                        role="button"><i class="bi bi-instagram"></i></a>
-
-                    <!-- Google -->
-                </section>
-                <!--Grid row-->
-                <div class="row">
-                    <!--Grid column-->
-                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Compromiso</h5>
-
-                        <p>
-                            En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres de propiedades.
-                            Valoramos tus comentarios y sugerencias para mejorar continuamente nuestra plataforma y
-                            servicios.
-                        </p>
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Más </h5>
-
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a class="text-white me-3" href="/comentarios">Comentarios</a>
-
-                            </li>
-                            <li>
-                                <a class="text-white me-3" href="/acerca">Acerca de nosotros</a>
-                            </li>
-                            <!-- <li> -->
-                            <!-- <a href="#!" class="text-body">Link 4</a>
-                            </li>  -->
-                        </ul>
-
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase mb-0">Legal</h5>
-
-                        <ul class="list-unstyled">
-                            <li><a class="text-white me-3" href="/politicas">Política de privacidad</a></li>
-                            <li><a class="text-white me-3" href="/terminos">Términos y condiciones</a></li>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--Grid column-->
+    <footer>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>COMPROMISO</h6>
+                    <small>
+                        En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres
+                        de propiedades.
+                    </small>
                 </div>
-                <!--Grid row-->
-            </div>
-            <!-- Grid container -->
 
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-                © 2026 Copyright:
-                <a class="text-reset fw-bold" href="/">HomeHive.com</a>
-            </div>
-            <!-- Copyright -->
-        </footer>
-        <!-- Footer -->
-    </section>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <strong>© 2026 DevSquad</strong>
+                </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    {{ $scripts ?? '' }}
+                <div class="col-md-4">
+                    <h6>MÁS</h6>
+                    <a href="/comentarios">Comentarios</a><br>
+                    <a href="/acerca">Acerca de nosotros</a><br><br>
+                    <h6>LEGAL</h6>
+                    <a href="/politica">Política de privacidad</a><br>
+                    <a href="/terminos">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 
