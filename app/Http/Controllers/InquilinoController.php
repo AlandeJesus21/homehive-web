@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\Propiedad;
+use App\Models\Pago;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
@@ -56,8 +57,23 @@ class InquilinoController extends Controller {
     public function versolicitud(){
         return view('inquilino.versolicitud');
     }
-    public function pagos(){
-        return view('inquilino.mispagos');
+
+    public function pagos(Request $request) {
+        $query = Pago::with('propiedad')->where('user_id', auth()->id());
+
+        // Filtro por fecha 'desde'
+        if ($request->filled('desde')) {
+            $query->whereDate('created_at', '>=', $request->desde);
+        }
+
+        // Filtro por fecha 'hasta'
+        if ($request->filled('hasta')) {
+            $query->whereDate('created_at', '<=', $request->hasta);
+        }
+
+        $pagos = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('inquilino.mispagos', compact('pagos'));
     }
     public function favoritos(){
         return view('inquilino.favoritos');

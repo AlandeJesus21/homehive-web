@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('solicituds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('propiedad_id')->nullable()->constrained('propiedades');
             $table->string('propiedad');
             $table->decimal('precio', 10, 2);
             $table->string('estatus')->default('Pendiente');

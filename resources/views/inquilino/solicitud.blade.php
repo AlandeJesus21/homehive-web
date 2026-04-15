@@ -18,13 +18,14 @@
 
                     <h2 class="mb-4 fw-bold">Solicitud de renta</h2>
 
-                    <form method="POST" action="{{ route('crearsolicitud', $propiedad->id)  }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('crearsolicitud', $propiedad->id) }}" enctype="multipart/form-data">
 
                         @csrf
                         
+                        <input type="hidden" name="propiedad_id" value="{{ $propiedad->id }}">
+                        
                         <input type="hidden" name="titulo" value="{{ $propiedad->titulo }}">
                         <input type="hidden" name="precio" value="{{ $propiedad->precio }}">
-                        
 
                         <div class="mb-3">
                             <label class="form-label">CURP:</label>
@@ -45,7 +46,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Fecha estimada de mudanza:</label>
-                            <input type="date" class="form-control" name="fecha" required>
+                            <input type="date" class="form-control" name="fecha" min="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <div class="mb-3">

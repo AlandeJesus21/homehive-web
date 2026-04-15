@@ -65,6 +65,7 @@ class IndexController extends Controller
         $barrios = Barrio::all();
         $propiedad=Propiedad::findOrFail($id);
         $review = Review::where('propiedad_id', $id)->with('usuario')->get();
-        return view('inquilino.vermas', compact('propiedad', 'review', 'barrios'));
+        $espropietario = auth()->check() && auth()->user()->role === 'propietario';
+        return view('inquilino.vermas', compact('propiedad', 'review', 'barrios', 'espropietario'));
     }
 }
