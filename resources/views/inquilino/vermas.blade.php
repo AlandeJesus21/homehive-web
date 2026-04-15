@@ -1,4 +1,4 @@
-<x-inquilino.layout>
+<x-layout>
 
     <main class="container-fluid">
         <div class="container py-5 ">
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card shadow border-0 p-4 " style="top:100px; border-radius:20px;">
+                    <div class="card shadow border-0 p-4 " style="margin-top:5px; border-radius:20px;">
                         <h4 class="fw-bold mb-3">{{ $propiedad->titulo }}</h4>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -137,7 +137,6 @@
 
                                     <div class="d-flex align-items-start gap-3">
                                         
-                                        {{-- Foto de perfil --}}
                                         <img 
                                             src="{{ optional($item->usuario)->avatar 
                                                 ? asset('storage/' . $item->usuario->avatar) 
@@ -147,22 +146,27 @@
                                         >
 
                                         <div class="w-100">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">{{ $item->usuario->name ?? 'Usuario' }}</span>
-                                                <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
-                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
 
-                                            <div class="text-warning small mb-1">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="fw-bold">{{ optional($item->usuario)->email ?? 'Usuario' }}</span>
+
+                                            <div class="text-warning small">
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <i class="bi bi-star{{ $i <= $item->rating ? '-fill' : '' }}"></i>
                                                 @endfor
                                             </div>
+                                        </div>
+
+                                        <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+
+                                        </div>
 
                                             <p class="mb-1 text-secondary">{{ $item->comentario }}</p>
                                         </div>
 
                                     </div>
-
+                                    @auth
                                     @if (auth()->id() === $item->user_id)
                                         <div class="dropdown position-absolute top-0 end-0 m-2">
                                             <button class="btn btn-link text-muted p-0 border-0" type="button"
@@ -192,6 +196,7 @@
                                             </ul>
                                         </div>
                                     @endif
+                                    @endauth
 
                                 </div>
                             @empty
@@ -244,7 +249,6 @@
 
 
         </div>
-
 
         <div class="modal fade" id="modalCarrusel" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">

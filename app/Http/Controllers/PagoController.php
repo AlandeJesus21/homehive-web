@@ -11,28 +11,23 @@ class PagoController extends Controller
     public function index(Request $request)
     {
         $query = Pago::with(['propiedad', 'inquilino'])
-            ->whereHas('propiedad', function ($q) {
-                $q->where('user_id', Auth::id()); // solo pagos de sus propiedades
-            });
+            ->where('arrendador_id', Auth::id()); 
 
-        //Filtro: fecha desde
         if ($request->filled('desde')) {
-            $query->whereDate('fecha_pago', '>=', $request->desde);
+            $query->whereDate('created_at', '>=', $request->desde);
         }
 
-        // Filtro: fecha hasta
         if ($request->filled('hasta')) {
-            $query->whereDate('fecha_pago', '<=', $request->hasta);
+            $query->whereDate('created_at', '<=', $request->hasta);
         }
 
-        // (opcional) filtro por estado
-        if ($request->filled('estado')) {
-            $query->where('estado', $request->estado);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
-        $pagos = $query->orderBy('fecha_pago', 'desc')
+        $pagos = $query->orderBy('created_at', 'desc')
                        ->paginate(10)
-                       ->withQueryString(); // mantiene filtros en paginación
+                       ->withQueryString(); 
 
         return view('propietario.pagos.index', compact('pagos'));
     }

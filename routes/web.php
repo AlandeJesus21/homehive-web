@@ -269,6 +269,15 @@ Route::middleware(['auth', 'role:propietario', 'verified'])->prefix('propietario
         // Eliminar: /propietario/propiedades/{propiedad}
         Route::delete('/{propiedad}', [PropiedadController::class, 'destroy'])
             ->name('propiedades.destroy');
+
+        Route::get('/solicitudes', [SolicitudController::class, 'index'])
+            ->name('solicitudes.index');
+        Route::get('/solicitudes/{id}', [SolicitudController::class, 'verDetalle'])
+            ->name('propietario.solicitudes.show');
+        Route::patch('/solicitudes/{id}/aceptar', [SolicitudController::class, 'aceptar'])
+            ->name('propietario.solicitud.aceptar');
+        Route::patch('/solicitudes/{id}/rechazar', [SolicitudController::class, 'rechazar'])
+            ->name('propietario.solicitud.rechazar');
     }); 
 
     
@@ -294,12 +303,13 @@ Route::middleware(['auth','role:inquilino'])->group(function () {
     Route::get('/inquilino/vermas{id}', [InquilinoController::class,'vermas'])->name('vermas');//vista para ver mas detalles de la propiedad
     Route::get('/inqulino/solicitudes', [SolicitudController::class,'historial'])->name('solicitudes');//vista para ver el historial, de solicitudes
     Route::get('/inqulino/versolicitud/{id}', [SolicitudController::class,'show'])->name('versolicitud');
+    Route::delete('/inquilino/solicitud/{id}/cancelar', [SolicitudController::class, 'destroy'])->name('cancelarsolicitud');
     Route::get('/inqulino/favoritos', [FavoriteController::class,'index'])->name('favoritos');
     Route::post('/inqulino/favoritos/{id}', [FavoriteController::class,'toggle'])->name('misfavoritos');
     Route::get('/inqulino/solicitar/propiedad/{id}', [SolicitudController::class,'solicitarpropiedad'])->name('solicitarpropiedad');//Vista para mandar solicitud para rentar
-    Route::get('/inqulino/pagos', [InquilinoController::class,'pagos'])->name('pagos');
+    Route::get('/inquilino/mispagos', [InquilinoController::class,'pagos'])->name('pagos');
     // Route::post('/comentarios', [ReviewController::class, 'store'])->name('comentarios')->middleware('auth');
-    Route::post('/inquilino/crearsolicitud', [SolicitudController::class,'store'])->name('crearsolicitud');//ruta para crear la solicitud
+    Route::post('/inquilino/solicitud/{id}', [SolicitudController::class, 'store'])->name('crearsolicitud');//ruta para crear la solicitud
     Route::post('/inquilino/review/{id}', [ReviewController::class,'store'])->name('review');
     Route::get('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
     Route::put('/inquilino/editreview/{id}', [ReviewController::class,'update'])->name('updatereview');

@@ -41,31 +41,36 @@
 
                 @forelse ($solicitudes as $solicitud)
                     <div style="display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #99A1B7;">
+                        
                         <div style="width: 25%; color: #000; font-size: 15px;">
-                            {{ $solicitud->propiedad->titulo ?? 'Propiedad no encontrada' }}
+                            {{ $solicitud->propiedad }} 
                         </div>
+
                         <div style="width: 20%; color: #000; font-size: 15px;">
-                            {{-- Usamos el operador null safe para evitar el error de "property name on null" --}}
                             {{ $solicitud->aspirante->name ?? 'Usuario desconocido' }}
                         </div>
+
                         <div style="width: 25%; color: #000; font-size: 15px;">
                             {{ $solicitud->created_at ? $solicitud->created_at->format('d \d\e M Y, h:i a') : 'N/A' }}
                         </div>
+
                         <div style="width: 15%;">
                             @php
-                                $color = match($solicitud->estado) {
+                                $color = match($solicitud->estatus) {
                                     'Pendiente' => '#FBBF24',
-                                    'Aceptada' => '#059669',
-                                    'Rechazada' => '#DC2626',
+                                    'Aceptado', 'Aceptada' => '#059669',
+                                    'Rechazado', 'Rechazada' => '#DC2626',
                                     default => '#6B7280'
                                 };
                             @endphp
                             <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
-                                {{ $solicitud->estado }}
+                                {{ $solicitud->estatus }}
                             </span>
                         </div>
+
                         <div style="width: 15%; text-align: center;">
-                            <a href="#" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                            <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" 
+                            style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
                                 Ver solicitud
                             </a>
                         </div>
@@ -76,8 +81,6 @@
                     </div>
                 @endforelse
 
-                <div style="border-top: 1px solid #99A1B7; margin-top: 20px;"></div>
-                
                 <div class="mt-4">
                     {{ $solicitudes->links() }}
                 </div>
