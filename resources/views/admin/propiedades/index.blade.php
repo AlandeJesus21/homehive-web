@@ -59,7 +59,6 @@
                             <th>Precio</th>
                             <th>Tipo</th>
                             <th>Estatus</th>
-                            <th>Imagen</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -83,10 +82,7 @@
                             </td>
 
                             <!-- IMAGEN -->
-                            <td>
-                                <img src="{{ asset('storage/' . $propiedad->imagen) }}" width="60" height="60"
-                                    style="object-fit: cover; border-radius: 8px;">
-                            </td>
+        
 
                             <!-- ACCIONES -->
                             <td>

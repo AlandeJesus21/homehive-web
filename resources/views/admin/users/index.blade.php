@@ -8,7 +8,7 @@
             <h3 class="fw-bold m-0" style="color:#1A1A1A;">Pagos</h3>
 
             <!-- FILTRO -->
-            <form method="GET" action="{{ route('pagos.index') }}"
+            <form method="GET" action="{{ route('users.search') }}"
                 class="d-flex align-items-center shadow"
                 style="
                     background: #FFFFFF;
@@ -88,23 +88,23 @@
 
                     <!-- BODY -->
                     <tbody>
-                        @forelse ($pagos as $pago)
+                        @forelse ($users as $user)
                         <tr>
 
                             <td style="padding:20px; border-bottom:1px solid #E5E7EB;">
-                                {{ $pago->propiedad->titulo }}
+                                {{ $user->name }}
                             </td>
 
                             <td style="padding:20px; border-bottom:1px solid #E5E7EB;">
-                                {{ $pago->inquilino->name }}
+                                {{ $user->name }}
                             </td>
 
                             <td style="padding:20px; border-bottom:1px solid #E5E7EB;">
-                                ${{ number_format($pago->monto, 2) }}
+                                ${{ number_format($user->monto, 2) }}
                             </td>
 
                             <td style="padding:20px; border-bottom:1px solid #E5E7EB;">
-                                {{ \Carbon\Carbon::parse($pago->fecha_pago)->format('d \d\e M Y, h:i a') }}
+                                {{ \Carbon\Carbon::parse($user->fecha_pago)->format('d \d\e M Y, h:i a') }}
                             </td>
 
                             <td style="padding:20px; border-bottom:1px solid #E5E7EB;">

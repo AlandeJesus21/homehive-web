@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->belongsToMany(Propiedad::class, 'favorites', 'user_id', 'propiedad_id');
     }
-}
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));

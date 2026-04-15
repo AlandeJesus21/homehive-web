@@ -12,16 +12,22 @@ class Solicitud extends Model
     protected $table = 'solicitudes'; 
 
     protected $fillable = [
-        'propiedad_id',
         'user_id',
-        'estado',  
-        
+        'propiedad',
+        'precio',
+        'estatus',  
+        'curp',
+        'edad',
+        'ocupacion',
+        'fecha',
+        'telefono',
+        'mensaje',
     ];
 
     public function propiedad()
     {
         
-        return $this->belongsTo(Propiedad::class, 'propiedad_id');
+        return $this->belongsTo(Propiedad::class, 'propiedad');
     }
 
     public function aspirante()

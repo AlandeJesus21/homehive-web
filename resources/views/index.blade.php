@@ -1,11 +1,10 @@
 <x-layout>
 
     <!-- HERO / BÚSQUEDA -->
-    <section class="py-5 text-center fondo">
+    <section class="py-5 text-center">
         <div class="container">
             <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-            <!-- FORMULARIO BÚSQUEDA DESKTOP -->
             <form method="GET" action="{{ route('busqueda') }}">
                 <div class="d-flex justify-content-center">
                     <div class="search-bar shadow rounded-pill d-none d-md-flex">
@@ -60,7 +59,6 @@
                 </div>
             </form>
 
-            <!-- BOTÓN FILTRO MÓVIL -->
             <div class="d-md-none d-flex justify-content-end px-3">
                 <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center shadow"
                     style="width: 45px; height: 45px;" data-bs-toggle="modal" data-bs-target="#filtroModal">
@@ -79,7 +77,6 @@
         </div>
     </section>
 
-    <!-- RESULTADOS -->
     <div class="container py-5">
 
         @php

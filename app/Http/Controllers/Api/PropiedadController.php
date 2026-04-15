@@ -38,7 +38,7 @@ class PropiedadController extends Controller
             ], 401);
         }
 
-        $propiedades = Propiedad::with('barrio', 'propiedad_imagenes')->where('user_id', $user->id)->get();
+        $propiedades = Propiedad::with('barrio', 'imagenes')->where('user_id', $user->id)->get();
 
         return response()->json([
             'data' => $propiedades

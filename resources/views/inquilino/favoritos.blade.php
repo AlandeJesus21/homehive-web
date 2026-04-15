@@ -1,6 +1,7 @@
 <x-inquilino.layout>
     <main class="container-fluid">
-        <div class="container-fluid py-4 ">
+        <div class="container-fluid py-5 ">
+            <h2 class="fw-bold m-0 border-bottom border-secondary border-2 pb-1">Mis favoritos</h2>
             @php
                 // Se agrupa las propiedades por tipo (ej: 'Casa', 'Departamento')
                 $agrupados = $propiedades->groupBy('tipo');

@@ -28,7 +28,7 @@ class AdminController extends Controller {
     public function propiedadesview() {
         $barrio = Barrio::all();
         $propiedades = Propiedad::all();
-        return view('admin.propietario.index', compact('propiedades', 'barrio'));
+        return view('admin.propiedades.index', compact('propiedades', 'barrio'));
     }
 
     public function reviewsview() {
@@ -69,7 +69,7 @@ class AdminController extends Controller {
 
         $propiedades = $query->get();
 
-        return view('admin.propietario.index', compact('propiedades'));
+        return view('admin.propiedades.index', compact('propiedades'));
     }
 
     public function userssearch() {

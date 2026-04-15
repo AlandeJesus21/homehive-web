@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barrio;
 use App\Models\Propiedad;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -57,5 +58,13 @@ class IndexController extends Controller
 
 
         return view('index', compact('cuartos', 'departamentos', 'casas', 'barrios'));
+    }
+
+    public function vermas($id)
+    {
+        $barrios = Barrio::all();
+        $propiedad=Propiedad::findOrFail($id);
+        $review = Review::where('propiedad_id', $id)->with('usuario')->get();
+        return view('inquilino.vermas', compact('propiedad', 'review', 'barrios'));
     }
 }

@@ -8,7 +8,6 @@
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css/Styles.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title> @yield('plantilla')</title>
@@ -21,7 +20,7 @@
             <div class="container-fluid mx-5">
 
                 <!-- LOGO -->
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/propietario') }}">
+                <a class="navbar-brand d-flex align-items-center" href="/">
                     <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" alt="Logo HomeHIve"
                         class="navbar-logo me-2">
                     <span class="fw-bold text-tu-hogar fs-5">HomeHive</span>
