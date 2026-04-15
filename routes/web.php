@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AppReviewController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -32,6 +33,8 @@ use App\Http\Controllers\SolicitudController;
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/inicio', [IndexController::class, 'index'])->name('inicio');
+
+Route::get('/vermas/{id}', [IndexController::class, 'vermas'])->name('main.vermas');
 
 Route::get('/acerca', function () {
     return view('main.acerca');
@@ -286,23 +289,22 @@ Route::middleware(['auth', 'role:propietario', 'verified'])->prefix('propietario
 Route::middleware(['auth','role:inquilino'])->group(function () {
 //ruta para inquilinos
 
-Route::get('/inquilino', [InquilinoController::class,'index'])->name('inquilino.index');
-
-Route::get('/inquilino/vermas{id}', [InquilinoController::class,'vermas'])->name('vermas');
-
-Route::get('/inqulino/solicitudes', [InquilinoController::class,'solicitudes'])->name('solicitudes');
-Route::get('/inqulino/solicitud', [InquilinoController::class,'solicitar'])->name('solicitud');
-
-Route::get('/inqulino/versolicitud', [InquilinoController::class,'versolicitud'])->name('versolicitud');
-
-Route::get('/inqulino/pagos', [InquilinoController::class,'pagos'])->name('pagos');
-// Route::post('/comentarios', [ReviewController::class, 'store'])->name('comentarios')->middleware('auth');
-Route::post('/inquilino/crearsolicitud', [SolicitudController::class,'store'])->name('crearsolicitud');//ruta para crear la solicitud
-Route::post('/inquilino/review/{id}', [ReviewController::class,'store'])->name('review');
-Route::get('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
-Route::put('/inquilino/editreview/{id}', [ReviewController::class,'update'])->name('updatereview');
-Route::delete('/inquilino/destroyreview/{id}', [ReviewController::class,'destroy'])->name('destroyreview');
-//Route::post('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
-Route::get('/filtro', [InquilinoController::class, 'filtrado']);
+    //Route::get('/inquilino', [InquilinoController::class,'index'])->name('inquilino.index');
+    Route::get('/inquilino', [PropiedadController::class,'buscar'])->name('buscar');
+    Route::get('/inquilino/vermas{id}', [InquilinoController::class,'vermas'])->name('vermas');//vista para ver mas detalles de la propiedad
+    Route::get('/inqulino/solicitudes', [SolicitudController::class,'historial'])->name('solicitudes');//vista para ver el historial, de solicitudes
+    Route::get('/inqulino/versolicitud/{id}', [SolicitudController::class,'show'])->name('versolicitud');
+    Route::get('/inqulino/favoritos', [FavoriteController::class,'index'])->name('favoritos');
+    Route::post('/inqulino/favoritos/{id}', [FavoriteController::class,'toggle'])->name('misfavoritos');
+    Route::get('/inqulino/solicitar/propiedad/{id}', [SolicitudController::class,'solicitarpropiedad'])->name('solicitarpropiedad');//Vista para mandar solicitud para rentar
+    Route::get('/inqulino/pagos', [InquilinoController::class,'pagos'])->name('pagos');
+    // Route::post('/comentarios', [ReviewController::class, 'store'])->name('comentarios')->middleware('auth');
+    Route::post('/inquilino/crearsolicitud', [SolicitudController::class,'store'])->name('crearsolicitud');//ruta para crear la solicitud
+    Route::post('/inquilino/review/{id}', [ReviewController::class,'store'])->name('review');
+    Route::get('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
+    Route::put('/inquilino/editreview/{id}', [ReviewController::class,'update'])->name('updatereview');
+    Route::delete('/inquilino/destroyreview/{id}', [ReviewController::class,'destroy'])->name('destroyreview');
+    //Route::post('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
+    Route::get('/filtro', [InquilinoController::class, 'filtrado']);
 
 });

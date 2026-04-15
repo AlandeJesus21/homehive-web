@@ -14,8 +14,8 @@ public function up()
     Schema::create('reviews', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('propiedad_id');
-        $table->unsignedBigInteger('user_id')->nullable(); // opcional
-        $table->tinyInteger('rating'); // 1 a 5 estrellas
+        $table->unsignedBigInteger('user_id')->nullable(); 
+        $table->tinyInteger('rating'); 
         $table->text('comentario')->nullable();
         $table->timestamps();
 

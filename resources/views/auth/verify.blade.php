@@ -41,6 +41,11 @@
     .icon-mail {
         font-size: 50px;
     }
+
+    .img-email {
+        margin-top: 20px;
+        margin-left: 50px
+    }
     </style>
 </head>
 
@@ -59,7 +64,8 @@
 
         <div class="card shadow-lg border-0 card-custom text-center" style="max-width: 500px; width:100%;">
 
-            <div class="icon-mail mb-3">📩</div>
+    <img src="http://82.25.91.145/images/gmail.png" width="120" class="img-email">
+            <div class="icon-mail mb-3">  </div>
 
             <h4 class="mb-3">Verifica tu correo electrónico</h4>
 

@@ -144,13 +144,14 @@
 
                     {{-- IMAGENES --}}
                     <div class="mb-3">
-                        <label class="form-label fw-semibold d-block">Imagenes actuales:</label>
-                        <div class="d-flex flex-wrap gap-2 mb-3">
-                            @foreach($propiedad->imagenes as $img)
-                                <div class="position-relative" id="foto-{{ $img->id }}">
-                                    <img src="{{ asset('storage/' . $img->ruta) }}"
-                                         class="rounded shadow-sm border"
-                                         style="width:75px; height:75px; object-fit:cover;">
+    <label class="form-label fw-semibold d-block">Imagenes actuales:</label>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach($propiedad->imagenes as $img)
+            <div class="position-relative" id="foto-{{ $img->id }}">
+                <img src="{{ asset('storage/' . $img->ruta) }}"
+                     class="rounded shadow-sm border"
+                     style="width:75px; height:75px; object-fit:cover;">
 
                                     <button type="button"
                                             onclick="eliminarImagen({{ $img->id }})"
@@ -162,8 +163,16 @@
                             @endforeach
                         </div>
 
-                        <label class="form-label fw-semibold">Cambiar imagenes:</label>
-                        <input type="file" class="form-control" name="imagenes[]" accept="image/*" multiple>
+                        <label class="form-label fw-semibold">Agregar nuevas imágenes:</label>
+
+                        <input type="file"
+                            id="imagenesInput"
+                            class="form-control"
+                            name="imagenes[]"
+                            accept="image/*"
+                            multiple>
+
+                        <input type="hidden" name="imagenes_eliminadas" id="imagenes_eliminadas">
                     </div>
 
                     <button type="submit" class="btn w-100 btn-lg text-white mt-3"
@@ -260,7 +269,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
         });
+    
         </script>
+
+        <script>
+                let eliminadas = [];
+
+                function eliminarImagen(id) {
+                    const foto = document.getElementById('foto-' + id);
+
+                    if (!foto) return;
+
+                    foto.remove();
+                    eliminadas.push(id);
+
+                    document.getElementById('imagenes_eliminadas').value = eliminadas.join(',');
+                }
+                </script>
+
+
+<script>
+document.querySelector('form[action*="propiedades"]').addEventListener('submit', function(e) {
+
+    const actuales = document.querySelectorAll('[id^="foto-"]').length;
+    const nuevas = document.getElementById('imagenesInput').files.length;
+
+    const total = actuales + nuevas;
+
+    if (total < 1) {
+        e.preventDefault();
+        alert('Debe haber al menos una imagen');
+        return;
+    }
+
+    if (total > 6) {
+        e.preventDefault();
+        alert('Máximo 6 imágenes');
+        return;
+    }
+
+});
+</script>
 </x-propietario.layout>
 
 </div>

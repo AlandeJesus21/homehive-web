@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
+  
+
 
     <style>
     .hero {
@@ -19,11 +22,12 @@
         text-align: center;
         color: white;
     }
+
     </style>
 
 </head>
 
-<body class="fondo hero-content d-flex flex-column min-vh-100">
+<body class="fade-in fondo d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
@@ -44,17 +48,18 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     @guest
                     <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Inicio</a>
-                    </li>
                     @endguest
 
                     @auth
+                    <!-- si es administrador este es su navbar -->
                     @if(Auth::user()->role == 'admin')
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/users">Usuarios</a>
@@ -65,11 +70,35 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/reviews">Comentarios</a>
                     </li>
-                    @endif
-
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a class="nav-link" href="/home">Inicio</a>
                     </li>
+                    @endif
+                    <!-- si es inquilino este es su navbar -->
+                    @if(Auth::user()->role == 'inquilino')
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{ route('buscar')}}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{route('pagos')}}">Pagos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{route('favoritos')}}">Favoritos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{ route('solicitudes')}}">Solicitudes</a>
+                        </li>
+                    @endif
+                    <!-- si es propietario este es su navbar -->
+                    @if(Auth::user()->role == 'propietario')
+                        <li class="nav-item"><a class="nav-link text-black" href="{{ route('propietario.index') }}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{{ route('propietario.index') }}#propiedades-section">Propiedades</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{{ route('solicitudes.index') }}">Solicitudes</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{{ route('pagos.index') }}">Pagos</a></li>
+                    @endif
+                    
+
+ 
 
                     <!-- Dropdown de usuario -->
                     <li class="nav-item dropdown">

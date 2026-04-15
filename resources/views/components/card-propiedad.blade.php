@@ -22,7 +22,7 @@
             </small>
 
             <div class="mt-auto pt-3 text-center">
-                <a href="{{ route('propiedades.show', $propiedad->id) }}"
+                <a href="{{ route('main.vermas', $propiedad->id) }}"
                     class="btn btn-primary btn-sm px-4 rounded-pill w-100">
                     Ver más
                 </a>

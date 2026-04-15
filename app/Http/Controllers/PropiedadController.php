@@ -5,20 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Barrio;
 use App\Models\Propiedad;
 use App\Models\PropiedadImagen;
-use App\Models\Barrio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
+use Exception;
 
 class PropiedadController extends Controller
 {
-
     public function dashboard()
     {
         return view('propietario.index');
     }
-
 
     public function index()
     {
@@ -31,13 +29,11 @@ class PropiedadController extends Controller
         return view('propietario.index', compact('propiedades', 'user'));
     }
 
-
     public function create()
     {
         $barrios = Barrio::all();
         return view('propietario.propiedades.create', compact('barrios'));
     }
-
 
     public function store(Request $request)
     {
@@ -54,7 +50,7 @@ class PropiedadController extends Controller
             'descripcion' => 'required|string',
             'reglas'      => 'required|string',
             'cercanias'   => 'required|string',
-            'imagenes'    => 'required|array|min:1|max:6',
+            'imagenes'    => 'required|array|min:4|max:6',
             'imagenes.*'  => 'image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -90,13 +86,12 @@ class PropiedadController extends Controller
             return redirect()->route('propietario.index')
                              ->with('success', 'La propiedad se publicó correctamente.');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()
                              ->withInput()
                              ->with('error', 'Ocurrió un error al publicar la propiedad.');
         }
     }
-
 
     public function show($id)
     {
@@ -104,11 +99,9 @@ class PropiedadController extends Controller
         return view('propietario.propiedades.show', compact('propiedad'));
     }
 
-
     public function edit($id)
     {
         $propiedad = Propiedad::with('imagenes')->findOrFail($id);
-
 
         if ($propiedad->user_id !== Auth::id()) {
             abort(403, 'No tienes permiso para editar esta propiedad.');
@@ -117,11 +110,15 @@ class PropiedadController extends Controller
         return view('propietario.propiedades.edit', compact('propiedad'));
     }
 
+public function update(Request $request, $id)
+{
+    try {
+        $propiedad = Propiedad::with('imagenes')->findOrFail($id);
 
-    public function update(Request $request, $id)
-    {
-        $propiedad = Propiedad::findOrFail($id);
-
+    
+        if ($propiedad->user_id !== Auth::id()) {
+            abort(403, 'No tienes permiso para actualizar esta propiedad.');
+        }
 
         $request->validate([
             'titulo'      => 'required|string|max:255',
@@ -134,132 +131,127 @@ class PropiedadController extends Controller
             'imagenes.*'  => 'image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+     
+        $imagenesActuales = $propiedad->imagenes()->count();
 
-        $propiedad->update($request->only([
-            'titulo', 'precio', 'tipo', 'reglas', 'descripcion'
-        ]));
+        $imagenesEliminadas = $request->filled('imagenes_eliminadas')
+            ? count(explode(',', $request->imagenes_eliminadas))
+            : 0;
 
+        $imagenesNuevas = $request->hasFile('imagenes')
+            ? count($request->file('imagenes'))
+            : 0;
+
+        $totalFinal = ($imagenesActuales - $imagenesEliminadas) + $imagenesNuevas;
+
+        if ($totalFinal < 1 || $totalFinal > 6) {
+            return back()
+                ->withInput()
+                ->with('error', 'Debe haber entre 1 y 6 imágenes en total.');
+        }
+
+      
+        $propiedad->update([
+            'titulo'      => $request->titulo,
+            'precio'      => $request->precio,
+            'tipo'        => $request->tipo,
+            'reglas'      => $request->reglas,
+            'descripcion' => $request->descripcion,
+            'servicio'    => json_encode($request->servicios),
+        ]);
+
+     
+        if ($request->filled('imagenes_eliminadas')) {
+
+            $ids = explode(',', $request->imagenes_eliminadas);
+
+            foreach ($ids as $idFoto) {
+
+                $foto = PropiedadImagen::find($idFoto);
+
+                if ($foto && $foto->propiedad_id == $propiedad->id) {
+
+                    if (Storage::disk('public')->exists($foto->ruta)) {
+                        Storage::disk('public')->delete($foto->ruta);
+                    }
+
+                    $foto->delete();
+                }
+            }
+        }
 
         if ($request->hasFile('imagenes')) {
+
             foreach ($request->file('imagenes') as $foto) {
+
                 $path = $foto->store('propiedades', 'public');
+
                 PropiedadImagen::create([
                     'propiedad_id' => $propiedad->id,
                     'ruta' => $path
                 ]);
             }
-
-            $propiedad->fill($request->only([
-                'titulo',
-                'precio',
-                'tipo',
-                'reglas',
-                'descripcion'
-            ]));
-
-            $propiedad->servicio = json_encode($request->servicios);
-
-            $hayFotosNuevas = $request->hasFile('imagenes');
-            $huboCambios = $propiedad->isDirty();
-
-            if (!$huboCambios && !$hayFotosNuevas) {
-                return redirect()->route('propietario.index')
-                                 ->with('info', 'No se detectaron cambios en la propiedad.');
-            }
-
-            $propiedad->save();
-
-            if ($hayFotosNuevas) {
-                foreach ($request->file('imagenes') as $foto) {
-                    $path = $foto->store('propiedades', 'public');
-
-                    PropiedadImagen::create([
-                        'propiedad_id' => $propiedad->id,
-                        'ruta' => $path
-                    ]);
-                }
-            }
-
-            return redirect()->route('propietario.index')
-                             ->with('success', 'La propiedad se actualizó correctamente.');
-
-        } catch (\Exception $e) {
-            return redirect()->route('propietario.index')
-                             ->with('error', 'Ocurrió un error al actualizar la propiedad.');
-        }
-    }
-
-
-    public function destroyFoto($id)
-    {
-        $foto = PropiedadImagen::findOrFail($id);
-
-
-        if (Storage::disk('public')->exists($foto->ruta)) {
-            Storage::disk('public')->delete($foto->ruta);
         }
 
+        return redirect()->route('propietario.index')
+            ->with('success', 'La propiedad se actualizó correctamente.');
 
-        $foto->delete();
+    } catch (Exception $e) {
 
-        return response()->json(['success' => true]);
+        return redirect()->route('propietario.index')
+            ->with('error', 'Ocurrió un error al actualizar la propiedad.');
     }
+}
 
+    
 
     public function destroy(Propiedad $propiedad)
     {
+        try {
+            foreach ($propiedad->imagenes as $imagen) {
+                Storage::disk('public')->delete($imagen->ruta);
+            }
 
-        foreach($propiedad->imagenes as $imagen) {
-            Storage::disk('public')->delete($imagen->ruta);
-        }
-
-
-        $propiedad->delete();
+            $propiedad->delete();
 
             return redirect()->route('propietario.index')
                              ->with('success', 'La propiedad se ocultó correctamente.');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->route('propietario.index')
                              ->with('error', 'Ocurrió un error al ocultar la propiedad.');
         }
     }
 
     public function buscar(Request $request)
-{
+    {
+        $query = Propiedad::with('imagenes');
 
+        if ($request->filled('barrios')) {
+            $query->whereIn('barrio', $request->barrios);
+        }
 
-    $query = Propiedad::with('imagenes');
-    if ($request->filled('barrios')) {
-        $query->whereIn('barrio', $request->barrios);
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        if ($request->filled('min')) {
+            $query->where('precio', '>=', $request->min);
+        }
+
+        if ($request->filled('max')) {
+            $query->where('precio', '<=', $request->max);
+        }
+
+        if ($request->filled('servicio')) {
+            foreach ($request->servicio as $servicio) {
+                $query->where('servicio', 'like', '%' . trim($servicio) . '%');
+            }
+        }
+
+        $propiedades = $query->get();
+        $barrio = Barrio::all();
+
+        return view('inquilino.index', compact('propiedades', 'barrio'));
     }
-    if ($request->filled('tipo')) {
-        $query->where('tipo', $request->tipo);
-    }
-    if ($request->filled('min')) {
-        $query->where('precio', '>=', $request->min);
-    }
-    if ($request->filled('max')) {
-        $query->where('precio', '<=', $request->max);
-    }
-    // if ($request->has('servicio') && is_array($request->servicio)) {
-    //     foreach ($request->servicios as $servicioSeleccionado) {
-    //         // Buscamos el nombre del servicio dentro de tu cadena de texto
-    //         $query->where('servicio', 'like', '%' . $servicioSeleccionado . '%');
-    //     }
-    // }
-
-    if ($request->filled('servicio')) {
-    foreach($request->servicio as $servicio) {
-        $query->where('servicio', 'like', '%' .trim ($servicio). '%');
-    }
-}
-
-    $propiedades = $query->get();
-    $barrio = Barrio::all();
-
-    return view('inquilino.index', compact('propiedades', 'barrio'));
-
-}
-}
 }

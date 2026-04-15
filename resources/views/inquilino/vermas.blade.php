@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card shadow border-0 p-4 sticky-top" style="top:100px; border-radius:20px;">
+                    <div class="card shadow border-0 p-4 " style="top:100px; border-radius:20px;">
                         <h4 class="fw-bold mb-3">{{ $propiedad->titulo }}</h4>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -55,17 +55,23 @@
                         </div>
 
                         <p class="mb-1"><strong>Barrio:</strong></p>
-                        <p class="text-muted">{{ $propiedad->barrio }}</p>
+                        <p class="text-muted">{{ $propiedad->barrio->nombre }}</p>
 
                         <p class="mb-1"><strong>Calle:</strong></p>
                         <p class="text-muted">{{ $propiedad->calle }}</p>
 
                         <p class="mb-1"><strong>Forma de pago:</strong></p>
                         <p class="text-muted">{{ ucfirst($propiedad->forma_pago) }}</p>
-
+                        @guest
+                        <a href="{{ route('login', [ 'redirect' => url()->current()]) }}" class="btn boton">
+                            Solicitud
+                        </a>
+                        @endguest
+                        @auth
                         <a href="{{ route('solicitarpropiedad', $propiedad->id) }}" class="btn boton">
                             Solicitud
                         </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -80,11 +86,14 @@
                         <h4 class="fw-bold mt-4">Servicios</h4>
                         <ul class="list-unstyled text-muted">
                             @php
-                                $listaServicios = array_filter(array_map('trim', explode(',', $propiedad->servicio)));
+                                $listaServicios = json_decode($propiedad->servicio, true)
                             @endphp
 
                             @foreach ($listaServicios as $item)
-                                <li>{{ $item }}</li>
+                            
+                                <li>  
+                                <span class="badge rounded-pill bg-primary me-2" style="width: 8px; height: 8px; padding: 0;">&nbsp;</span>
+                                     {{ $item }}</li>
                             @endforeach
                         </ul>
 
@@ -118,47 +127,55 @@
                         </div>
                     </div>
 
+
                     <div class="card border-0 shadow-sm rounded-4 mb-3">
                         <div class="card-body">
                             <h6 class="fw-bold mb-3">Reseñas recientes</h6>
 
                             @forelse($review as $item)
-                                <div class="border-bottom mb-3 pb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <span class="fw-bold">{{ $item->usuario->name }}</span>
-                                        <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+                               <div class="border-bottom mb-3 pb-3 position-relative">
+
+                                    <div class="d-flex align-items-start gap-3">
+                                        
+                                        {{-- Foto de perfil --}}
+                                        <img 
+                                            src="{{ optional($item->usuario)->avatar 
+                                                ? asset('storage/' . $item->usuario->avatar) 
+                                                : asset('images/user.svg') }}" 
+                                            class="rounded-circle shadow-sm"
+                                            style="width:45px; height:45px; object-fit:cover;"
+                                        >
+
+                                        <div class="w-100">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="fw-bold">{{ $item->usuario->name ?? 'Usuario' }}</span>
+                                                <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+                                            </div>
+
+                                            <div class="text-warning small mb-1">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="bi bi-star{{ $i <= $item->rating ? '-fill' : '' }}"></i>
+                                                @endfor
+                                            </div>
+
+                                            <p class="mb-1 text-secondary">{{ $item->comentario }}</p>
+                                        </div>
+
                                     </div>
-                                    <div class="text-warning small mb-1">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <i class="bi bi-star{{ $i <= $item->rating ? '-fill' : '' }}"></i>
-                                        @endfor
-                                    </div>
-                                    <p class="mb-1 text-secondary">{{ $item->comentario }}</p>
 
                                     @if (auth()->id() === $item->user_id)
-                                        <div class="dropdown position-absolute top-0 end-0 m-3">
+                                        <div class="dropdown position-absolute top-0 end-0 m-2">
                                             <button class="btn btn-link text-muted p-0 border-0" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots-vertical fs-5"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-three-dots"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                                                    </svg></i>
+                                                <i class="bi bi-three-dots"></i>
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
                                                 <li>
                                                     <a class="dropdown-item d-flex align-items-center py-2"
                                                         href="{{ route('editreview', $item->id) }}">
-                                                        <i class="bi bi-pencil me-2"></i> <svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-pencil"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                        </svg>Editar
+                                                        <i class="bi bi-pencil me-2"></i>Editar
+                                                        <!-- <span class="fw-normal">Editar</span> -->
                                                     </a>
                                                 </li>
                                                 <li>
@@ -168,19 +185,14 @@
                                                         <button type="submit"
                                                             class="dropdown-item d-flex align-items-center text-danger py-2"
                                                             onclick="return confirm('¿Eliminar esta reseña?')">
-                                                            <i class="bi bi-trash me-2"></i> <svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="currentColor"
-                                                                class="bi bi-trash3" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                                                            </svg>Eliminar
+                                                            <i class="bi bi-trash me-2"></i>Eliminar
                                                         </button>
                                                     </form>
                                                 </li>
                                             </ul>
                                         </div>
                                     @endif
+
                                 </div>
                             @empty
                                 <p class="text-muted mb-0">Aún no hay reseñas. ¡Sé el primero en comentar!</p>
@@ -268,5 +280,36 @@
         </div>
 
     </main>
+    <script>
+    function initMap() {
+        const ubicacion = {
+            lat: {{ $propiedad->latitud ?? 20.2114 }},
+            lng: {{ $propiedad->longitud ?? -87.4653 }}
+        };
 
-</x-inquilino.layout>
+        const mapa = new google.maps.Map(document.getElementById("mapa-detalle"), {
+            zoom: 15,
+            center: ubicacion
+        });
+
+        const info = new google.maps.InfoWindow({
+        content: `<strong>{{ $propiedad->titulo }}</strong><br>{{ $propiedad->calle }}`
+        });
+
+        const marcador = new google.maps.Marker({
+            position: ubicacion,
+            map: mapa,
+            title: "{{ $propiedad->titulo }}"
+        });
+
+        marcador.addListener("click", () => {
+            info.open(mapa, marcador);
+        });
+    }
+</script>
+
+    <script async defer 
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goydB0ysifys&callback=initMap">
+</script>
+
+</x-layout>

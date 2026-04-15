@@ -10,6 +10,9 @@
  body {
         margin: 0;
         padding: 0;
+        background: linear-gradient(to right,
+            #D2D4E5 43%,
+            #B0B3D3 81%);
     }
 
     .fondo {
@@ -112,7 +115,6 @@ overflow-auto {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
 
 
     footer {
