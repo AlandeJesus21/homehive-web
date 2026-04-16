@@ -35,12 +35,9 @@
                                 {{ Auth::user()->name }}
                             </span>
 
-                            <img src="{{ Auth::user()->avatar
-                                ? (Str::startsWith(Auth::user()->avatar, 'http')
-                                    ? Auth::user()->avatar
-                                    : asset('images/perfiles/' . Auth::user()->avatar))
-                                : asset('images/user.svg') }}"
-                                class="rounded-circle" width="38" height="38" style="object-fit: cover;">
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
+        : asset('images/user.svg') }}" class="rounded-circle" width="38" height="38" style="object-fit: cover;">  
                         </div>
 
                     </button>

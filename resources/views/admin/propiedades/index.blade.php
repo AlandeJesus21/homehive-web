@@ -23,7 +23,7 @@
                 <div>
                     <label class="form-label small">Tipo</label>
                     <select name="tipo" class="form-select border-0">
-                        <option value="">Tipo</option>
+                        <option value="">Todos</option>
                         <option value="casa" {{ request('tipo') == 'casa' ? 'selected' : '' }}>Casa</option>
                         <option value="departamento" {{ request('tipo') == 'departamento' ? 'selected' : '' }}>
                             Departamento</option>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="text-end mb-3">
-            <a href="/reportepropiedades" class="btn btn-light shadow-sm">
+            <a href="/reportepropiedades?{{ http_build_query(request()->all()) }}" class="btn btn-light shadow-sm">
                 ➕ Generar reporte
             </a>
         </div>

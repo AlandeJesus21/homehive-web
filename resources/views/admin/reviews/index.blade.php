@@ -41,6 +41,7 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Propiedad</th>
+                            <th>Calificación</th>
                             <th>Comentario</th>
                             <th>Fecha</th>
                             <th>Acciones</th>
@@ -51,8 +52,11 @@
 
                         @forelse ($reviews as $r)
                         <tr>
-                            <td>{{ $r->user->name }}</td>
+                            <td>{{ $r->usuario->name }}</td>
                             <td>{{ $r->propiedad->titulo }}</td>
+                            <td>@for ($i = 1; $i <= 5; $i++) <i
+                                    class="bi bi-star{{ $i <= $r->rating ? '-fill' : '' }}"></i>
+                                 @endfor</td>
                             <td>{{ $r->comentario }}</td>
                             <td>{{ $r->created_at->format('d/m/Y') }}</td>
                             <!-- ACCIONES -->

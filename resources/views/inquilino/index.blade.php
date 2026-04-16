@@ -30,14 +30,14 @@
                                     <h6 class="dropdown-header">Selecciona un barrio</h6>
                                 </li>
                                 @foreach ($barrio as $barrios)
-                                    <li>
-                                        <div class="form-check m-2">
-                                            <input class="form-check-input" type="checkbox" name="barrios[]"
-                                                value="{{ $barrios->nombre }}" id="b-{{ $barrios->id }}">
-                                            <label class="form-check-label"
-                                                for="b-{{ $barrios->id }}">{{ $barrios->nombre }}</label>
-                                        </div>
-                                    </li>
+                                <li>
+                                    <div class="form-check m-2">
+                                        <input class="form-check-input" type="checkbox" name="barrios[]"
+                                            value="{{ $barrios->nombre }}" id="b-{{ $barrios->id }}">
+                                        <label class="form-check-label"
+                                            for="b-{{ $barrios->id }}">{{ $barrios->nombre }}</label>
+                                    </div>
+                                </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -81,8 +81,7 @@
                             </div>
                             <div class="dropdown-menu shadow border-0 rounded-4 p-4" style="min-width: 250px;">
                                 <label class="small fw-bold">Precio min:</label>
-                                <input type="number" name="min" class="form-control rounded-3 mb-2"
-                                    placeholder="$">
+                                <input type="number" name="min" class="form-control rounded-3 mb-2" placeholder="$">
                                 <label class="small fw-bold">Precio max:</label>
                                 <input type="number" name="max" class="form-control rounded-3" placeholder="$">
                             </div>
@@ -104,12 +103,11 @@
                             </div>
                             <div class="dropdown-menu shadow border-0 rounded-4 p-3" style="min-width: 220px;">
                                 @foreach (['Agua', 'Internet', 'Gas', 'Estacionamiento'] as $servicio)
-                                    <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" name="servicio[]"
-                                            value="{{ $servicio }}" id="{{ $servicio }}">
-                                        <label class="form-check-label"
-                                            for="{{ $servicio }}">{{ $servicio }}</label>
-                                    </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="servicio[]"
+                                        value="{{ $servicio }}" id="{{ $servicio }}">
+                                    <label class="form-check-label" for="{{ $servicio }}">{{ $servicio }}</label>
+                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -133,90 +131,85 @@
 
         <div class="container-fluid py-4 ">
             @php
-                // Se agrupa las propiedades por tipo (ej: 'Casa', 'Departamento')
-                $agrupados = $propiedades->groupBy('tipo');
+            // Se agrupa las propiedades por tipo (ej: 'Casa', 'Departamento')
+            $agrupados = $propiedades->groupBy('tipo');
             @endphp
             @foreach ($agrupados as $tipo => $items)
-                <div class="position-relative mb-5">
-                    <h4 class="ps-4 fw-bold text-muted mb-4 text-capitalize">{{ $tipo }}s</h4>
+            <div class="position-relative mb-5">
+                <h4 class="ps-4 fw-bold text-muted mb-4 text-capitalize">{{ $tipo }}s</h4>
 
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-light rounded-circle shadow-sm position-absolute start-0 ms-2 z-3"
-                            onclick="scrollCarrusel('carrusel-{{ $tipo }}', -300)"
-                            style="width: 40px; height: 40px;">
-                            <i class="bi bi-chevron-left"></i>
-                        </button>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-light rounded-circle shadow-sm position-absolute start-0 ms-2 z-3"
+                        onclick="scrollCarrusel('carrusel-{{ $tipo }}', -300)" style="width: 40px; height: 40px;">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
 
-                        <div id="carrusel-{{ $tipo }}" class="carrusel-horizontal px-4">
-                            @foreach ($items as $propiedad)
-                                <div class="card-propiedad shadow-lg border-0 bg-white mb-3">
-                                    <div class="p-2">
-                                        @if ($propiedad->imagenes->count() > 0)
-                                            <img src="{{ asset('storage/' . $propiedad->imagenes->first()->ruta) }}"
-                                                class="img-fluid rounded-4"
-                                                style="height: 180px; width: 100%; object-fit: cover;">
-                                        @else
-                                            <div class="bg-light rounded-4 d-flex align-items-center justify-content-center"
-                                                style="height: 180px;">
-                                                <small>Sin foto</small>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="card-body px-4 pb-4 pt-0">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="fw-bold fs-4 text-dark">
-                                                ${{ number_format($propiedad->precio) }}
-                                            </span>
-
-                                            @auth
-                                                <form action="{{ route('misfavoritos', $propiedad->id) }}" method="POST"
-                                                    class="m-0">
-                                                    @csrf
-                                                    <button type="submit" class="btn p-0 border-0 shadow-none">
-                                                        @if (auth()->user()->favoritos->contains($propiedad->id))
-                                                            <i class="bi bi-bookmark-fill text-dark"
-                                                                style="font-size: 1.2rem;"></i>
-                                                        @else
-                                                            <i class="bi bi-bookmark text-secondary"
-                                                                style="font-size: 1.2rem;"></i>
-                                                        @endif
-                                                    </button>
-                                                </form>
-                                            @else
-                                                {{-- Enlace al login para usuarios no autenticados --}}
-                                                <a href="{{ route('login') }}" class="text-secondary">
-                                                    <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
-                                                </a>
-                                            @endauth
-                                        </div>
-                                        <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">
-                                            {{ $propiedad->titulo }}
-                                        </h5>
-
-                                        <p class="text-muted mb-4" style="font-size: 0.95rem; font-weight: 400;">
-                                            {{ $propiedad->calle ?? 'Ubicación no disponible' }}
-                                        </p>
-
-                                        <div class="text-center">
-                                            <a href="{{ route('vermas', $propiedad->id) }}"
-                                                class="btn btn-primary w-75 py-2 shadow-sm text-white"
-                                                style="border: none; border-radius: 12px; font-weight: 500; background-color: #2b448c;">
-                                                Ver mas
-                                            </a>
-                                        </div>
-                                    </div>
+                    <div id="carrusel-{{ $tipo }}" class="carrusel-horizontal px-4">
+                        @foreach ($items as $propiedad)
+                        <div class="card-propiedad shadow-lg border-0 bg-white mb-3">
+                            <div class="p-2">
+                                @if ($propiedad->imagenes->count() > 0)
+                                <img src="{{ asset('storage/' . $propiedad->imagenes->first()->ruta) }}"
+                                    class="img-fluid rounded-4" style="height: 180px; width: 100%; object-fit: cover;">
+                                @else
+                                <div class="bg-light rounded-4 d-flex align-items-center justify-content-center"
+                                    style="height: 180px;">
+                                    <small>Sin foto</small>
                                 </div>
-                            @endforeach
-                        </div>
+                                @endif
+                            </div>
 
-                        <button class="btn btn-light rounded-circle shadow-sm position-absolute end-0 me-2 z-3"
-                            onclick="scrollCarrusel('carrusel-{{ $tipo }}', 300)"
-                            style="width: 40px; height: 40px;">
-                            <i class="bi bi-chevron-right"></i>
-                        </button>
+                            <div class="card-body px-4 pb-4 pt-0">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-bold fs-4 text-dark">
+                                        ${{ number_format($propiedad->precio) }}
+                                    </span>
+
+                                    @auth
+                                    <form action="{{ route('misfavoritos', $propiedad->id) }}" method="POST"
+                                        class="m-0">
+                                        @csrf
+                                        <button type="submit" class="btn p-0 border-0 shadow-none">
+                                            @if (auth()->user()->favoritos->contains($propiedad->id))
+                                            <i class="bi bi-bookmark-fill text-dark" style="font-size: 1.2rem;"></i>
+                                            @else
+                                            <i class="bi bi-bookmark text-secondary" style="font-size: 1.2rem;"></i>
+                                            @endif
+                                        </button>
+                                    </form>
+                                    @else
+                                    {{-- Enlace al login para usuarios no autenticados --}}
+                                    <a href="{{ route('login') }}" class="text-secondary">
+                                        <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
+                                    </a>
+                                    @endauth
+                                </div>
+                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">
+                                    {{ $propiedad->titulo }}
+                                </h5>
+
+                                <p class="text-muted mb-4" style="font-size: 0.95rem; font-weight: 400;">
+                                    {{ $propiedad->calle ?? 'Ubicación no disponible' }}
+                                </p>
+
+                                <div class="text-center">
+                                    <a href="{{ route('vermas', $propiedad->id) }}"
+                                        class="btn btn-primary w-75 py-2 shadow-sm text-white"
+                                        style="border: none; border-radius: 12px; font-weight: 500; background-color: #2b448c;">
+                                        Ver mas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
+
+                    <button class="btn btn-light rounded-circle shadow-sm position-absolute end-0 me-2 z-3"
+                        onclick="scrollCarrusel('carrusel-{{ $tipo }}', 300)" style="width: 40px; height: 40px;">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
                 </div>
+            </div>
             @endforeach
         </div>
         {{-- <script>
@@ -230,12 +223,12 @@
         </script> --}}
 
         <script>
-            function scrollCarrusel(id, distance) {
-                document.getElementById(id).scrollBy({
-                    left: distance,
-                    behavior: 'smooth'
-                });
-            }
+        function scrollCarrusel(id, distance) {
+            document.getElementById(id).scrollBy({
+                left: distance,
+                behavior: 'smooth'
+            });
+        }
         </script>
 
     </main>

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
@@ -153,9 +155,9 @@
 
                         <div class="text-center mb-3 position-relative">
 
-                            <img src="{{ Auth::user()->avatar
-                            ? asset('images/perfiles/' . Auth::user()->avatar)
-                            : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
+        : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
 
                             <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
                                 ✏️

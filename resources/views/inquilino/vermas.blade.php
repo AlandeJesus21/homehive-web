@@ -10,36 +10,36 @@
 
                         <div class="col-md-8">
                             @if ($fotos->count() > 0)
-                                <img src="{{ asset('storage/' . $fotos[0]->ruta) }}" class="w-100 rounded shadow"
-                                    style="height:350px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
-                                    data-bs-target="#modalCarrusel" data-bs-slide-to="0">
+                            <img src="{{ asset('storage/' . $fotos[0]->ruta) }}" class="w-100 rounded shadow"
+                                style="height:350px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
+                                data-bs-target="#modalCarrusel" data-bs-slide-to="0">
                             @else
-                                <img src="{{ asset('images/no-image.png') }}" class="w-100 rounded shadow"
-                                    style="height:350px; object-fit:cover;">
+                            <img src="{{ asset('images/no-image.png') }}" class="w-100 rounded shadow"
+                                style="height:350px; object-fit:cover;">
                             @endif
                         </div>
 
 
                         <div class="col-md-4 d-flex flex-column gap-2">
                             @if ($fotos->count() > 1)
-                                <img src="{{ asset('storage/' . $fotos[1]->ruta) }}" class="w-100 rounded shadow"
-                                    style="height:170px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
-                                    data-bs-target="#modalCarrusel" data-bs-slide-to="1">
+                            <img src="{{ asset('storage/' . $fotos[1]->ruta) }}" class="w-100 rounded shadow"
+                                style="height:170px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
+                                data-bs-target="#modalCarrusel" data-bs-slide-to="1">
                             @endif
                             @if ($fotos->count() > 2)
-                                <img src="{{ asset('storage/' . $fotos[2]->ruta) }}" class="w-100 rounded shadow"
-                                    style="height:170px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
-                                    data-bs-target="#modalCarrusel" data-bs-slide-to="2">
+                            <img src="{{ asset('storage/' . $fotos[2]->ruta) }}" class="w-100 rounded shadow"
+                                style="height:170px; object-fit:cover; cursor:pointer;" data-bs-toggle="modal"
+                                data-bs-target="#modalCarrusel" data-bs-slide-to="2">
                             @endif
                         </div>
 
 
                         <div class="col-12 d-flex gap-2 mt-2">
                             @foreach ($fotos->slice(3, 3) as $index => $foto)
-                                <img src="{{ asset('storage/' . $foto->ruta) }}" class="rounded shadow flex-fill"
-                                    style="height:110px; width:33%; object-fit:cover; cursor:pointer;"
-                                    data-bs-toggle="modal" data-bs-target="#modalCarrusel"
-                                    data-bs-slide-to="{{ $index + 3 }}">
+                            <img src="{{ asset('storage/' . $foto->ruta) }}" class="rounded shadow flex-fill"
+                                style="height:110px; width:33%; object-fit:cover; cursor:pointer;"
+                                data-bs-toggle="modal" data-bs-target="#modalCarrusel"
+                                data-bs-slide-to="{{ $index + 3 }}">
                             @endforeach
                         </div>
                     </div>
@@ -68,9 +68,11 @@
                         </a>
                         @endguest
                         @auth
+                        @if (auth()->user()->rol != 'propietario')
                         <a href="{{ route('solicitarpropiedad', $propiedad->id) }}" class="btn boton">
                             Solicitud
                         </a>
+                        @endif
                         @endauth
                     </div>
                 </div>
@@ -86,14 +88,16 @@
                         <h4 class="fw-bold mt-4">Servicios</h4>
                         <ul class="list-unstyled text-muted">
                             @php
-                                $listaServicios = json_decode($propiedad->servicio, true)
+                            $listaServicios = json_decode($propiedad->servicio, true)
                             @endphp
 
                             @foreach ($listaServicios as $item)
-                            
-                                <li>  
-                                <span class="badge rounded-pill bg-primary me-2" style="width: 8px; height: 8px; padding: 0;">&nbsp;</span>
-                                     {{ $item }}</li>
+
+                            <li>
+                                <span class="badge rounded-pill bg-primary me-2"
+                                    style="width: 8px; height: 8px; padding: 0;">&nbsp;</span>
+                                {{ $item }}
+                            </li>
                             @endforeach
                         </ul>
 
@@ -133,113 +137,105 @@
                             <h6 class="fw-bold mb-3">Reseñas recientes</h6>
 
                             @forelse($review as $item)
-                               <div class="border-bottom mb-3 pb-3 position-relative">
+                            <div class="border-bottom mb-3 pb-3 position-relative">
 
-                                    <div class="d-flex align-items-start gap-3">
-                                        
-                                        <img 
-                                            src="{{ optional($item->usuario)->avatar 
+                                <div class="d-flex align-items-start gap-3">
+
+                                    {{-- Foto de perfil --}}
+                                    <img src="{{ optional($item->usuario)->avatar 
                                                 ? asset('storage/' . $item->usuario->avatar) 
-                                                : asset('images/user.svg') }}" 
-                                            class="rounded-circle shadow-sm"
-                                            style="width:45px; height:45px; object-fit:cover;"
-                                        >
+                                                : asset('images/user.svg') }}" class="rounded-circle shadow-sm"
+                                        style="width:45px; height:45px; object-fit:cover;">
 
-                                        <div class="w-100">
-                                            <div class="d-flex justify-content-between align-items-center">
+                                    <div class="w-100">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">{{ $item->usuario->name ?? 'Usuario' }}</span>
+                                            <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+                                        </div>
 
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="fw-bold">{{ optional($item->usuario)->email ?? 'Usuario' }}</span>
-
-                                            <div class="text-warning small">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i class="bi bi-star{{ $i <= $item->rating ? '-fill' : '' }}"></i>
+                                        <div class="text-warning small mb-1">
+                                            @for ($i = 1; $i <= 5; $i++) <i
+                                                class="bi bi-star{{ $i <= $item->rating ? '-fill' : '' }}"></i>
                                                 @endfor
-                                            </div>
                                         </div>
 
-                                        <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
-
-                                        </div>
-
-                                            <p class="mb-1 text-secondary">{{ $item->comentario }}</p>
-                                        </div>
-
+                                        <p class="mb-1 text-secondary">{{ $item->comentario }}</p>
                                     </div>
-                                    @auth
-                                    @if (auth()->id() === $item->user_id)
-                                        <div class="dropdown position-absolute top-0 end-0 m-2">
-                                            <button class="btn btn-link text-muted p-0 border-0" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-
-                                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center py-2"
-                                                        href="{{ route('editreview', $item->id) }}">
-                                                        <i class="bi bi-pencil me-2"></i>Editar
-                                                        <!-- <span class="fw-normal">Editar</span> -->
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <form action="{{ route('destroyreview', $item->id) }}"
-                                                        method="POST" id="delete-form-{{ $item->id }}">
-                                                        @csrf @method('DELETE')
-                                                        <button type="submit"
-                                                            class="dropdown-item d-flex align-items-center text-danger py-2"
-                                                            onclick="return confirm('¿Eliminar esta reseña?')">
-                                                            <i class="bi bi-trash me-2"></i>Eliminar
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endif
-                                    @endauth
 
                                 </div>
+
+                                @if (auth()->id() === $item->user_id)
+                                <div class="dropdown position-absolute top-0 end-0 m-2">
+                                    <button class="btn btn-link text-muted p-0 border-0" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center py-2"
+                                                href="{{ route('editreview', $item->id) }}">
+                                                <i class="bi bi-pencil me-2"></i>Editar
+                                                <!-- <span class="fw-normal">Editar</span> -->
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('destroyreview', $item->id) }}" method="POST"
+                                                id="delete-form-{{ $item->id }}">
+                                                @csrf @method('DELETE')
+                                                <button type="submit"
+                                                    class="dropdown-item d-flex align-items-center text-danger py-2"
+                                                    onclick="return confirm('¿Eliminar esta reseña?')">
+                                                    <i class="bi bi-trash me-2"></i>Eliminar
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                @endif
+
+                            </div>
                             @empty
-                                <p class="text-muted mb-0">Aún no hay reseñas. ¡Sé el primero en comentar!</p>
+                            <p class="text-muted mb-0">Aún no hay reseñas. ¡Sé el primero en comentar!</p>
                             @endforelse
                         </div>
                     </div>
 
                     @auth
-                        @php
-                            $yaComento = $review->where('user_id', auth()->id())->first();
-                        @endphp
+                    @php
+                    $yaComento = $review->where('user_id', auth()->id())->first();
+                    @endphp
 
-                        @if (!$yaComento)
-                            <form action="{{ route('review', $propiedad->id) }}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label class="small fw-bold">Puntuación:</label>
-                                    <select name="rating" class="form-select border-0 shadow-sm rounded-3" required>
-                                        <option value="5">⭐⭐⭐⭐⭐ (Excelente)</option>
-                                        <option value="4">⭐⭐⭐⭐ (Bueno)</option>
-                                        <option value="3">⭐⭐⭐ (Regular)</option>
-                                        <option value="2">⭐⭐ (Malo)</option>
-                                        <option value="1">⭐ (Pésimo)</option>
-                                    </select>
-                                </div>
+                    @if (!$yaComento)
+                    <form action="{{ route('review', $propiedad->id) }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="small fw-bold">Puntuación:</label>
+                            <select name="rating" class="form-select border-0 shadow-sm rounded-3" required>
+                                <option value="5">⭐⭐⭐⭐⭐ (Excelente)</option>
+                                <option value="4">⭐⭐⭐⭐ (Bueno)</option>
+                                <option value="3">⭐⭐⭐ (Regular)</option>
+                                <option value="2">⭐⭐ (Malo)</option>
+                                <option value="1">⭐ (Pésimo)</option>
+                            </select>
+                        </div>
 
-                                <div class="mb-3">
-                                    <textarea name="comentario" class="form-control border-0 shadow-sm rounded-4" rows="3"
-                                        placeholder="Tu opinión..." required></textarea>
-                                </div>
+                        <div class="mb-3">
+                            <textarea name="comentario" class="form-control border-0 shadow-sm rounded-4" rows="3"
+                                placeholder="Tu opinión..." required></textarea>
+                        </div>
 
-                                <button type="submit" class="btn px-4 boton shadow-sm">
-                                    Enviar reseña
-                                </button>
-                            </form>
-                        @else
-                            <div class="alert alert-light border-0 shadow-sm rounded-4">
-                                Ya has calificado esta propiedad.
-                            </div>
-                        @endif
+                        <button type="submit" class="btn px-4 boton shadow-sm">
+                            Enviar reseña
+                        </button>
+                    </form>
                     @else
-                        <p class="text-muted">Inicia sesión para dejar un comentario.</p>
+                    <div class="alert alert-light border-0 shadow-sm rounded-4">
+                        Ya has calificado esta propiedad.
+                    </div>
+                    @endif
+                    @else
+                    <p class="text-muted">Inicia sesión para dejar un comentario.</p>
                     @endauth
                 </div>
             </div>
@@ -260,22 +256,22 @@
                         <div id="carruselZoom" class="carousel slide" data-bs-interval="false">
                             <div class="carousel-inner">
                                 @foreach ($fotos as $index => $foto)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                        <img src="{{ asset('storage/' . $foto->ruta) }}"
-                                            class="img-fluid rounded shadow" style="max-height: 90vh;">
-                                    </div>
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <img src="{{ asset('storage/' . $foto->ruta) }}" class="img-fluid rounded shadow"
+                                        style="max-height: 90vh;">
+                                </div>
                                 @endforeach
                             </div>
 
                             @if ($fotos->count() > 1)
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carruselZoom"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carruselZoom"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </button>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carruselZoom"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carruselZoom"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
                             @endif
                         </div>
                     </div>
@@ -284,6 +280,7 @@
         </div>
 
     </main>
+
     <script>
     function initMap() {
         const ubicacion = {
@@ -312,8 +309,8 @@
     }
 </script>
 
-    <script async defer 
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goydB0ysifys&callback=initMap">
-</script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goydB0ysifys&callback=initMap">
+    </script>
 
 </x-layout>
