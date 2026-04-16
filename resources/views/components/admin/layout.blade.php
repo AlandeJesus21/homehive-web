@@ -153,9 +153,9 @@
 
                         <div class="text-center mb-3 position-relative">
 
-                            <img src="{{ Auth::user()->avatar
-                            ? asset('images/perfiles/' . Auth::user()->avatar)
-                            : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
+        : asset('images/user.svg') }}" class="rounded-circle" width="100" height="100">
 
                             <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
                                 ✏️

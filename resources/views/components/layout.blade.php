@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   
 
 
@@ -111,7 +113,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                             <li>
-                                <a class="dropdown-item" href="/perfil">Perfil</a>
+                                <a class="dropdown-item" href="#perfilModal" data-bs-toggle="modal">Perfil</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -171,6 +173,61 @@
             </div>
         </div>
     </footer>
+
+    @auth
+    <div class="modal fade" id="perfilModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="text-center mb-3 position-relative">
+
+                            <img src="{{ Auth::user()->avatar 
+        ? asset('storage/' . Auth::user()->avatar) 
+        : asset('images/user.svg') }}"
+                                class="rounded-circle" width="100" height="100">
+
+                            <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
+                                ✏️
+                            </label>
+
+                            <input type="file" name="avatar" id="avatar" hidden>
+                        </div>
+
+                        <input type="text" name="name" class="form-control mb-2" value="{{ Auth::user()->name }}"
+                            required>
+
+                        <input type="email" name="email" class="form-control mb-2" value="{{ Auth::user()->email }}"
+                            required>
+
+                        <input type="password" name="password" class="form-control mb-2" placeholder="Nueva contraseña">
+
+                        <input type="password" name="password_confirmation" class="form-control mb-3"
+                            placeholder="Confirmar contraseña">
+
+                        <button class="btn btn-primary w-100">
+                            Guardar cambios
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @endauth
+
 
     <script>
     function scrollCarousel(id, amount) {

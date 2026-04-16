@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use Pest\Support\Str;
+use Illuminate\Support\Str;
+
 use App\Models\User;
 use App\Models\Review;
 use App\Models\Propiedad;
@@ -35,12 +37,15 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
 
-        // Subir imagen si viene
+        // checar que la imagen no se suba en una carpeta dentro del storage/avatars, sino que se suba directamente a storage/avatars
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/perfiles'), $filename);
-            $user->avatar = $filename;
+
+            $filename = Str::uuid() . '.jpg';
+
+            $avatarname = $file->storeAs('avatars', $filename, 'public');
+
+            $user->avatar = 'avatars/' . $filename;
         }
 
         // Cambiar password solo si se escribió algo
