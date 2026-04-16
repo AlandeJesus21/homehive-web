@@ -1,34 +1,39 @@
-<div class="card-container h-100">
+<div class="prop-card">
 
-    <div class="card shadow-sm border-0 rounded-4 h-100 d-flex flex-column">
-
-        @php
+    @php
         $imagen = $propiedad->imagenes->first();
-        @endphp
+    @endphp
 
-        <img src="{{ $imagen ? asset('storage/' . $imagen->ruta) : 'https://via.placeholder.com/300x200' }}"
-            class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+    <!-- IMAGEN -->
+    <div class="prop-img">
+        <img src="{{ $imagen ? asset('storage/' . $imagen->ruta) : 'https://via.placeholder.com/300x200' }}">
+    </div>
 
-        <div class="card-body d-flex flex-column">
+    <!-- CONTENIDO -->
+    <div class="prop-body">
 
-            <h6 class="fw-bold mb-1">${{ $propiedad->precio }}</h6>
-
-            <p class="mb-1 text-truncate">
-                {{ $propiedad->titulo }}
-            </p>
-
-            <small class="text-muted">
-                {{ $propiedad->barrio->nombre }}, {{ $propiedad->calle }}
-            </small>
-
-            <div class="mt-auto pt-3 text-center">
-                <a href="{{ route('main.vermas', $propiedad->id) }}"
-                    class="btn btn-primary btn-sm px-4 rounded-pill w-100">
-                    Ver más
-                </a>
-            </div>
-
+        <!-- PRECIO + ICONO -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="prop-price">${{ $propiedad->precio }}</span>
+            <i class="bi bi-bookmark prop-icon"></i>
         </div>
+
+        <!-- TITULO -->
+        <div class="prop-title">
+            {{ $propiedad->titulo }}
+        </div>
+
+        <!-- UBICACION -->
+        <div class="prop-location">
+            {{ $propiedad->barrio->nombre }}, {{ $propiedad->calle }}
+        </div>
+
+        <!-- BOTON -->
+        <a href="{{ route('main.vermas', $propiedad->id) }}"
+           class="btn btn-primary w-100 mt-3 prop-btn">
+            Ver más
+        </a>
+
     </div>
 
 </div>

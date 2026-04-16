@@ -164,6 +164,63 @@ body {
     border-radius: 50%;
 }
 
+.prop-card {
+    width: 260px;
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.prop-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Imagen */
+.prop-img img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+/* Body */
+.prop-body {
+    padding: 14px;
+}
+
+/* Precio */
+.prop-price {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+/* Icono */
+.prop-icon {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Título */
+.prop-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Ubicación */
+.prop-location {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Botón */
+.prop-btn {
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 6px;
+}
+
 /* FOOTER */
 footer {
     background-color: #191531;
