@@ -60,11 +60,12 @@
                         </div>
                         <div style="width: 20%; text-align: center;">
                             @if($pago->status == 'pendiente')
-                                <a href="#" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                                <a href="{{ route('pagos.checkout', $pago->id) }}" 
+                                style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
                                     Pagar mensualidad
                                 </a>
                             @else
-                                <a href="#" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                                <a href="{{ route('pagos.recibo', $pago->id) }}" target="_blank" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
                                     Descargar recibo
                                 </a>
                             @endif

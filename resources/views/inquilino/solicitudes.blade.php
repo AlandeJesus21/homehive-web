@@ -83,7 +83,7 @@
                                             <ul class="dropdown-menu shadow border-0 rounded-3 py-2">
                                                 <li>
                                                     <a class="dropdown-item d-flex align-items-center gap-3 py-2"
-                                                        href="{{ route('versolicitud', $solicitud->id) }}">
+                                                        href="{{ route('inquilino.versolicitud', $solicitud->id) }}">
                                                         <i class="bi bi-eye fs-5"></i>
                                                         <span class="fw-normal">
                                                             <!-- <svg xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +97,7 @@
                                                             Ver solicitud</span>
                                                     </a>
                                                 </li>
+                                            @if($solicitud->estatus !== 'Aceptado')
                                                 <li>
                                                     <form action="{{ route('cancelarsolicitud', $solicitud->id) }}" method="POST" 
                                                         onsubmit="return confirm('¿Estás seguro de que deseas cancelar y eliminar esta solicitud?');">
@@ -108,6 +109,14 @@
                                                         </button>
                                                     </form>
                                                 </li>
+                                            @else
+                                                <li>
+                                                    <span class="dropdown-item d-flex align-items-center gap-3 py-2 text-muted italic">
+                                                        <i class="bi bi-info-circle fs-5"></i>
+                                                        <span class="fw-normal">No se puede cancelar (Aceptado)</span>
+                                                    </span>
+                                                </li>
+                                            @endif
                                             </ul>
                                         </div>
                                     </td>

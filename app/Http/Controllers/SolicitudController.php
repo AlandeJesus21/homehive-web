@@ -142,16 +142,21 @@ class SolicitudController extends Controller
     public function show($id)
     {
         $solicitud = Solicitud::findOrFail($id);
-        return redirect()->route('solicitudes')->with('success', '¡Tu solicitud ha sido enviada con éxito!');
+        return view('inquilino.versolicitud', compact('solicitud'));
     }
 
     public function destroy($id)
     {
         $solicitud = Solicitud::findOrFail($id);
 
-        // Seguridad: Solo el dueño de la solicitud puede cancelarla
+        // Seguridad 1: Solo el dueño de la solicitud puede cancelarla
         if ($solicitud->user_id !== auth()->id()) {
             return redirect()->back()->with('error', 'No tienes permiso para realizar esta acción.');
+        }
+
+        // Seguridad 2: SI YA ESTÁ ACEPTADA, NO SE PUEDE BORRAR
+        if ($solicitud->estatus === 'Aceptado') {
+            return redirect()->back()->with('error', 'No puedes cancelar una solicitud que ya ha sido aceptada.');
         }
 
         $solicitud->delete();
