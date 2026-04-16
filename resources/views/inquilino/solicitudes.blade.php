@@ -135,25 +135,19 @@
                 const inputHasta = document.getElementById('fechaHasta');
 
                 btn.addEventListener('click', function() {
-                    // Convertimos los valores de los inputs a objetos Date para comparar
-                    // Usamos "00:00" y "23:59" para incluir todo el día seleccionado
                     const desde = new Date(inputDesde.value + "T00:00:00");
                     const hasta = new Date(inputHasta.value + "T23:59:59");
 
-                    // Seleccionamos todas las filas del cuerpo de la tabla
                     const filas = document.querySelectorAll('table tbody tr');
 
                     filas.forEach(fila => {
-                        // Buscamos la celda que tiene la fecha (es la tercera columna, índice 2)
                         const celdaFecha = fila.cells[2];
 
                         if (celdaFecha) {
-                            // Convertimos el texto de la celda (dd/mm/yyyy) a un formato que JS entienda
                             const partes = celdaFecha.innerText.split(' ')[0].split('/');
                             const fechaFila = new Date(
                                 `${partes[2]}-${partes[1]}-${partes[0]}T12:00:00`);
 
-                            // Si la fecha está en el rango, mostramos; si no, ocultamos
                             if (fechaFila >= desde && fechaFila <= hasta) {
                                 fila.style.display = "";
                             } else {
