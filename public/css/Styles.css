@@ -1,254 +1,188 @@
-     :root {
-        --primary-color: #1f3a8a;
-        /* Azul botones */
-        --secondary-bg: #f1f5f9;
-        /* Fondo gris claro */
-        /* Footer */
-    }
+:root {
+    --primary-color: #1f3a8a;
+    --secondary-bg: #f1f5f9;
+}
 
- 
- body {
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(to right,
-            #D2D4E5 43%,
-            #B0B3D3 81%);
-    }
+/* BASE */
+body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to right, #D2D4E5 43%, #B0B3D3 81%);
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    .fondo {
-        background-color: #e9ecf2;
-    }
+.fondo {
+    background-color: #e9ecf2;
+}
 
-    .hero-about {
-        width: 100%;
-        height: 500px;
-
-        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                    url('/images/viejitoEdit.png');
-
-        background-size: cover;
-        background-position: center;
-
-        display: flex;
-        align-items: center;
-    }
-
-    /* estilos para las busquedas */
-   .search-bar {
-    background: #fff;
-    padding: 10px 15px;
-    gap: 10px;
-    max-width: 800px;
+/* HERO */
+.hero-about {
     width: 100%;
+    height: 500px;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('/images/viejitoEdit.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+}
+
+/* SEARCH BAR */
+.search-bar {
+    background: white;
+    gap: 10px;
+}
+
+/* ITEMS */
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+}
+
+/* BOTONES */
+.filter-btn {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    background: #f1f1f1;
+}
+
+/* DIVIDER */
+.divider {
+    width: 1px;
+    height: 25px;
+    background: #ddd;
 }
 
 
 
-    .filter-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0 10px;
-    }
-
-    .filter-item select,
-    .filter-item input {
-        border: none;
-        outline: none;
-        background: transparent;
-        font-size: 14px;
-        -webkit-appearance: none;
-        -moz-appearance: none;    
-        appearance: none;         
-        box-shadow: none;         
-    }
-
-    .divider {
-        width: 1px;
-        height: 25px;
-        background: #ddd;
-    }
-
-    .search-btn {
-        background: #f1f1f1;
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-    .search-btn:hover {
-        background: #e0e0e0;
-    }
-
-    /* estilos de carrusel */
-
-    overflow-auto::-webkit-scrollbar {
-    display: none;
+/* BOTÓN BUSCAR */
+.search-btn {
+    border: none;
+    background: black;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-overflow-auto {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+/* INPUTS */
+.filter-item select,
+.filter-item input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    appearance: none;
 }
 
+/* CARRUSEL */
 .carousel-container {
     overflow: hidden;
     width: 100%;
 }
 
-.carousel-container .card-container {
-    min-width: 250px;
-    max-width: 250px;
-    flex: 0 0 auto;
-}   
-
-/* Ocultar scrollbar */
 .carousel-container div::-webkit-scrollbar {
     display: none;
 }
+
 .carousel-container div {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
 
-    footer {
-        background-color: #191531;
-        color: #ccc;
-        padding: 20px 0;
-    }
-
-    footer a {
-        color: #ccc;
-        text-decoration: none;
-    }
-
-    footer a:hover {
-        color: white;
-    }
-
-
-/* resposive */
-@media (max-width: 767px) {
-    .search-bar {
-        display: none;
-    }
+/* RESET COMPLETO DEL CHECKBOX */
+.form-check-input {
+    -webkit-appearance: none;
+    appearance: none;
+    
+    width: 18px;
+    height: 18px;
+    
+    border: 2px solid #444;
+    border-radius: 4px;
+    
+    background-color: #fff;
+    
+    display: inline-block;
+    position: relative;
+    
+    cursor: pointer;
 }
 
+/* CUANDO ESTÁ MARCADO */
+.form-check-input:checked {
+    background-color: #000;
+    border-color: #000;
+}
 
+/* PALOMITA */
+.form-check-input:checked::before {
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
 
+/* HOVER */
+.form-check-input:hover {
+    border-color: #000;
+}
 
+/* TEXTO */
+.form-check-label {
+    font-size: 14px;
+    cursor: pointer;
+}
 
-    .h:hover {
-        background-color: #3003c4;
-        color: #fffefe;
-        transition: background-color 0.3s, color 0.3s;
-    }
+/* RADIO (ZONA) */
+.form-check-input[type="radio"] {
+    border-radius: 50%;
+}
 
-    .hero-content {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeUp 0.8s ease-out forwards;
-    }
+/* PUNTO DEL RADIO */
+.form-check-input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
 
-    .hero-content h1 {
-        animation-delay: 0.2s;
-    }
+/* FOOTER */
+footer {
+    background-color: #191531;
+    color: #ccc;
+    padding: 20px 0;
+}
 
-    .hero-content h3 {
-        animation-delay: 0.4s;
-    }
+footer a {
+    color: #ccc;
+    text-decoration: none;
+}
 
-    .hero-content a {
-        animation-delay: 0.6s;
-    }
-
-    /* estilos para administrador */
-
-    .hero-admin {
-    height: 350px;
-
-    background: linear-gradient(rgba(180,120,60,0.7), rgba(180,120,60,0.7)),
-                url('/images/viejitoEdit.png'); 
-
-    background-size: cover;
-    background-position: center;
-
-    display: flex;
-    align-items: center;
+footer a:hover {
     color: white;
 }
 
-.admin-stats {
-    margin-top: -60px;
-}
-
-.admin-card {
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    padding: 20px;
-    transition: transform 0.2s;
-}
-
-.admin-card:hover {
-    transform: translateY(-5px);
-}
-
-.admin-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-}
-
-.table-card {
-    background: #f5f6fa;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-.table-header {
-    background-color: #d9deea;
-}
-
-.table thead th {
-    border: none;
-}
-
-.table tbody tr {
-    border-bottom: 1px solid #ddd;
-}
-
-
-
-/* animaciones */
-
-    @keyframes fadeUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-.fadeIn {
-    animation: fadeIn 0.8s ease forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
+/* RESPONSIVE */
+@media (max-width: 767px) {
+    .search-bar {
+        display: none;
     }
 }

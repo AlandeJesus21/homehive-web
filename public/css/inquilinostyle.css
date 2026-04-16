@@ -69,20 +69,3 @@ main.flex-fill {
         border: none;
         overflow: hidden;
     }
-
-
-
-    footer {
-        background-color: #191531;
-        color: #ccc;
-        padding: 20px 0;
-    }
-
-    footer a {
-        color: #ccc;
-        text-decoration: none;
-    }
-
-    footer a:hover {
-        color: white;
-    }

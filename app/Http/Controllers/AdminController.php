@@ -32,7 +32,7 @@ class AdminController extends Controller {
     }
 
     public function reviewsview() {
-        $reviews = Review::all();
+        $reviews = Review::with('usuario', 'propiedad')->get();
         return view('admin.reviews.index', compact('reviews'));
     }
 
