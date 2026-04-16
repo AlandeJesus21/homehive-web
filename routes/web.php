@@ -75,6 +75,9 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Correo de verificación reenviado');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+//Recibos de pagos
+Route::get('/pagos/{id}/recibo', [PagoController::class, 'descargarRecibo'])->name('pagos.recibo')->middleware('auth');
+
 
 /*
 | AUTENTICACION
@@ -302,7 +305,7 @@ Route::middleware(['auth','role:inquilino'])->group(function () {
     Route::get('/inquilino', [PropiedadController::class,'buscar'])->name('buscar');
     Route::get('/inquilino/vermas{id}', [InquilinoController::class,'vermas'])->name('vermas');//vista para ver mas detalles de la propiedad
     Route::get('/inqulino/solicitudes', [SolicitudController::class,'historial'])->name('solicitudes');//vista para ver el historial, de solicitudes
-    Route::get('/inqulino/versolicitud/{id}', [SolicitudController::class,'show'])->name('versolicitud');
+    Route::get('/inquilino/versolicitud/{id}', [SolicitudController::class,'show'])->name('inquilino.versolicitud');
     Route::delete('/inquilino/solicitud/{id}/cancelar', [SolicitudController::class, 'destroy'])->name('cancelarsolicitud');
     Route::get('/inqulino/favoritos', [FavoriteController::class,'index'])->name('favoritos');
     Route::post('/inqulino/favoritos/{id}', [FavoriteController::class,'toggle'])->name('misfavoritos');
@@ -316,5 +319,6 @@ Route::middleware(['auth','role:inquilino'])->group(function () {
     Route::delete('/inquilino/destroyreview/{id}', [ReviewController::class,'destroy'])->name('destroyreview');
     //Route::post('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
     Route::get('/filtro', [InquilinoController::class, 'filtrado']);
+    Route::get('/mispagos/{id}/checkout', [App\Http\Controllers\PagoController::class, 'checkout'])->name('pagos.checkout');
 
 });

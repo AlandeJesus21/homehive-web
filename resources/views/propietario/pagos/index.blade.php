@@ -73,7 +73,7 @@
                                     Ver comprobante
                                 </button>
                             @else
-                                <a href="#" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; white-space: nowrap;">
+                                <a href="{{ route('pagos.recibo', $pago->id) }}" target="_blank" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; white-space: nowrap;">
                                     Ver comprobante
                                 </a>
                             @endif
