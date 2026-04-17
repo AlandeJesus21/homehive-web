@@ -45,6 +45,7 @@ return new class extends Migration
                 'email' => 'pereztrujilloalandejesus21@gmail.com',
                 'password' => bcrypt('admin123'),
                 'role' => 'admin',
+                'email_verified_at' => now()
             ],
         ]);
     }

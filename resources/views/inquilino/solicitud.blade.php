@@ -1,4 +1,4 @@
-<x-inquilino.layout>
+<x-layout>
     <main class="container-fluid">
         <div class="row g-0">
             <div class="col-md-7 d-none d-md-block position-sticky top-0 p-0" style="height:100vh;">
@@ -68,4 +68,4 @@
             </div>
         </div>
     </main>
-</x-inquilino.layout>
+</x-layout>

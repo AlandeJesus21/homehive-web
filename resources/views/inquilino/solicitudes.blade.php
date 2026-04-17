@@ -1,4 +1,4 @@
-<x-inquilino.layout>
+<x-layout>
 
     <main class="container-fluid">
         <div class="container py-5">

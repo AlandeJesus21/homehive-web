@@ -1,4 +1,4 @@
-<x-inquilino.layout>
+<x-layout>
 
 
 
