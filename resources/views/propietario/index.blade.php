@@ -44,75 +44,65 @@
 
             <div class="col-md-4 mb-4">
                 <div class="bg-white rounded-5 shadow p-4 h-100">
-
                     <div class="d-flex align-items-center">
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
-                             style="width:60px; height:60px; background-color: #E7DEFF; color: #b300ff;">
+                            style="width:60px; height:60px; background-color: #E7DEFF; color: #b300ff;">
                             <i class="bi bi-cash-stack fs-3"></i>
                         </div>
-
                         <div>
-                            <h4 class="mb-0 fw-bold">10</h4>
+                            <h4 class="mb-0 fw-bold">{{ $totalPagos }}</h4>
                             <small class="text-muted text-uppercase">Pagos Totales</small>
-                            <div class="text-success small">+2 Este mes</div>
+                            <div class="text-success small">+{{ $pagosMes }} Este mes</div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('pagos.index') }}" class="btn btn-primary w-50 mt-4" style="background-color: #1E3A8A; color: white;">
-                    
-                        Ver más
-                    </a>
-
+                        <a href="{{ route('pagos.index') }}" class="btn btn-primary w-50 mt-4" style="background-color: #1E3A8A; color: white;">
+                            Ver más
+                        </a>
+                    </div>
                 </div>
-                 </div>
             </div>
 
             <div class="col-md-4 mb-4">
                 <div class="bg-white rounded-5 shadow p-4 h-100">
-
                     <div class="d-flex align-items-center">
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
-                             style="width:60px; height:60px; background-color: #f9d8346e; color: #d3b000;">
+                            style="width:60px; height:60px; background-color: #f9d8346e; color: #d3b000;">
                             <i class="bi bi-exclamation-triangle fs-3"></i>
                         </div>
-
                         <div>
-                            <h4 class="mb-0 fw-bold">15</h4>
+                            <h4 class="mb-0 fw-bold">{{ $totalSolicitudes }}</h4>
                             <small class="text-muted text-uppercase">Solicitudes Totales</small>
-                            <div class="text-danger small">+5 Para revisar</div>
+                            <div class="text-success small">+{{ $pendientesSolicitudes }} Para revisar</div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                    <a href="{{ route('solicitudes.index') }}" class="btn w-50 mt-4" style="background-color: #1E3A8A; color: white;">
-                        Ver más
-                    </a>
-
+                        <a href="{{ route('solicitudes.index') }}" class="btn w-50 mt-4" style="background-color: #1E3A8A; color: white;">
+                            Ver más
+                        </a>
+                    </div>
                 </div>
-                 </div>
             </div>
 
             <div class="col-md-4 mb-4">
                 <div class="bg-white rounded-5 shadow p-4 h-100">
-
                     <div class="d-flex align-items-center">
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
-                             style="width:60px; height:60px; background-color: #E7DEFF; color: #b300ff;">
+                            style="width:60px; height:60px; background-color: #E7DEFF; color: #b300ff;">
                             <i class="bi bi-chat-left-text fs-3"></i>
                         </div>
-
                         <div>
-                            <h4 class="mb-0 fw-bold">10</h4>
+                            <h4 class="mb-0 fw-bold">{{ $totalReviews }}</h4>
                             <small class="text-muted text-uppercase">Reseñas Totales</small>
-                            <div class="text-muted small">+5 Nuevos</div>
+                            <div class="text-muted small">+{{ $nuevasReviews }} Nuevas</div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                    <a href="#" class="btn w-50 mt-4" style="background-color: #1E3A8A; color: white;">
-                        Ver más
-                    </a>
-
+                        <a href="#" class="btn w-50 mt-4" style="background-color: #1E3A8A; color: white;">
+                            Ver más
+                        </a>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
 
