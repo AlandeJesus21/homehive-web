@@ -1,13 +1,11 @@
-<x-admin.layout>
-
-    <!-- 🔶 HERO -->
+<x-layout>
     <section class="hero-admin">
         <div class="container hero-content text-white">
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="fw-bold">
+                    <h2 class="fw-bold lh-sm">
                         El motor de la colmena está en tus manos.
-                    </h3>
+                    </h2>
                     <p class="mt-3">
                         Supervisa el crecimiento de la plataforma, gestiona comentarios,
                         genera reportes de usuarios y propiedades.
@@ -18,7 +16,6 @@
         </div>
     </section>
 
-    <!-- 🔷 CARDS -->
     <div class="container admin-stats">
         <div class="row">
 
@@ -27,7 +24,7 @@
                 <div class="admin-card">
                     <div class="d-flex align-items-center">
                         <div class="admin-icon bg-primary bg-opacity-25 me-3">
-                            🏠
+                            <i class="bi bi-house"></i>
                         </div>
                         <div>
                             <h4 class="mb-0">{{ $totalPropiedades }}</h4>
@@ -44,7 +41,7 @@
                 <div class="admin-card">
                     <div class="d-flex align-items-center">
                         <div class="admin-icon bg-secondary bg-opacity-25 me-3">
-                            👤
+                            <i class="bi bi-person"></i>
                         </div>
                         <div>
                             <h4 class="mb-0">{{ $totalUsers }}</h4>
@@ -61,7 +58,7 @@
                 <div class="admin-card">
                     <div class="d-flex align-items-center">
                         <div class="admin-icon bg-warning bg-opacity-25 me-3">
-                            ⚠️
+                            <i class="bi bi-exclamation-triangle"></i>
                         </div>
                         <div>
                             <h4 class="mb-0">{{ $totalReviews }}</h4>
@@ -77,4 +74,4 @@
         </div>
     </div>
 
-</x-admin.layout>
+</x-layout>

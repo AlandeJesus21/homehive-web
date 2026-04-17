@@ -1,4 +1,4 @@
-<x-propietario.layout>
+<x-layout>
     <div style="background: linear-gradient(180deg, #D7DCF3 0%, #ADB5D9 100%); padding: 20px 0 60px 0; font-family: 'Segoe UI', sans-serif; min-height: 100vh;">
         <div class="container" style="max-width: 1200px;">
 

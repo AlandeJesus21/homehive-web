@@ -1,5 +1,5 @@
 <div style="background: linear-gradient(180deg,  #D2D4E5 40%, #B0B3D3 100%); min-height: 100vh; padding: 0px 0; font-family: 'Segoe UI', sans-serif;">
-<x-propietario.layout>
+<x-layout>
 
     <div class="container-fluid px-0">
         
@@ -260,5 +260,5 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goyd
 
 </x-slot:scripts>
 
-</x-propietario.layout>
+</x-layout>
 </div>

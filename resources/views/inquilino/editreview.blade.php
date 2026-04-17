@@ -1,4 +1,4 @@
-<x-inquilino.layout>
+<x-layout>
 <main class="content-fluid">
     <div class="container py-5">
     <div class="row justify-content-center">
@@ -45,4 +45,4 @@
 
 </main>
 
-</x-inquilino.layout>
+</x-layout>

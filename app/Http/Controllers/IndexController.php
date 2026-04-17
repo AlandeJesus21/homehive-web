@@ -7,6 +7,7 @@ use App\Models\Propiedad;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 class IndexController extends Controller
@@ -14,10 +15,15 @@ class IndexController extends Controller
     public function index() 
     {
         $barrios = Barrio::all();
-        $cuartos = Propiedad::where('tipo', 'cuarto')->get()->take(8);
-        $casas = Propiedad::where('tipo', 'casa')->get()->take(8);
-        $departamentos = Propiedad::where('tipo', 'departamento')->get()->take(8);
-
+        if(Auth::check()){
+            $cuartos = Propiedad::where('tipo', 'cuarto')->get();
+            $casas = Propiedad::where('tipo', 'casa')->get();
+            $departamentos = Propiedad::where('tipo', 'departamento')->get();    
+        }else{
+            $cuartos = Propiedad::where('tipo', 'cuarto')->get()->take(8);
+            $casas = Propiedad::where('tipo', 'casa')->get()->take(8);
+            $departamentos = Propiedad::where('tipo', 'departamento')->get()->take(8);
+        }
         // dd($cuartos, $casas, $departamentos, $barrios);
 
         return view('index', compact('barrios', 'cuartos', 'casas', 'departamentos'));
@@ -49,6 +55,12 @@ class IndexController extends Controller
             $query->where('precio', '<=', $request->input('precio_max'));
         }
 
+        if ($request->filled('servicios')) {
+            foreach ($request->servicios as $servicio) {
+                $query->whereJsonContains('servicios', $servicio);
+            }
+        }
+
         $cuartos = (clone $query)->where('tipo', 'cuarto')->get();
         $departamentos = (clone $query)->where('tipo', 'departamento')->get();
         $casas = (clone $query)->where('tipo', 'casa')->get();
@@ -65,7 +77,7 @@ class IndexController extends Controller
         $barrios = Barrio::all();
         $propiedad=Propiedad::findOrFail($id);
         $review = Review::where('propiedad_id', $id)->with('usuario')->get();
-        $espropietario = auth()->check() && auth()->user()->role === 'propietario';
+        $espropietario = Auth::check() && Auth::user()->role === 'propietario';
         return view('inquilino.vermas', compact('propiedad', 'review', 'barrios', 'espropietario'));
     }
 }

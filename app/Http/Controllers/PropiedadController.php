@@ -265,6 +265,12 @@ public function update(Request $request, $id)
     public function buscar(Request $request)
     {
         $query = Propiedad::with('imagenes');
+        $cuartos = Propiedad::where('tipo', 'cuarto')->get();
+
+        $casas = Propiedad::where('tipo', 'casa')->get();
+
+        $departamentos = Propiedad::where('tipo', 'departamento')->get();
+
 
         $query->whereDoesntHave('solicitudes', function ($q) {
             $q->where('estatus', 'Aceptado');
@@ -295,8 +301,8 @@ public function update(Request $request, $id)
         }
 
         $propiedades = $query->get();
-        $barrio = Barrio::all();
+        $barrios = Barrio::all();
 
-        return view('inquilino.index', compact('propiedades', 'barrio'));
+        return view('inquilino.index', compact('propiedades', 'barrios', 'cuartos', 'casas', 'departamentos'));
     }
 }

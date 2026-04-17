@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barrio;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\Propiedad;
@@ -16,7 +17,8 @@ class InquilinoController extends Controller {
     public function index(){
         return "ESTOY EDITANDO EL ARCHIVO CORRECTO";
         $propiedades=Propiedad::all();
-        return view('inquilino.index',['propiedades' => $propiedades]);
+        $barrios = Barrio::all();
+        return view('inquilino.index',['propiedades' => $propiedades, 'barrios' => $barrios]);
     }
 
     public function filtrado(Request $request) {
