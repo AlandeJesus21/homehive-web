@@ -77,7 +77,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 //Recibos de pagos
 Route::get('/pagos/{id}/recibo', [PagoController::class, 'descargarRecibo'])->name('pagos.recibo')->middleware('auth');
-
+Route::get('/pagos/{id}/contrato', [PagoController::class, 'descargarContrato'])->name('pagos.contrato')->middleware('auth');
 
 /*
 | AUTENTICACION

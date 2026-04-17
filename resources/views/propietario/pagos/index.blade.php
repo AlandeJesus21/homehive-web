@@ -69,13 +69,29 @@
 
                         <div style="width: 10%; text-align: center;">
                             @if($pago->status == 'pendiente')
-                                <button disabled style="background: #E5E7EB; color: #9CA3AF; border: 1.5px solid #D1D5DB; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: not-allowed; white-space: nowrap;">
-                                    Ver comprobante
-                                </button>
+                                <span style="color: #9CA3AF; font-size: 13px; font-weight: 500;">
+                                    <i class="bi bi-hourglass-split"></i> En espera
+                                </span>
                             @else
-                                <a href="{{ route('pagos.recibo', $pago->id) }}" target="_blank" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; white-space: nowrap;">
-                                    Ver comprobante
-                                </a>
+                                <div class="dropdown">
+                                    <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div style="background: #FCE7E7; border: 1.5px solid #7F1D1D; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-three-dots-vertical" style="color: #7F1D1D;"></i>
+                                        </div>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px; padding: 8px; min-width: 170px;">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('pagos.recibo', $pago->id) }}" target="_blank">
+                                                <i class="bi bi-file-earmark-check text-success"></i> Ver comprobante
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('pagos.contrato', $pago->id) }}">
+                                                <i class="bi bi-file-earmark-text text-primary"></i> Generar contrato
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             @endif
                         </div>
                     </div>
