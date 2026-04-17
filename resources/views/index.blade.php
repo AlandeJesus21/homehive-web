@@ -186,6 +186,18 @@
 
     <div class="container py-5">
         @php $isBusqueda = request()->hasAny(['barrio_id','tipo','min','max','servicios']); @endphp
+        @php $sinResultados = $cuartos->isEmpty() && $casas->isEmpty() && $departamentos->isEmpty(); @endphp
+
+        @if($sinResultados && $isBusqueda)
+            <div class="text-center py-5">
+                <i class="bi bi-search" style="font-size: 3rem; color: #030303;"></i>
+                <h4 class="mt-3">No se encontraron propiedades</h4>
+                <p class="text-muted">
+                    No hay resultados con los filtros seleccionados.
+                </p>
+            </div>
+        @endif
+
 
         @if ($cuartos->isNotEmpty())
             <h3 class="mb-4">Cuartos</h3>

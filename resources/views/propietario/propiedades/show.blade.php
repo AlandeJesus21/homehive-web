@@ -1,4 +1,4 @@
-<x-propietario.layout>
+<x-layout>
 
 <div style="background: linear-gradient(180deg, #D2D4E5 40%, #B0B3D3 100%); min-height: 100vh; padding: 0px 0; font-family: 'Segoe UI', sans-serif;">
 <div class="container py-5" >

@@ -55,6 +55,12 @@ class IndexController extends Controller
             $query->where('precio', '<=', $request->input('precio_max'));
         }
 
+        if ($request->filled('servicios')) {
+            foreach ($request->servicios as $servicio) {
+                $query->whereJsonContains('servicios', $servicio);
+            }
+        }
+
         $cuartos = (clone $query)->where('tipo', 'cuarto')->get();
         $departamentos = (clone $query)->where('tipo', 'departamento')->get();
         $casas = (clone $query)->where('tipo', 'casa')->get();

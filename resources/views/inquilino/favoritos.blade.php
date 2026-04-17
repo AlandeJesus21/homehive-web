@@ -136,9 +136,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            foreach ($agrupados as $tipo => $items){
+            @foreach ($agrupados as $tipo => $items)
                 initCarousel('carrusel-{{ $tipo }}');
-            };
+            @endforeach
         });
     </script>
 

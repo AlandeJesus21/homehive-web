@@ -1,4 +1,4 @@
-<x-propietario.layout>
+<x-layout>
     <main class="container-fluid" style="background: linear-gradient(180deg, #D7DCF3 0%, #ADB5D9 100%); min-height: 100vh;">
         <div class="container py-5">
             <div class="row justify-content-center">

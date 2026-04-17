@@ -6,7 +6,7 @@
 
     <!-- IMAGEN -->
     <div class="prop-img">
-        @if($imagen>0)
+        @if($imagen)
         <img src="{{ $imagen ? asset('storage/' . $imagen->ruta) : 'https://via.placeholder.com/300x200' }}">
          @else
          <div class="bg-light rounded-4 d-flex align-items-center justify-content-center"
