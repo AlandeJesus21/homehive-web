@@ -65,8 +65,8 @@ body {
 /* BOTÓN BUSCAR */
 .search-btn {
     border: none;
-    background: black;
-    color: white;
+    background: white;
+    color: #80808080;
     width: 40px;
     height: 40px;
     border-radius: 50%;
