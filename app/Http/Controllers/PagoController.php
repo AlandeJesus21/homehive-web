@@ -71,4 +71,20 @@ class PagoController extends Controller
 
         return view('pdf.recibo', compact('pago'));
     }
+
+    public function descargarContrato($id)
+    {
+        $pago = Pago::with(['propiedad.barrio', 'inquilino', 'arrendador'])
+                    ->where('id', $id)
+                    ->where('status', 'pagado')
+                    ->where(function($query) {
+                        $query->where('user_id', auth()->id())
+                            ->orWhere('arrendador_id', auth()->id());
+                    })
+                    ->firstOrFail();
+
+        $pdf = Pdf::loadView('pdf.contrato', compact('pago'));
+        
+        return $pdf->download('contrato-arrendamiento-'.$pago->id.'.pdf');
+    }
 }

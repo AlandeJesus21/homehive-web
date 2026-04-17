@@ -61,13 +61,29 @@
                         <div style="width: 20%; text-align: center;">
                             @if($pago->status == 'pendiente')
                                 <a href="{{ route('pagos.checkout', $pago->id) }}" 
-                                style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                                style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-block;">
                                     Pagar mensualidad
                                 </a>
                             @else
-                                <a href="{{ route('pagos.recibo', $pago->id) }}" target="_blank" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
-                                    Descargar recibo
-                                </a>
+                                <div class="dropdown" style="display: inline-block;">
+                                    <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div style="background: #FCE7E7; border: 1.5px solid #7F1D1D; width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-three-dots-vertical" style="color: #7F1D1D;"></i>
+                                        </div>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px; padding: 8px; min-width: 180px;">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('pagos.recibo', $pago->id) }}?download=1">
+                                                <i class="bi bi-file-earmark-check text-success"></i> Descargar recibo
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('pagos.contrato', $pago->id) }}">
+                                                <i class="bi bi-file-earmark-text text-primary"></i> Generar contrato
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             @endif
                         </div>
                     </div>

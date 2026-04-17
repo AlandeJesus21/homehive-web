@@ -264,22 +264,18 @@ public function update(Request $request, $id)
 
     public function buscar(Request $request)
     {
-        $query = Propiedad::with('imagenes');
-        $cuartos = Propiedad::where('tipo', 'cuarto')->get();
-
-        $casas = Propiedad::where('tipo', 'casa')->get();
-
-        $departamentos = Propiedad::where('tipo', 'departamento')->get();
-
+        $query = Propiedad::with(['imagenes', 'barrio']);
 
         $query->whereDoesntHave('solicitudes', function ($q) {
             $q->where('estatus', 'Aceptado');
-        })->whereDoesntHave('pagos', function ($q) {
+        });
+
+        $query->whereDoesntHave('pagos', function ($q) {
             $q->where('status', 'pagado');
         });
 
-        if ($request->filled('barrios')) {
-            $query->whereIn('barrio', $request->barrios);
+        if ($request->filled('barrio_id')) {
+            $query->where('barrio_id', $request->barrio_id);
         }
 
         if ($request->filled('tipo')) {
@@ -294,13 +290,19 @@ public function update(Request $request, $id)
             $query->where('precio', '<=', $request->max);
         }
 
-        if ($request->filled('servicio')) {
-            foreach ($request->servicio as $servicio) {
+        if ($request->filled('servicios')) {
+            foreach ($request->servicios as $servicio) {
                 $query->where('servicio', 'like', '%' . trim($servicio) . '%');
             }
         }
 
-        $propiedades = $query->get();
+        $resultados = $query->get();
+
+        $cuartos = $resultados->where('tipo', 'cuarto');
+        $casas = $resultados->where('tipo', 'casa');
+        $departamentos = $resultados->where('tipo', 'departamento');
+        
+        $propiedades = $resultados;
         $barrios = Barrio::all();
 
         return view('inquilino.index', compact('propiedades', 'barrios', 'cuartos', 'casas', 'departamentos'));

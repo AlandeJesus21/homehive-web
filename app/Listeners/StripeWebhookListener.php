@@ -17,14 +17,18 @@ class StripeWebhookListener
             $pagoId = $session['metadata']['pago_id'] ?? null;
 
             if ($pagoId) {
-                $pago = Pago::with('inquilino')->find($pagoId);
+                $pago = Pago::with(['inquilino', 'arrendador'])->find($pagoId);
                 
                 if ($pago && $pago->status !== 'pagado') {
+                    // AQUÍ HACEMOS EL AJUSTE DE FECHAS
                     $pago->update([
                         'status' => 'pagado',
                         'stripe_id' => $session['id'],
+                        'fecha_inicio' => now(),           // La renta inicia en este momento
+                        'fecha_fin' => now()->addMonth(),  // Vence exactamente en un mes
                     ]);
 
+                    // Notificaciones
                     if ($pago->inquilino) {
                         $pago->inquilino->notify(new PagoConfirmadoNotification($pago));
                     }
