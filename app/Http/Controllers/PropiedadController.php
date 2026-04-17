@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Barrio;
 use App\Models\Propiedad;
+use App\Models\Solicitud;
+use App\Models\Pago;
+use App\Models\Review;
 use App\Models\PropiedadImagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +23,49 @@ class PropiedadController extends Controller
 
     public function index()
     {
+        $userId = Auth::id();
         $user = Auth::user();
-        
+
+        // 1. Propiedades del arrendador
         $propiedades = Propiedad::with(['imagenes', 'barrio'])
-            ->where('user_id', $user->id)
+            ->where('user_id', $userId)
             ->get();
 
-        return view('propietario.index', compact('propiedades', 'user'));
+        $misPropiedadesIds = $propiedades->pluck('id');
+
+        // 2. PAGOS (Directo por arrendador_id)
+        $totalPagos = Pago::where('arrendador_id', $userId)
+            ->where('status', 'pagado')
+            ->count();
+
+        $pagosMes = Pago::where('arrendador_id', $userId)
+            ->where('status', 'pagado')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
+        // 3. SOLICITUDES (Filtradas por sus propiedades)
+        $totalSolicitudes = Solicitud::whereIn('propiedad_id', $misPropiedadesIds)->count();
+        $pendientesSolicitudes = Solicitud::whereIn('propiedad_id', $misPropiedadesIds)
+            ->where('estatus', 'Pendiente')
+            ->count();
+
+        // 4. RESEÑAS DE PROPIEDADES (Review)
+        $totalReviews = Review::whereIn('propiedad_id', $misPropiedadesIds)->count();
+        $nuevasReviews = Review::whereIn('propiedad_id', $misPropiedadesIds)
+            ->where('created_at', '>=', now()->subDays(30))
+            ->count();
+
+        return view('propietario.index', compact(
+            'propiedades',
+            'user',
+            'totalPagos',
+            'pagosMes',
+            'totalSolicitudes',
+            'pendientesSolicitudes',
+            'totalReviews',
+            'nuevasReviews'
+        ));
     }
 
     public function create()
