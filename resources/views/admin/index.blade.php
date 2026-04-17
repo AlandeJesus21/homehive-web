@@ -1,6 +1,5 @@
-<x-admin.layout>
+<x-layout>
 
-    <!-- 🔶 HERO -->
     <section class="hero-admin">
         <div class="container hero-content text-white">
             <div class="row">
@@ -18,7 +17,6 @@
         </div>
     </section>
 
-    <!-- 🔷 CARDS -->
     <div class="container admin-stats">
         <div class="row">
 
@@ -77,4 +75,4 @@
         </div>
     </div>
 
-</x-admin.layout>
+</x-layout>

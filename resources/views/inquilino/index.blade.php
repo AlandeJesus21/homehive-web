@@ -1,236 +1,355 @@
-<x-inquilino.layout>
+<x-layout>
+    <section class="py-5 text-center">
+        <div class="container">
+            <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-    <main class="container-fluid">
-
-        <h2 class="fw-bold mb-4 text-center " style="margin-top:30px">
-            Donde cada estancia se siente como hogar
-        </h2>
-
-
-        <div class="container mt-5">
-            <form action="{{ route('buscar') }}" method="GET">
+            <form method="GET" action="{{ route('busqueda') }}">
                 <div class="d-flex justify-content-center">
-                    <div class="search bg-white shadow d-flex flex-column flex-md-row align-items-stretch align-items-md-center px-3 py-2 w-100 rounded-pill"
-                        style="max-width: 900px;">
+                    <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2">
 
-                        <div class="flex-grow-1 px-3 dropdown">
-                            <div class="c-pointer py-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-geo-alt-fill me-3"></i>
-                                {{-- <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="16" height="16" fill="currentColor" class="bi bi-geo-alt"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
-                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                                </svg> --}}
-                                Zona
+                        <div class="filter-item dropdown">
+                            <div data-bs-toggle="dropdown" 
+                                 class="filter-btn" 
+                                 id="zona_btn" 
+                                 title="Seleccionar ubicación o barrio">
+                                <i class="bi bi-geo-alt"></i> Zona
                             </div>
-                            <ul class="dropdown-menu shadow border-0 rounded-4 p-3" style="min-width: 200px;">
-                                <li>
-                                    <h6 class="dropdown-header">Selecciona un barrio</h6>
-                                </li>
-                                @foreach ($barrio as $barrios)
-                                <li>
-                                    <div class="form-check m-2">
-                                        <input class="form-check-input" type="checkbox" name="barrios[]"
-                                            value="{{ $barrios->nombre }}" id="b-{{ $barrios->id }}">
-                                        <label class="form-check-label"
-                                            for="b-{{ $barrios->id }}">{{ $barrios->nombre }}</label>
+
+                            <div class="dropdown-menu p-3 rounded-4 shadow">
+                                @foreach ($barrios as $barrio)
+                                    <div class="form-check">
+                                        <input class="form-check-input" 
+                                               type="radio" 
+                                               name="barrio_id" 
+                                               value="{{ $barrio->id }}" 
+                                               id="barrio-{{ $barrio->id }}" 
+                                               title="Filtrar por {{ $barrio->nombre }}"
+                                               {{ request('barrio_id') == $barrio->id ? 'checked' : '' }} 
+                                               onchange="this.form.submit()">
+                                        <label class="form-check-label" for="barrio-{{ $barrio->id }}">
+                                            {{ $barrio->nombre }}
+                                        </label>
                                     </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="vr d-none d-md-block"></div>
-
-                        <div class="flex-grow-1 px-3 dropdown">
-                            <div class="c-pointer py-2" data-bs-toggle="dropdown">
-                                <i class="bi bi-house-fill me-3"></i> {{-- <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="16" height="16" fill="currentColor" class="bi bi-house"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
-                                </svg>--}}Tipo
-                            </div>
-                            <ul class="dropdown-menu shadow border-0 rounded-4 p-2">
-                                <li><button class="dropdown-item" type="button" onclick="setTipo('Casa')">Casa</button>
-                                </li>
-                                <li><button class="dropdown-item" type="button"
-                                        onclick="setTipo('Departamento')">Departamento</button></li>
-                                <li><button class="dropdown-item" type="button"
-                                        onclick="setTipo('Cuarto')">Cuarto</button></li>
-                                <input type="hidden" name="tipo" id="tipo_hidden">
-                            </ul>
-                        </div>
-
-                        <div class="vr d-none d-md-block"></div>
-
-                        <div class="flex-grow-1 px-3 dropdown">
-                            <div class="c-pointer py-2" data-bs-toggle="dropdown">
-                                <i class="bi bi-coin"></i>
-                                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-coin me-3" viewBox="0 0 16 16">
-                                    <path
-                                        d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                    <path
-                                        d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
-                                </svg> --}}
-                                Precio
-                            </div>
-                            <div class="dropdown-menu shadow border-0 rounded-4 p-4" style="min-width: 250px;">
-                                <label class="small fw-bold">Precio min:</label>
-                                <input type="number" name="min" class="form-control rounded-3 mb-2" placeholder="$">
-                                <label class="small fw-bold">Precio max:</label>
-                                <input type="number" name="max" class="form-control rounded-3" placeholder="$">
-                            </div>
-                        </div>
-
-                        <div class="vr d-none d-md-block"></div>
-
-                        <div class="flex-grow-1 px-3 dropdown">
-                            <div class="c-pointer py-2" data-bs-toggle="dropdown">
-                                <i class="bi bi-wifi me-3"></i>
-                                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                    height="16" fill="currentColor" class="bi bi-wifi" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049" />
-                                    <path
-                                        d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065m-2.183 2.183c.226-.226.185-.605-.1-.75A6.5 6.5 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.5 5.5 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091zM9.06 12.44c.196-.196.198-.52-.04-.66A2 2 0 0 0 8 11.5a2 2 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z" />
-                                </svg> --}}
-                                Servicios
-                            </div>
-                            <div class="dropdown-menu shadow border-0 rounded-4 p-3" style="min-width: 220px;">
-                                @foreach (['Agua', 'Internet', 'Gas', 'Estacionamiento'] as $servicio)
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="servicio[]"
-                                        value="{{ $servicio }}" id="{{ $servicio }}">
-                                    <label class="form-check-label" for="{{ $servicio }}">{{ $servicio }}</label>
-                                </div>
                                 @endforeach
                             </div>
                         </div>
 
-                        <div class="ps-md-3">
-                            <button type="submit" class="btn d-flex align-items-center justify-content-center"
-                                style="width: 45px; height: 45px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
-                                    class="bi bi-search" viewBox="0 0 16 16">
-                                    <path
-                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                                </svg>
-                            </button>
+                        <div class="divider"></div>
+
+                        <div class="filter-item dropdown">
+                            <div data-bs-toggle="dropdown" 
+                                 class="filter-btn" 
+                                 id="tipo_btn" 
+                                 title="Seleccionar tipo de inmueble">
+                                <i class="bi bi-house"></i> Tipo de propiedad
+                            </div>
+
+                            <div class="dropdown-menu p-3 rounded-4 shadow">
+                                @foreach (['casa','departamento','cuarto'] as $tipo)
+                                    <div class="dropdown-item" 
+                                         onclick="setTipo('{{ $tipo }}')" 
+                                         title="Mostrar solo {{ $tipo }}s">
+                                        {{ ucfirst($tipo) }}
+                                    </div>
+                                @endforeach
+                            </div>
+                            <input type="hidden" name="tipo" id="tipo_input" value="{{ request('tipo') }}">
                         </div>
+
+                        <div class="divider"></div>
+
+                        <div class="filter-item dropdown">
+                            <div data-bs-toggle="dropdown" 
+                                 class="filter-btn" 
+                                 id="precio_btn" 
+                                 title="Filtrar por rango de precio">
+                                <i class="bi bi-currency-dollar"></i> Precio
+                            </div>
+
+                            <div class="dropdown-menu p-3 rounded-4 shadow">
+                                <label>Precio min:</label>
+                                <input type="number" 
+                                       name="min" 
+                                       value="{{ request('min') }}" 
+                                       class="form-control mb-2" 
+                                       title="Ingresar precio mínimo"
+                                       oninput="updatePrecio()">
+
+                                <label>Precio max:</label>
+                                <input type="number" 
+                                       name="max" 
+                                       value="{{ request('max') }}" 
+                                       class="form-control" 
+                                       title="Ingresar precio máximo"
+                                       oninput="updatePrecio()">
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="filter-item dropdown">
+                            <div data-bs-toggle="dropdown" 
+                                 class="filter-btn" 
+                                 id="servicios_btn" 
+                                 title="Filtrar por servicios y comodidades">
+                                <i class="bi bi-wifi"></i> Servicios
+                            </div>
+
+                            <div class="dropdown-menu p-3 rounded-4 shadow" style="width:300px; max-height:300px; overflow:auto;">
+                                @php $serviciosSeleccionados = request('servicios', []); @endphp
+
+                                <p class="fw-bold mb-2">Servicios básicos</p>
+                                @foreach(['wifi' => 'WiFi / Internet', 'agua' => 'Agua', 'luz' => 'Luz', 'gas' => 'Gas', 'basura' => 'Recolección de basura'] as $value => $label)
+                                    <div class="form-check">
+                                        <input class="form-check-input servicio-check" 
+                                               type="checkbox" 
+                                               name="servicios[]" 
+                                               value="{{ $value }}" 
+                                               id="servicio-{{ $value }}" 
+                                               title="Incluir {{ $label }}"
+                                               {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
+                                               onchange="updateServicios()">
+                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                @endforeach
+
+                                <p class="fw-bold mt-3 mb-2">Comodidades</p>
+                                @foreach(['baño_privado' => 'Baño propio', 'baño_compartido' => 'Baño compartido', 'aire' => 'Aire acondicionado', 'ventilador' => 'Ventilador de techo', 'entrada_independiente' => 'Entrada independiente', 'cama' => 'Cama incluida'] as $value => $label)
+                                    <div class="form-check">
+                                        <input class="form-check-input servicio-check" 
+                                               type="checkbox" 
+                                               name="servicios[]" 
+                                               value="{{ $value }}" 
+                                               id="servicio-{{ $value }}" 
+                                               title="Incluir {{ $label }}"
+                                               {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
+                                               onchange="updateServicios()">
+                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                @endforeach
+
+                                <p class="fw-bold mt-3 mb-2">Mobiliario</p>
+                                @foreach(['escritorio' => 'Escritorio y silla', 'closet' => 'Clóset', 'frigobar' => 'Frigobar', 'parrilla' => 'Parrilla'] as $value => $label)
+                                    <div class="form-check">
+                                        <input class="form-check-input servicio-check" 
+                                               type="checkbox" 
+                                               name="servicios[]" 
+                                               value="{{ $value }}" 
+                                               id="servicio-{{ $value }}" 
+                                               title="Incluir {{ $label }}"
+                                               {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
+                                               onchange="updateServicios()">
+                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                @endforeach
+
+                                <p class="fw-bold mt-3 mb-2">Áreas comunes</p>
+                                @foreach(['cocina' => 'Cocina compartida', 'cocina_propia' => 'Cocina propia', 'lavado' => 'Área de lavado', 'estacionamiento' => 'Estacionamiento', 'camaras' => 'Cámaras de seguridad', 'limpieza' => 'Limpieza de áreas comunes'] as $value => $label)
+                                    <div class="form-check">
+                                        <input class="form-check-input servicio-check" 
+                                               type="checkbox" 
+                                               name="servicios[]" 
+                                               value="{{ $value }}" 
+                                               id="servicio-{{ $value }}" 
+                                               title="Incluir {{ $label }}"
+                                               {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
+                                               onchange="updateServicios()">
+                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <button class="search-btn" title="Ejecutar búsqueda">
+                            <i class="search_btn"><img src="{{ asset('images/busqueda.png') }}" width="20" height="20" alt="Buscar"></i>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
+    </section>
 
+    <div class="d-md-none d-flex justify-content-end px-3">
+        <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center shadow" 
+                style="width: 45px; height: 45px;" 
+                data-bs-toggle="modal" 
+                data-bs-target="#filtroModal" 
+                title="Abrir filtros avanzados">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="4" y1="6" x2="20" y2="6" /><circle cx="10" cy="6" r="2" />
+                <line x1="4" y1="12" x2="20" y2="12" /><circle cx="14" cy="12" r="2" />
+                <line x1="4" y1="18" x2="20" y2="18" /><circle cx="8" cy="18" r="2" />
+            </svg>
+        </button>
+    </div>
 
+    <div class="container py-5">
+        @php $isBusqueda = request()->hasAny(['barrio_id','tipo','min','max','servicios']); @endphp
 
-        <div class="container-fluid py-4 ">
-            @php
-            // Se agrupa las propiedades por tipo (ej: 'Casa', 'Departamento')
-            $agrupados = $propiedades->groupBy('tipo');
-            @endphp
-            @foreach ($agrupados as $tipo => $items)
-            <div class="position-relative mb-5">
-                <h4 class="ps-4 fw-bold text-muted mb-4 text-capitalize">{{ $tipo }}s</h4>
-
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-light rounded-circle shadow-sm position-absolute start-0 ms-2 z-3"
-                        onclick="scrollCarrusel('carrusel-{{ $tipo }}', -300)" style="width: 40px; height: 40px;">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-
-                    <div id="carrusel-{{ $tipo }}" class="carrusel-horizontal px-4">
-                        @foreach ($items as $propiedad)
-                        <div class="card-propiedad shadow-lg border-0 bg-white mb-3">
-                            <div class="p-2">
-                                @if ($propiedad->imagenes->count() > 0)
-                                <img src="{{ asset('storage/' . $propiedad->imagenes->first()->ruta) }}"
-                                    class="img-fluid rounded-4" style="height: 180px; width: 100%; object-fit: cover;">
-                                @else
-                                <div class="bg-light rounded-4 d-flex align-items-center justify-content-center"
-                                    style="height: 180px;">
-                                    <small>Sin foto</small>
-                                </div>
-                                @endif
-                            </div>
-
-                            <div class="card-body px-4 pb-4 pt-0">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="fw-bold fs-4 text-dark">
-                                        ${{ number_format($propiedad->precio) }}
-                                    </span>
-
-                                    @auth
-                                    <form action="{{ route('misfavoritos', $propiedad->id) }}" method="POST"
-                                        class="m-0">
-                                        @csrf
-                                        <button type="submit" class="btn p-0 border-0 shadow-none">
-                                            @if (auth()->user()->favoritos->contains($propiedad->id))
-                                            <i class="bi bi-bookmark-fill text-dark" style="font-size: 1.2rem;"></i>
-                                            @else
-                                            <i class="bi bi-bookmark text-secondary" style="font-size: 1.2rem;"></i>
-                                            @endif
-                                        </button>
-                                    </form>
-                                    @else
-                                    {{-- Enlace al login para usuarios no autenticados --}}
-                                    <a href="{{ route('login') }}" class="text-secondary">
-                                        <i class="bi bi-bookmark" style="font-size: 1.2rem;"></i>
-                                    </a>
-                                    @endauth
-                                </div>
-                                <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">
-                                    {{ $propiedad->titulo }}
-                                </h5>
-
-                                <p class="text-muted mb-4" style="font-size: 0.95rem; font-weight: 400;">
-                                    {{ $propiedad->calle ?? 'Ubicación no disponible' }}
-                                </p>
-
-                                <div class="text-center">
-                                    <a href="{{ route('vermas', $propiedad->id) }}"
-                                        class="btn btn-primary w-75 py-2 shadow-sm text-white"
-                                        style="border: none; border-radius: 12px; font-weight: 500; background-color: #2b448c;">
-                                        Ver mas
-                                    </a>
-                                </div>
-                            </div>
+        @if ($cuartos->isNotEmpty())
+            <h3 class="mb-4">Cuartos</h3>
+            @if(!$isBusqueda)
+                <div class="position-relative">
+                    <button id="left-cuartos" class="btn btn-light shadow rounded-circle position-absolute top-50 start-0 translate-middle-y z-2" title="Desplazar a la izquierda">‹</button>
+                    <div class="carousel-container">
+                        <div id="cuartos" class="d-flex overflow-auto gap-4 w-100">
+                            @foreach ($cuartos as $cuarto)
+                                <x-card-propiedad :propiedad="$cuarto" />
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
-
-                    <button class="btn btn-light rounded-circle shadow-sm position-absolute end-0 me-2 z-3"
-                        onclick="scrollCarrusel('carrusel-{{ $tipo }}', 300)" style="width: 40px; height: 40px;">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
+                    <button id="right-cuartos" class="btn btn-light shadow rounded-circle position-absolute top-50 end-0 translate-middle-y z-2" title="Desplazar a la derecha">›</button>
                 </div>
+            @else
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    @foreach ($cuartos as $cuarto)
+                        <div class="col"><x-card-propiedad :propiedad="$cuarto" /></div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
+
+        @if ($casas->isNotEmpty())
+            <h3 class="mt-5 mb-4">Casas</h3>
+            @if(!$isBusqueda)
+                <div class="position-relative">
+                    <button id="left-casas" class="btn btn-light shadow rounded-circle position-absolute top-50 start-0 translate-middle-y z-2" title="Desplazar a la izquierda">‹</button>
+                    <div class="carousel-container">
+                        <div id="casas" class="d-flex overflow-auto gap-4 w-100">
+                            @foreach ($casas as $casa)
+                                <x-card-propiedad :propiedad="$casa" />
+                            @endforeach
+                        </div>
+                    </div>
+                    <button id="right-casas" class="btn btn-light shadow rounded-circle position-absolute top-50 end-0 translate-middle-y z-2" title="Desplazar a la derecha">›</button>
+                </div>
+            @else
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    @foreach ($casas as $casa)
+                        <div class="col"><x-card-propiedad :propiedad="$casa" /></div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
+
+        @if ($departamentos->isNotEmpty())
+            <h3 class="mt-5 mb-4">Departamentos</h3>
+            @if(!$isBusqueda)
+                <div class="position-relative">
+                    <button id="left-departamentos" class="btn btn-light shadow rounded-circle position-absolute top-50 start-0 translate-middle-y z-2" title="Desplazar a la izquierda">‹</button>
+                    <div class="carousel-container">
+                        <div id="departamentos" class="d-flex overflow-auto gap-4 w-100">
+                            @foreach ($departamentos as $departamento)
+                                <x-card-propiedad :propiedad="$departamento" />
+                            @endforeach
+                        </div>
+                    </div>
+                    <button id="right-departamentos" class="btn btn-light shadow rounded-circle position-absolute top-50 end-0 translate-middle-y z-2" title="Desplazar a la derecha">›</button>
+                </div>
+            @else
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    @foreach ($departamentos as $departamento)
+                        <div class="col"><x-card-propiedad :propiedad="$departamento" /></div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
+    </div>
+
+    <div class="modal fade" id="filtroModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filtros</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" title="Cerrar filtros"></button>
+                </div>
+                <form method="GET" action="{{ route('busqueda') }}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Zona</label>
+                            <select name="barrio_id" class="form-select" title="Seleccionar zona de búsqueda">
+                                <option value="">Seleccionar</option>
+                                @foreach ($barrios as $barrio)
+                                    <option value="{{ $barrio->id }}" {{ request('barrio_id') == $barrio->id ? 'selected' : '' }}>
+                                        {{ $barrio->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Tipo</label>
+                            <select name="tipo" class="form-select" title="Seleccionar tipo de inmueble">
+                                <option value="">Tipo de propiedad</option>
+                                <option value="casa" {{ request('tipo') == 'casa' ? 'selected' : '' }}>Casa</option>
+                                <option value="departamento" {{ request('tipo') == 'departamento' ? 'selected' : '' }}>Departamento</option>
+                                <option value="cuarto" {{ request('tipo') == 'cuarto' ? 'selected' : '' }}>Cuarto</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Precio máximo</label>
+                            <input type="number" name="max" value="{{ request('max') }}" class="form-control" title="Ingresar límite de precio">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary w-100" title="Aplicar criterios de búsqueda">Aplicar filtros</button>
+                    </div>
+                </form>
             </div>
-            @endforeach
         </div>
-        {{-- <script>
-            function scrollCarrusel(id, distance) {
-                const contenedor = document.getElementById(id);
-                contenedor.scrollBy({
-                    left: distance,
-                    behavior: 'smooth'
-                });
+    </div>
+
+    <script>
+        function initCarousel(id) {
+            const container = document.getElementById(id);
+            if (!container) return;
+            const leftBtn = document.getElementById('left-' + id);
+            const rightBtn = document.getElementById('right-' + id);
+            if (!leftBtn || !rightBtn) return;
+
+            function updateButtons() {
+                const scrollLeft = container.scrollLeft;
+                const maxScroll = container.scrollWidth - container.clientWidth;
+                leftBtn.style.display = scrollLeft <= 0 ? 'none' : 'block';
+                rightBtn.style.display = scrollLeft >= maxScroll - 5 ? 'none' : 'block';
             }
-        </script> --}}
 
-        <script>
-        function scrollCarrusel(id, distance) {
-            document.getElementById(id).scrollBy({
-                left: distance,
-                behavior: 'smooth'
-            });
+            rightBtn.addEventListener('click', () => container.scrollBy({ left: 300, behavior: 'smooth' }));
+            leftBtn.addEventListener('click', () => container.scrollBy({ left: -300, behavior: 'smooth' }));
+            container.addEventListener('scroll', updateButtons);
+            updateButtons();
         }
-        </script>
 
-    </main>
+        initCarousel('cuartos');
+        initCarousel('casas');
+        initCarousel('departamentos');
 
-</x-inquilino.layout>
+        function setTipo(tipo) {
+            document.getElementById('tipo_input').value = tipo;
+            document.querySelector('form').submit();
+        }
+
+        function updatePrecio() {
+            let min = document.querySelector('input[name="min"]').value;
+            let max = document.querySelector('input[name="max"]').value;
+            document.getElementById('precio_btn').innerHTML = (min || max) 
+                ? `<i class="bi bi-currency-dollar"></i> $${min || 0} - $${max || '∞'}`
+                : `<i class="bi bi-currency-dollar"></i> Precio`;
+        }
+
+        function updateServicios() {
+            let checks = document.querySelectorAll('.servicio-check:checked');
+            let nombres = Array.from(checks).map(c => c.nextElementSibling.innerText);
+            let texto = nombres.length > 0 ? nombres.slice(0, 2).join(', ') + (nombres.length > 2 ? '...' : '') : 'Servicios';
+            document.getElementById('servicios_btn').innerHTML = `<i class="bi bi-wifi"></i> ${texto}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let zonaText = "{{ optional($barrios->firstWhere('id', request('barrio_id')))->nombre ?? '' }}";
+            if (zonaText !== "") document.getElementById('zona_btn').innerHTML = `<i class="bi bi-geo-alt"></i> ${zonaText}`;
+            let tipo = "{{ request('tipo') }}";
+            if (tipo) document.getElementById('tipo_btn').innerHTML = `<i class="bi bi-house"></i> ${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`;
+            updatePrecio();
+            updateServicios();
+        });
+    </script>
+</x-layout>

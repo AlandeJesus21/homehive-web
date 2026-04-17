@@ -3,7 +3,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
-            <h4 class="fw-bold">Listado de propiedades</h4>
+            <h4 class="fw-bold m-0 border-bottom border-secondary border-2 pb-1">Listado de propiedades</h4>
 
             <form method="GET" action="{{ route('propiedades.search') }}"
                 class="d-flex gap-2 flex-wrap align-items-end">

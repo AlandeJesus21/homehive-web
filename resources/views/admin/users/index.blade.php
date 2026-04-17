@@ -5,7 +5,7 @@
 
         <!-- HEADER -->
         <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3 class="fw-bold m-0" style="color:#1A1A1A;">Listado de Usuarios</h3>
+            <h3 class="fw-bold m-0 border-bottom border-secondary border-2 pb-1">Listado de Usuarios</h3>
 
             <!-- FILTRO -->
             <form method="GET" action="{{ route('users.search') }}"
