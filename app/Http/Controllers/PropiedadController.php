@@ -227,6 +227,12 @@ public function update(Request $request, $id)
     {
         $query = Propiedad::with('imagenes');
 
+        $query->whereDoesntHave('solicitudes', function ($q) {
+            $q->where('estatus', 'Aceptado');
+        })->whereDoesntHave('pagos', function ($q) {
+            $q->where('status', 'pagado');
+        });
+
         if ($request->filled('barrios')) {
             $query->whereIn('barrio', $request->barrios);
         }

@@ -31,7 +31,7 @@ class PagoConfirmadoNotification extends Notification
 
         return (new MailMessage)
             ->subject('Confirmación de Pago - HomeHive')
-            ->view('emails.pago', [ // El nuevo nombre que pusimos
+            ->view('emails.pago', [
                 'user' => $notifiable,
                 'pago' => $this->pago,
                 'mensaje_personalizado' => $msj,

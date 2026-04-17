@@ -9,7 +9,7 @@
 
 <body style="font-family: Arial; text-align:center; padding:40px;">
 
-    <img src="http://82.25.91.145/images/Logo2.png" width="120" style="margin-bottom:20px;">
+    <img src="https://homehive.site/images/Logo2.png" width="120" style="margin-bottom:20px;">
 
     <h2>Hola {{ $user->name }}</h2>
 

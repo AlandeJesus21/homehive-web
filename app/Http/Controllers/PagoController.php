@@ -53,9 +53,8 @@ class PagoController extends Controller
         );
     }
 
-    public function descargarRecibo($id)
+    public function descargarRecibo($id, Request $request)
     {
-        // Buscamos el pago asegurando que el usuario logueado sea el inquilino o el arrendador
         $pago = Pago::with(['propiedad', 'inquilino', 'arrendador'])
                     ->where('id', $id)
                     ->where('status', 'pagado')
@@ -65,8 +64,11 @@ class PagoController extends Controller
                     })
                     ->firstOrFail();
 
-        $pdf = Pdf::loadView('pdf.recibo', compact('pago'));
-        
-       return $pdf->stream('recibo-pago-'.$pago->id.'.pdf');
+        if ($request->has('download')) {
+            $pdf = Pdf::loadView('pdf.recibo', compact('pago'));
+            return $pdf->download('recibo-pago-'.$pago->id.'.pdf');
+        }
+
+        return view('pdf.recibo', compact('pago'));
     }
 }

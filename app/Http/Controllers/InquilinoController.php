@@ -14,6 +14,7 @@ class InquilinoController extends Controller {
 
 
     public function index(){
+        return "ESTOY EDITANDO EL ARCHIVO CORRECTO";
         $propiedades=Propiedad::all();
         return view('inquilino.index',['propiedades' => $propiedades]);
     }

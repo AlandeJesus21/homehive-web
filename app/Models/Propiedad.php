@@ -47,4 +47,14 @@ protected $fillable = [
     
     return $this->belongsTo(Barrio::class, 'barrio_id'); 
 }
+
+    public function solicitudes()
+    {
+        return $this->hasMany(Solicitud::class, 'propiedad_id');
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'propiedad_id');
+    }
 }

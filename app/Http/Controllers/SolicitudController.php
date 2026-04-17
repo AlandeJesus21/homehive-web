@@ -15,11 +15,9 @@ class SolicitudController extends Controller
     {
         $query = Solicitud::with(['propiedad', 'aspirante'])
             ->whereHas('propiedad', function ($q) {
-                // Filtramos solicitudes cuyas casas pertenecen al dueño logueado
                 $q->where('user_id', Auth::id()); 
             });
 
-        // Filtros de fecha
         if ($request->filled('desde')) {
             $query->whereDate('created_at', '>=', $request->desde);
         }
@@ -34,25 +32,19 @@ class SolicitudController extends Controller
 
     public function verDetalle($id)
     {
-        // Buscamos la solicitud asegurándonos que traiga la propiedad y el aspirante
         $solicitud = Solicitud::with(['propiedad', 'aspirante'])->findOrFail($id);
 
-        // Retornamos la vista que está en resources/views/propietario/solicitudes/show.blade.php
         return view('propietario.solicitudes.show', compact('solicitud'));
     }
 
     public function aceptar($id)
     {
-        // 1. Buscamos la solicitud
         $solicitud = Solicitud::findOrFail($id);
 
-        // 2. Buscamos la propiedad real usando el ID que guardamos en la tabla
         $propiedadReal = Propiedad::findOrFail($solicitud->propiedad_id);
 
-        // 3. Actualizamos la solicitud
         $solicitud->update(['estatus' => 'Aceptado']);
 
-        // 4. Creamos el pago (usamos $propiedadReal->user_id para obtener el ID del dueño)
         Pago::create([
             'propiedad_id'  => $solicitud->propiedad_id,
             'user_id'       => $solicitud->user_id,             // Inquilino
@@ -149,12 +141,10 @@ class SolicitudController extends Controller
     {
         $solicitud = Solicitud::findOrFail($id);
 
-        // Seguridad 1: Solo el dueño de la solicitud puede cancelarla
         if ($solicitud->user_id !== auth()->id()) {
             return redirect()->back()->with('error', 'No tienes permiso para realizar esta acción.');
         }
 
-        // Seguridad 2: SI YA ESTÁ ACEPTADA, NO SE PUEDE BORRAR
         if ($solicitud->estatus === 'Aceptado') {
             return redirect()->back()->with('error', 'No puedes cancelar una solicitud que ya ha sido aceptada.');
         }
