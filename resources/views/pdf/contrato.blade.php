@@ -46,11 +46,17 @@
 
     <span class="clausula-titulo">TERCERA: REGLAS DE LA PROPIEDAD</span>
     <p>El Arrendatario se compromete a respetar y cumplir las siguientes normativas establecidas por el Arrendador:</p>
-    <p style="white-space: pre-line;">{{ $pago->propiedad->reglas }}</p>
+    <p style="white-space: pre-line;">{{ $pago->propiedad->reglas ?? 'Sin reglas adicionales especificadas.' }}</p>
 
     <span class="clausula-titulo">CUARTA: PAGO Y VERIFICACIÓN</span>
     <p>El precio de la renta se pacta en <span class="dato">${{ number_format($pago->monto, 2) }} MXN</span>. Se hace constar que el pago ha sido <span class="dato">CONFIRMADO Y VERIFICADO</span>. Dicha transacción se realizó mediante la modalidad de <b>{{ $pago->forma_pago }}</b> utilizando el puente tecnológico de pagos seguros <b>Stripe</b>, bajo el ID de seguimiento: <small>{{ $pago->stripe_id }}</small>.</p>
 
+    <span class="clausula-titulo">QUINTA: VIGENCIA Y PLAZO DE GRACIA</span>
+    <p>El presente periodo de arrendamiento comprende desde el día <span class="dato">{{ $pago->fecha_inicio->format('d/m/Y') }}</span> hasta el día <span class="dato">{{ $pago->fecha_fin->format('d/m/Y') }}</span>.</p>
+    
+    <p>Se establece que, al cumplirse la fecha de vencimiento (<b>{{ $pago->fecha_fin->format('d/m/Y') }}</b>), el sistema cambiará automáticamente el estatus de la renta a <span class="dato">"PENDIENTE"</span>. A partir de dicho cambio, el Arrendatario dispondrá de un <b>plazo máximo de 3 días naturales</b> (periodo de gracia) para realizar el pago correspondiente a la siguiente mensualidad.</p>
+
+    <p>De no verificarse el pago dentro de este plazo adicional, el Arrendador queda facultado para dar por terminado el contrato de forma inmediata y solicitar la desocupación del inmueble por incumplimiento de pago.</p>
     <div class="validez-nota">
         <strong>AVISO DE VALIDEZ:</strong> Este documento digital constituye una constancia de los acuerdos pactados en HomeHive. No obstante, para su plena validez legal y ejecución ante las autoridades competentes, <strong>el presente contrato deberá ser firmado de puño y letra por ambas partes</strong> en las secciones correspondientes al calce.
     </div>
