@@ -124,13 +124,11 @@ class AdminController extends Controller {
 
             if (file_exists($path) && filesize($path) > 0) {
                 
-                // 1. Limpiar cualquier residuo de salida
                 if (ob_get_level()) ob_end_clean();
 
-                // 2. Respuesta tipo Stream (La más compatible con Ubuntu/Nginx)
                 return response()->streamDownload(function () use ($path) {
                     echo file_get_contents($path);
-                    unlink($path); // Borramos después de enviar el contenido
+                    unlink($path);
                 }, $filename, [
                     'Content-Type' => 'application/sql',
                     'Content-Disposition' => 'attachment; filename="'.$filename.'"'
