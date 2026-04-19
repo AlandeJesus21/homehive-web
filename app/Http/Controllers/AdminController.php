@@ -8,6 +8,8 @@ use App\Models\Review;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Process;
 
 class AdminController extends Controller {
 
@@ -92,6 +94,51 @@ class AdminController extends Controller {
         return view('admin.users.index', compact('users'));
     }
 
+    public function backupDatabase()
+    {
+        $dbConfig = Config::get('database.connections.mysql');
+        $filename = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
+        $path = storage_path("app/{$filename}");
+        
+        $authFile = storage_path("app/db_auth.cnf");
+        $authContent = "[client]\nuser=\"{$dbConfig['username']}\"\npassword=\"{$dbConfig['password']}\"\nhost=\"{$dbConfig['host']}\"";
+        file_put_contents($authFile, $authContent);
+
+        try {
+            set_time_limit(300);
+
+            // Detectamos si es Windows para aplicar ajustes específicos
+            $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+            $extraParams = $isWindows ? '--column-statistics=0 ' : '';
+
+            $command = sprintf(
+                'mysqldump --defaults-extra-file="%s" %s--set-gtid-purged=OFF --single-transaction %s > "%s" 2>&1',
+                $authFile,
+                $extraParams,
+                $dbConfig['database'],
+                $path
+            );
+
+            system($command);
+
+            if (file_exists($authFile)) unlink($authFile);
+
+            if (file_exists($path) && filesize($path) > 0) {
+                $content = file_get_contents($path);
+                if (str_contains(strtolower($content), 'error')) {
+                    return back()->with('error', 'Error: ' . $content);
+                }
+
+                return response()->download($path)->deleteFileAfterSend(true);
+            }
+
+            return back()->with('error', 'No se pudo generar el backup.');
+
+        } catch (\Exception $e) {
+            if (file_exists($authFile)) unlink($authFile);
+            return back()->with('error', 'Excepción: ' . $e->getMessage());
+        }
+    }
     
 }
 

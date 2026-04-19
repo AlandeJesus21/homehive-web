@@ -232,6 +232,8 @@ Route::middleware(['auth','role:admin', 'verified', 'nocache'])->group(function 
 
     Route::get('/reportepropiedades', [PdfController::class, 'ReporProp']);
 
+    Route::get('/admin/backup', [AdminController::class, 'backupDatabase'])->name('admin.backup');
+
 
 });
 
