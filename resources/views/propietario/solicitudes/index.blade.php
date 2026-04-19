@@ -31,55 +31,59 @@
 
             <div style="background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); margin-top: 120px;">
                 
-                <div style="background: #D7DCF3; border-radius: 8px; display: flex; align-items: center; padding: 15px 25px; margin-bottom: 20px;">
-                    <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Propiedad</div>
-                    <div style="width: 20%; font-weight: 700; color: #000; font-size: 16px;">Aspirante</div>
-                    <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Fecha de solicitud</div>
-                    <div style="width: 15%; font-weight: 700; color: #000; font-size: 16px;">Estatus</div>
-                    <div style="width: 15%; font-weight: 700; color: #000; font-size: 16px; text-align: center;">Acciones</div>
+                <div class="table-responsive">
+                    <div style="min-width: 950px;">
+                        <div style="background: #D7DCF3; border-radius: 8px; display: flex; align-items: center; padding: 15px 25px; margin-bottom: 20px;">
+                            <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Propiedad</div>
+                            <div style="width: 20%; font-weight: 700; color: #000; font-size: 16px;">Aspirante</div>
+                            <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Fecha de solicitud</div>
+                            <div style="width: 15%; font-weight: 700; color: #000; font-size: 16px;">Estatus</div>
+                            <div style="width: 15%; font-weight: 700; color: #000; font-size: 16px; text-align: center;">Acciones</div>
+                        </div>
+
+                        @forelse ($solicitudes as $solicitud)
+                            <div style="display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #99A1B7;">
+                                
+                                <div style="width: 25%; color: #000; font-size: 15px;">
+                                    {{ $solicitud->propiedad }} 
+                                </div>
+
+                                <div style="width: 20%; color: #000; font-size: 15px;">
+                                    {{ $solicitud->aspirante->name ?? 'Usuario desconocido' }}
+                                </div>
+
+                                <div style="width: 25%; color: #000; font-size: 15px;">
+                                    {{ $solicitud->created_at ? $solicitud->created_at->format('d \d\e M Y, h:i a') : 'N/A' }}
+                                </div>
+
+                                <div style="width: 15%;">
+                                    @php
+                                        $color = match($solicitud->estatus) {
+                                            'Pendiente' => '#FBBF24',
+                                            'Aceptado', 'Aceptada' => '#059669',
+                                            'Rechazado', 'Rechazada' => '#DC2626',
+                                            default => '#6B7280'
+                                        };
+                                    @endphp
+                                    <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
+                                        {{ $solicitud->estatus }}
+                                    </span>
+                                </div>
+
+                                <div style="width: 15%; text-align: center;">
+                                    <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" 
+                                    style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                                        Ver solicitud
+                                    </a>
+                                </div>
+                            </div>
+                        @empty
+                            <div style="padding: 40px; text-align: center; color: #6B7280;">
+                                No se encontraron solicitudes.
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
-
-                @forelse ($solicitudes as $solicitud)
-                    <div style="display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #99A1B7;">
-                        
-                        <div style="width: 25%; color: #000; font-size: 15px;">
-                            {{ $solicitud->propiedad }} 
-                        </div>
-
-                        <div style="width: 20%; color: #000; font-size: 15px;">
-                            {{ $solicitud->aspirante->name ?? 'Usuario desconocido' }}
-                        </div>
-
-                        <div style="width: 25%; color: #000; font-size: 15px;">
-                            {{ $solicitud->created_at ? $solicitud->created_at->format('d \d\e M Y, h:i a') : 'N/A' }}
-                        </div>
-
-                        <div style="width: 15%;">
-                            @php
-                                $color = match($solicitud->estatus) {
-                                    'Pendiente' => '#FBBF24',
-                                    'Aceptado', 'Aceptada' => '#059669',
-                                    'Rechazado', 'Rechazada' => '#DC2626',
-                                    default => '#6B7280'
-                                };
-                            @endphp
-                            <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
-                                {{ $solicitud->estatus }}
-                            </span>
-                        </div>
-
-                        <div style="width: 15%; text-align: center;">
-                            <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" 
-                            style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
-                                Ver solicitud
-                            </a>
-                        </div>
-                    </div>
-                @empty
-                    <div style="padding: 40px; text-align: center; color: #6B7280;">
-                        No se encontraron solicitudes.
-                    </div>
-                @endforelse
 
                 <div class="mt-4">
                     {{ $solicitudes->links() }}

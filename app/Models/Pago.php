@@ -22,17 +22,12 @@ class Pago extends Model
         'status'
     ];
 
-    /**
-     * Casting de atributos.
-     * Esto convierte las columnas de la DB en objetos Carbon automáticamente.
-     */
     protected $casts = [
         'fecha_inicio' => 'datetime',
         'fecha_fin'    => 'datetime',
         'monto'        => 'decimal:2'
     ];
 
-    // --- Relaciones ---
 
     public function propiedad()
     {
