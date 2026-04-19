@@ -69,7 +69,7 @@
 
         <!-- BOTÓN -->
         <div class="text-center mt-4 mb-5">
-            <a href="#" class="btn btn-success px-4">
+            <a href="{{ route('admin.backup') }}" class="btn btn-success px-4">
                 <i class="bi bi-download"></i> Respaldar base de datos
             </a>
         </div>
