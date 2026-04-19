@@ -7,20 +7,29 @@ use App\Models\Pago;
 
 class ActualizarPagosVencidos extends Command
 {
-    // Este es el nombre con el que podrías llamarlo manualmente
     protected $signature = 'pagos:verificar-vencimiento';
     protected $description = 'Vuelve a poner en pendiente los pagos cuya fecha_fin ya pasó';
 
     public function handle()
     {
-        $pagosActualizados = Pago::where('status', 'pagado')
-            ->where('fecha_fin', '<', now())
-            ->update(['status' => 'pendiente']);
+        $vencieronHoy = Pago::where('status', 'pagado')
+                            ->where('fecha_fin', '<', now())
+                            ->update(['status' => 'pendiente']);
 
-        if ($pagosActualizados > 0) {
-            $this->info("Se actualizaron {$pagosActualizados} pagos vencidos.");
-        } else {
-            $this->info("No hay pagos vencidos por actualizar.");
+        $limiteGracia = now()->subDays(3);
+        
+        $pagosParaEliminar = Pago::where('status', 'pendiente')
+                                ->where('fecha_fin', '<', $limiteGracia)
+                                ->get();
+
+        foreach ($pagosParaEliminar as $pago) {
+            \App\Models\Solicitud::where('propiedad_id', $pago->propiedad_id)
+                                ->where('user_id', $pago->user_id)
+                                ->delete();
+
+            $pago->delete();
         }
+
+        $this->info("Proceso completado: Se actualizaron {$vencieronHoy} pagos y se eliminaron " . $pagosParaEliminar->count() . " registros fuera de gracia.");
     }
 }
