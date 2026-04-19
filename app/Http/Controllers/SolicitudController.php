@@ -69,26 +69,16 @@ class SolicitudController extends Controller
 
     public function historial(Request $request)
     {
-        // $query = Solicitud::with(['propiedad', 'aspirante'])
-        //     ->whereHas('propiedad', function ($q) {
-        //         $q->where('user_id', Auth::id()); // Solo solicitudes de mis propiedades
-        //     });
+        $query = Solicitud::where('user_id', Auth::id())->with('propiedad');
 
-        // // Filtro: fecha desde
-        // if ($request->filled('desde')) {
-        //     $query->whereDate('created_at', '>=', $request->desde);
-        // }
+        if ($request->filled('desde')) {
+            $query->whereDate('created_at', '>=', $request->desde);
+        }
+        if ($request->filled('hasta')) {
+            $query->whereDate('created_at', '<=', $request->hasta);
+        }
 
-        // // Filtro: fecha hasta
-        // if ($request->filled('hasta')) {
-        //     $query->whereDate('created_at', '<=', $request->hasta);
-        // }
-
-        // $solicitudes = $query->orderBy('created_at', 'desc')
-        //                      ->paginate(10)
-        //                      ->withQueryString();
-         $solicitudes = Solicitud::latest()->get();
-
+        $solicitudes = $query->latest()->get();
 
         return view('inquilino.solicitudes', compact('solicitudes'));
     }
