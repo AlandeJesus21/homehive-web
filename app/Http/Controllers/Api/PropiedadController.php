@@ -55,43 +55,50 @@ class PropiedadController extends Controller
         return response()->json(['data' => $prop,'status' => 200], 200);
     }
 
-    public function update(Request $request, $id) {
-        $prop = Propiedad::with('barrio')->find($id);
+    public function update(Request $request, $id)
+    {
+        $prop = Propiedad::find($id);
 
-        if(!$prop) {
-            return response()->json(['success' => false, 'data' => ['message' => 'No se encontro la propiedad']]);
+        if (!$prop) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró la propiedad'
+            ], 404);
         }
 
-        $validator = Validator::make( $request->all(), [
-            'titulo' => 'required',
-            'precio' => 'required',
-            'forma_pago' => 'required',
+        $validator = Validator::make($request->all(), [
+            'titulo' => 'required|string',
+            'precio' => 'required|numeric',
+            'forma_pago' => 'required|string',
             'servicio' => 'required',
-            'descripcion' => 'required',
-            'reglas' => 'required',
-            'cercanias' => 'nullable',
+            'descripcion' => 'required|string',
+            'reglas' => 'required|string',
+            'cercanias' => 'required|string', 
         ]);
 
-        if($validator->fails()){
-            return response()->json(['message' => 'Error al guardar cambios',
-             'errors' => $validator->errors(), 
-             'status'=> 400], 400);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error al guardar cambios',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ], 400);
         }
 
-        $prop->titulo = $request->titulo;
-        $prop->precio = $request->precio;
-        $prop->forma_pago = $request->forma_pago;
-        $prop->servicio = $request->servicio;
-        $prop->descripcion = $request->descripcion;
-        $prop->reglas = $request->reglas;
-        $prop->cercanias = $request->cercanias;
+        $prop->update([
+            'titulo' => $request->titulo,
+            'precio' => $request->precio,
+            'forma_pago' => $request->forma_pago,
+            'servicio' => $request->servicio, // JSON string
+            'descripcion' => $request->descripcion,
+            'reglas' => $request->reglas,
+            'cercanias' => $request->cercanias,
+        ]);
 
-        $prop->save();
-
-        return response()->json(['message' => 'Propiedad actualizada correctamente',
-         'data' => $prop, 'status' => 200 ],
-          200);
-
+        return response()->json([
+            'message' => 'Propiedad actualizada correctamente',
+            'data' => $prop,
+            'status' => 200
+        ], 200);
     }
 
     public function destroy($id) {
