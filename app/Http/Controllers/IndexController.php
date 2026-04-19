@@ -12,21 +12,27 @@ use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
-    public function index() 
+    public function index()
     {
-        $barrios = Barrio::all();
-        if(Auth::check()){
-            $cuartos = Propiedad::where('tipo', 'cuarto')->get();
-            $casas = Propiedad::where('tipo', 'casa')->get();
-            $departamentos = Propiedad::where('tipo', 'departamento')->get();    
-        }else{
-            $cuartos = Propiedad::where('tipo', 'cuarto')->get()->take(8);
-            $casas = Propiedad::where('tipo', 'casa')->get()->take(8);
-            $departamentos = Propiedad::where('tipo', 'departamento')->get()->take(8);
-        }
-        // dd($cuartos, $casas, $departamentos, $barrios);
+        $barrios = \App\Models\Barrio::all();
 
-        return view('index', compact('barrios', 'cuartos', 'casas', 'departamentos'));
+        $query = \App\Models\Propiedad::with(['imagenes', 'barrio']);
+
+        $query->whereDoesntHave('solicitudes', function ($q) {
+            $q->where('estatus', 'Aceptado');
+        });
+
+        $query->whereDoesntHave('pagos', function ($q) {
+            $q->whereIn('status', ['pagado', 'pendiente']);
+        });
+
+        $resultados = $query->get();
+
+        $cuartos = $resultados->where('tipo', 'cuarto');
+        $casas = $resultados->where('tipo', 'casa');
+        $departamentos = $resultados->where('tipo', 'departamento');
+
+        return view('inquilino.index', compact('barrios', 'cuartos', 'casas', 'departamentos'));
     }
 
     public function show($id)
