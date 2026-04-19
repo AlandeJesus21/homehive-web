@@ -15,6 +15,8 @@ Route::get('/users', [UserController::class, 'Users']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/propiedades', [PropiedadController::class, 'propiedades']);
+Route::put('/propiedades/{id}', [PropiedadController::class, 'update']);
+
 Route::middleware('auth:sanctum')->get(
     '/propiedades/user',
     [PropiedadController::class, 'getbyuser']

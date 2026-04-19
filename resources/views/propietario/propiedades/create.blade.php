@@ -190,7 +190,7 @@
 
 {{-- JS --}}
 <x-slot:scripts>
-
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -257,6 +257,7 @@ function initMap() {
 <script async defer 
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goydB0ysifys&callback=initMap">
 </script>
+@endpush
 
 </x-slot:scripts>
 
