@@ -9,28 +9,32 @@ use Illuminate\Support\Facades\Validator;
 
 class ReseñasController extends Controller
 {
-    public function view($propiedad_id = null)
-{
-    if ($propiedad_id) {
-        $reseñas = Review::with('usuario')
-            ->where('propiedad_id', $propiedad_id)
-            ->get();
-    } else {
-        $reseñas = Review::with('user')->get();
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['view']);
     }
+    public function view($propiedad_id = null)
+    {
+        if ($propiedad_id) {
+            $reseñas = Review::with('usuario')
+                ->where('propiedad_id', $propiedad_id)
+                ->get();
+        } else {
+            $reseñas = Review::with('user')->get();
+        }
 
-    if ($reseñas->isEmpty()) {
+        if ($reseñas->isEmpty()) {
+            return response()->json([
+                'message' => 'No se encontraron reseñas',
+                'data' => []
+            ], 200);
+        }
+
         return response()->json([
-            'message' => 'No se encontraron reseñas',
-            'data' => []
+            'data' => $reseñas,
+            'status' => 200
         ], 200);
     }
-
-    return response()->json([
-        'data' => $reseñas,
-        'status' => 200
-    ], 200);
-}
 
     public function pubrese(Request $request){
         $validator = Validator::make($request->all(), [
