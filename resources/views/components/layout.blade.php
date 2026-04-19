@@ -49,6 +49,9 @@
 
                     @if(Auth::user()->role == 'admin')
                         <li class="nav-item">
+                            <a class="nav-link" href="/home" title="Ir al panel principal">Inicio</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/users" title="Administrar usuarios del sistema">Usuarios</a>
                         </li>
                         <li class="nav-item">
@@ -56,9 +59,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/reviews" title="Revisar comentarios de usuarios">Comentarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/home" title="Ir al panel principal">Inicio</a>
                         </li>
                     @endif
 

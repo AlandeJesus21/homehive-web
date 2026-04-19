@@ -51,7 +51,6 @@ Route::get('/politica', function () {
 Route::get('/comentarios', [AppReviewController::class, 'main'])
 ->name('comentarios');
 
-Route::get('/propiedades/{id}', [IndexController::class, 'show'])->name('propiedades.show');
 Route::get('/busqueda', [IndexController::class, 'search'])->name('busqueda');
 
 // Mostrar aviso de verificación
@@ -173,7 +172,7 @@ Route::get('/google-auth/callback', function () {
 | RUTAS PROTEGIDAS (LOGIN)
 */
 
-Route::middleware('auth', 'verified')->group(function () {
+Route::middleware('auth', 'verified', 'nocache')->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -210,7 +209,7 @@ Route::middleware('auth', 'verified')->group(function () {
 | RUTAS ADMIN
 */
 
-Route::middleware(['auth','role:admin', 'verified'])->group(function () {
+Route::middleware(['auth','role:admin', 'verified', 'nocache'])->group(function () {
     
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -240,7 +239,7 @@ Route::middleware(['auth','role:admin', 'verified'])->group(function () {
 /*
 | RUTAS PROPIETARIO
 */
-Route::middleware(['auth', 'role:propietario', 'verified'])->prefix('propietario')->group(function () {
+Route::middleware(['auth', 'role:propietario', 'verified', 'nocache'])->prefix('propietario')->group(function () {
 
     // Dashboard principal: /propietario
     Route::get('/', [PropiedadController::class, 'index'])
@@ -298,7 +297,7 @@ Route::middleware(['auth', 'role:propietario', 'verified'])->prefix('propietario
 | RUTAS INQUILINO
 */
 
-Route::middleware(['auth','role:inquilino'])->group(function () {
+Route::middleware(['auth','role:inquilino', 'nocache', 'verified'])->group(function () {
 //ruta para inquilinos
 
     //Route::get('/inquilino', [InquilinoController::class,'index'])->name('inquilino.index');

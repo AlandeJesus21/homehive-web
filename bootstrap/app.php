@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => RoleMiddleware::class,
+            'nocache' => App\Http\Middleware\NoCache::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

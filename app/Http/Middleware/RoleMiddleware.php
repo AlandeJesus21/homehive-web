@@ -20,7 +20,7 @@ class RoleMiddleware
         }
 
         if (Auth::user()->role != $role) {
-            abort(403); // acceso prohibido
+            abort(403);
         }
 
         return $next($request);
