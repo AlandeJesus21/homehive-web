@@ -60,7 +60,7 @@
                                     @php
                                         $color = match($solicitud->estatus) {
                                             'Pendiente' => '#FBBF24',
-                                            'Aceptado', 'Aceptada' => '#059669',
+                                            'Aceptado', 'Aceptada' => '#065F46',
                                             'Rechazado', 'Rechazada' => '#DC2626',
                                             default => '#6B7280'
                                         };
