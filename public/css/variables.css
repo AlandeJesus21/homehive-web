@@ -1,0 +1,5 @@
+:root {
+    --primary-color: #1f3a8a;
+    --secondary-bg: #f1f5f9;
+    --gradient-main: linear-gradient(180deg, #D2D4E5 40%, #B0B3D3 100%);
+}

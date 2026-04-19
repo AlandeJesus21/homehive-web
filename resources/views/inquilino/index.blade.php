@@ -3,7 +3,7 @@
         <div class="container">
             <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-            <form method="GET" action="{{ route('busqueda') }}">
+            <form method="GET" action="{{ route('busqueda') }}" class="filtros-desktop">
                 <div class="d-flex justify-content-center">
                     <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2">
 

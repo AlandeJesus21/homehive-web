@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'HomeHive' }}</title>
 
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" title="HomeHive">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
@@ -15,129 +15,166 @@
 
 <body class="fondo fade-in d-flex flex-column min-vh-100">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
-    <div class="container-fluid mx-5">
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-white shadow-sm border-bottom">
 
-        <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="/" title="Ir a la página principal">
-            <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" class="me-2" title="Logo HomeHive">
-            <span class="fw-bold fs-5">HomeHive</span>
-        </a>
+    <div class="container-fluid px-3 d-flex align-items-center">
 
-        <!-- Botón menú -->
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNavbar" title="Abrir menú de navegación">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- IZQUIERDA: BOTÓN + LOGO -->
+        <div class="d-flex align-items-center">
 
-        <div class="collapse navbar-collapse" id="mainNavbar">
+            <button class="navbar-toggler d-lg-none me-2"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <ul class="navbar-nav ms-auto align-items-lg-center">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="{{ asset('images/Logo2.png') }}" width="50" height="50" class="me-2">
+                <span class="fw-bold fs-5">HomeHive</span>
+            </a>
+
+        </div>
+
+        <!-- CENTRO-DERECHA: MENÚ DESKTOP -->
+        <div class="d-none d-lg-flex flex-grow-1 justify-content-end" style="margin-right: 20px;">
+
+            <ul class="navbar-nav flex-row gap-3">
 
                 @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="/" title="Ir a la página de inicio">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}" title="Crear una cuenta nueva">Registrarse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}" title="Acceder a tu cuenta">Iniciar sesión</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a></li>
                 @endguest
 
                 @auth
 
                     @if(Auth::user()->role == 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="/home" title="Ir al panel principal">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/users" title="Administrar usuarios del sistema">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/propiedades" title="Gestionar propiedades registradas">Propiedades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/reviews" title="Revisar comentarios de usuarios">Comentarios</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/users">Usuarios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/propiedades">Propiedades</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/reviews">Comentarios</a></li>
                     @endif
 
                     @if(Auth::user()->role == 'inquilino')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('buscar')}}" title="Buscar propiedades disponibles">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('pagos')}}" title="Ver y gestionar tus pagos">Pagos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('favoritos')}}" title="Ver tus propiedades favoritas">Favoritos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('solicitudes')}}" title="Revisar tus solicitudes enviadas">Solicitudes</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('buscar') }}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('pagos') }}">Pagos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('favoritos') }}">Favoritos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes') }}">Solicitudes</a></li>
                     @endif
 
                     @if(Auth::user()->role == 'propietario')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('propietario.index') }}" title="Ir al panel de propietario">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('propietario.index') }}#propiedades-section" title="Administrar tus propiedades">Propiedades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('solicitudes.index') }}" title="Ver solicitudes de inquilinos">Solicitudes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pagos.index') }}" title="Gestionar pagos recibidos">Pagos</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}#propiedades-section">Propiedades</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes.index') }}">Solicitudes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}">Pagos</a></li>
                     @endif
 
-                    <!-- Usuario -->
-                    <li class="nav-item dropdown ms-2">
-                        <a class="nav-link d-flex align-items-center" data-bs-toggle="dropdown" title="Opciones de usuario">
-                            <span class="text-muted me-2 d-none d-lg-inline">
-                                {{ Auth::user()->name }}
-                            </span>
-
-                            <img src="{{ Auth::user()->avatar 
-                                ? asset('storage/' . Auth::user()->avatar) 
-                                : asset('images/user.svg') }}"
-                                class="rounded-circle"
-                                width="38" height="38"
-                                style="object-fit: cover;"
-                                title="Perfil de usuario">
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                            <li>
-                                <a class="dropdown-item" href="#perfilModal" data-bs-toggle="modal" title="Editar perfil">
-                                    Perfil
-                                </a>
-                            </li>
-
-                            <li><hr class="dropdown-divider"></li>
-
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button class="dropdown-item text-danger" title="Cerrar sesión">
-                                        Cerrar sesión
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-
                 @endauth
+
             </ul>
         </div>
+
+        <!-- DERECHA: USUARIO -->
+        @auth
+        <div class="ms-auto">
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link d-flex align-items-center" data-bs-toggle="dropdown">
+
+                        <span class="text-muted me-2 d-none d-lg-inline">
+                            {{ Auth::user()->name }}
+                        </span>
+
+                        <img src="{{ Auth::user()->avatar
+                            ? asset('storage/' . Auth::user()->avatar)
+                            : asset('images/user.svg') }}"
+                            class="rounded-circle"
+                            width="38" height="38">
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm position-absolute position-lg-static mt-2 mt-lg-0">
+                        <li><a class="dropdown-item" href="#perfilModal" data-bs-toggle="modal">Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="dropdown-item text-danger">Cerrar sesión</button>
+                            </form>
+                        </li>
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+        @endauth
+
     </div>
 </nav>
 
+<!-- OFFCANVAS (MÓVIL) -->
+<div class="offcanvas offcanvas-start d-lg-none"
+     tabindex="-1"
+     id="sidebarMenu">
+
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menú</h5>
+        <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+
+        <ul class="navbar-nav">
+
+            @guest
+                <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a></li>
+            @endguest
+
+            @auth
+
+                @if(Auth::user()->role == 'admin')
+                    <li class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/users">Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/propiedades">Propiedades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/reviews">Comentarios</a></li>
+                @endif
+
+                @if(Auth::user()->role == 'inquilino')
+                    <li class="nav-item"><a class="nav-link" href="{{ route('buscar') }}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('pagos') }}">Pagos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('favoritos') }}">Favoritos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes') }}">Solicitudes</a></li>
+                @endif
+
+                @if(Auth::user()->role == 'propietario')
+                    <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}#propiedades-section">Propiedades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes.index') }}">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}">Pagos</a></li>
+                @endif
+
+            @endauth
+
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- MAIN -->
 <main class="flex-fill degradado">
     {{ $slot }}
 </main>
 
+<!-- FOOTER -->
 <footer>
     <div class="container text-center py-4">
         <div class="row">
@@ -158,14 +195,14 @@
 
                     <div class="col-6">
                         <h6>MÁS</h6>
-                        <a href="/comentarios" title="Ver comentarios de usuarios">Comentarios</a><br>
-                        <a href="/acerca" title="Conocer más sobre nosotros">Acerca</a>
+                        <a href="/comentarios">Comentarios</a><br>
+                        <a href="/acerca">Acerca</a>
                     </div>
 
                     <div class="col-6">
                         <h6>LEGAL</h6>
-                        <a href="/politica" title="Leer política de privacidad">Privacidad</a><br>
-                        <a href="/terminos" title="Leer términos y condiciones">Términos</a>
+                        <a href="/politica">Privacidad</a><br>
+                        <a href="/terminos">Términos</a>
                     </div>
 
                 </div>
@@ -175,14 +212,15 @@
     </div>
 </footer>
 
+<!-- MODAL PERFIL -->
 @auth
 <div class="modal fade" id="perfilModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
 
             <div class="modal-header border-0">
-                <h5 title="Editar información de tu cuenta">Editar Perfil</h5>
-                <button class="btn-close" data-bs-dismiss="modal" title="Cerrar"></button>
+                <h5>Editar Perfil</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
@@ -193,14 +231,13 @@
 
                     <div class="text-center mb-3 position-relative">
 
-                        <img src="{{ Auth::user()->avatar 
-                            ? asset('storage/' . Auth::user()->avatar) 
+                        <img src="{{ Auth::user()->avatar
+                            ? asset('storage/' . Auth::user()->avatar)
                             : asset('images/user.svg') }}"
                             class="rounded-circle"
-                            width="100" height="100"
-                            title="Imagen de perfil">
+                            width="100" height="100">
 
-                        <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;" title="Cambiar foto">
+                        <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">
                             ✏️
                         </label>
 
@@ -208,20 +245,21 @@
                     </div>
 
                     <input type="text" name="name" class="form-control mb-2"
-                        value="{{ Auth::user()->name }}" required title="Nombre completo">
+                           value="{{ Auth::user()->name }}" required>
 
                     <input type="email" name="email" class="form-control mb-2"
-                        value="{{ Auth::user()->email }}" required title="Correo electrónico">
+                           value="{{ Auth::user()->email }}" required>
 
                     <input type="password" name="password"
-                        class="form-control mb-2" placeholder="Nueva contraseña" title="Nueva contraseña">
+                           class="form-control mb-2" placeholder="Nueva contraseña">
 
                     <input type="password" name="password_confirmation"
-                        class="form-control mb-3" placeholder="Confirmar contraseña" title="Confirmar contraseña">
+                           class="form-control mb-3" placeholder="Confirmar contraseña">
 
-                    <button class="btn btn-primary w-100" title="Guardar cambios en el perfil">
+                    <button class="btn btn-primary w-100">
                         Guardar cambios
                     </button>
+
                 </form>
 
             </div>

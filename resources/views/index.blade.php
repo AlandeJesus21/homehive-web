@@ -3,7 +3,8 @@
         <div class="container">
             <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-            <form method="GET" action="{{ route('busqueda') }}" class="d-none d-md-flex justify-content-center">
+            <form method="GET" action="{{ route('busqueda') }}" 
+      class="d-none d-md-flex justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2">
 
@@ -162,7 +163,6 @@
 
                         <button class="search-btn" title="Ejecutar búsqueda">
                             <i class="search_btn"><img src="{{ asset('images/busqueda.png') }}" width="20" height="20" alt="Buscar"></i>
-
                         </button>
                     </div>
                 </div>
@@ -197,7 +197,6 @@
                 </p>
             </div>
         @endif
-
 
         @if ($cuartos->isNotEmpty())
             <h3 class="mb-4">Cuartos</h3>

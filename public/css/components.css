@@ -1,0 +1,31 @@
+.search-bar {
+    background: white;
+    gap: 10px;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+}
+
+.filter-btn {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 20px;
+}
+
+.divider {
+    width: 1px;
+    height: 25px;
+    background: #ddd;
+}
+
+.search-btn {
+    border: none;
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}

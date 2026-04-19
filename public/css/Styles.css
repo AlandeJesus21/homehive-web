@@ -274,6 +274,10 @@ body {
     font-size: 22px;
 }
 
+li {
+    list-style: none;
+}
+
 /* TEXTO */
 .admin-card h4 {
     font-size: 26px;
@@ -298,6 +302,17 @@ footer a:hover {
 /* RESPONSIVE */
 @media (max-width: 767px) {
     .search-bar {
-        display: none;
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .search-bar-wrapper {
+        display: none !important;
+    }
+}
+@media (max-width: 767px) {
+    .filtros-desktop {
+        display: none !important;
     }
 }
