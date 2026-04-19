@@ -107,7 +107,6 @@ class AdminController extends Controller {
         try {
             set_time_limit(300);
 
-            // Detectamos si es Windows para aplicar ajustes específicos
             $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
             $extraParams = $isWindows ? '--column-statistics=0 ' : '';
 
@@ -127,6 +126,11 @@ class AdminController extends Controller {
                 $content = file_get_contents($path);
                 if (str_contains(strtolower($content), 'error')) {
                     return back()->with('error', 'Error: ' . $content);
+                }
+
+                // LIMPIEZA DE BUFFER: Crucial para que Ubuntu suelte el archivo al navegador
+                if (ob_get_level()) {
+                    ob_end_clean();
                 }
 
                 return response()->download($path)->deleteFileAfterSend(true);
