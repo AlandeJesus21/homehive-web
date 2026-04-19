@@ -123,17 +123,18 @@ class AdminController extends Controller {
             if (file_exists($authFile)) unlink($authFile);
 
             if (file_exists($path) && filesize($path) > 0) {
-                $content = file_get_contents($path);
-                if (str_contains(strtolower($content), 'error')) {
-                    return back()->with('error', 'Error: ' . $content);
-                }
+                
+                // 1. Limpiar cualquier residuo de salida
+                if (ob_get_level()) ob_end_clean();
 
-                // LIMPIEZA DE BUFFER: Crucial para que Ubuntu suelte el archivo al navegador
-                if (ob_get_level()) {
-                    ob_end_clean();
-                }
-
-                return response()->download($path)->deleteFileAfterSend(true);
+                // 2. Respuesta tipo Stream (La más compatible con Ubuntu/Nginx)
+                return response()->streamDownload(function () use ($path) {
+                    echo file_get_contents($path);
+                    unlink($path); // Borramos después de enviar el contenido
+                }, $filename, [
+                    'Content-Type' => 'application/sql',
+                    'Content-Disposition' => 'attachment; filename="'.$filename.'"'
+                ]);
             }
 
             return back()->with('error', 'No se pudo generar el backup.');
