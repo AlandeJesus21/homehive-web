@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\PropiedadController;
 use App\Http\Controllers\Api\ReseñasController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SolicitudApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('propiedades/{idPropiedad}/reviews', [ReviewController::class, 'store']);
 
     Route::apiResource('reviews', ReviewController::class)->except(['store']);
+
+    Route::post('/solicitudes/{id}', [SolicitudApiController::class, 'storeApi']);
+    
+    Route::post('/solicitudes/{id}/aceptar', [SolicitudApiController::class, 'aceptarApi']);
+    Route::post('/solicitudes/{id}/rechazar', [SolicitudApiController::class, 'rechazarApi']);
+    
+    Route::get('/mis-solicitudes', [SolicitudApiController::class, 'historialApi']);
 });
 
 
