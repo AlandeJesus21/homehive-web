@@ -83,18 +83,11 @@ class SolicitudApiController extends Controller
         $user = Auth::user();
         
         if ($user->rol == 'propietario') {
-            // IMPORTANTE: pasamos el $user a la consulta interna
-            $solicitudes = Solicitud::whereHas('propiedad', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            })
-            ->with(['aspirante', 'propiedad']) // Cargamos relaciones para que Flutter tenga qué mostrar
-            ->latest()
-            ->get();
+            $solicitudes = Solicitud::whereHas('propiedad', function ($q) {
+                $q->where('user_id', Auth::id());
+            })->with('aspirante')->get(); // 'aspirante' es la relación con User
         } else {
-            $solicitudes = Solicitud::where('user_id', $user->id)
-                ->with('propiedad')
-                ->latest()
-                ->get();
+            $solicitudes = Solicitud::where('user_id', Auth::id())->get();
         }
 
         return response()->json($solicitudes);
