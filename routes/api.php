@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\PropiedadController;
 use App\Http\Controllers\Api\ReseñasController;
+use App\Http\Controllers\Api\ConversationController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SolicitudApiController;
@@ -51,6 +53,13 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('/mis-solicitudes', [SolicitudApiController::class, 'historialApi']);
 });
+
+
+Route::get('/conversations/{userId}', [ConversationController::class, 'index']);
+Route::post('/conversations', [ConversationController::class, 'store']);
+
+Route::get('/messages/{conversationId}', [MessageController::class, 'index']);
+Route::post('/messages', [MessageController::class, 'store']);
 
 
 
