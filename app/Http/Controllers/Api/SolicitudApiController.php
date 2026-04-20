@@ -81,15 +81,21 @@ class SolicitudApiController extends Controller
     public function historialApi()
     {
         $user = Auth::user();
-        
-        if ($user->rol == 'propietario') {
-            // Buscamos solicitudes donde la propiedad pertenece al usuario autenticado
-            $solicitudes = Solicitud::whereHas('propiedad', function ($q) {
-                $q->where('user_id', Auth::id());
-            })->with('aspirante')->orderBy('created_at', 'desc')->get();
+        $userId = Auth::id(); // Guardamos el ID en una variable
+
+        if ($user->role == 'propietario') {
+            // Buscamos solicitudes de propiedades que le pertenecen a este usuario
+            $solicitudes = Solicitud::whereHas('propiedad', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->with('aspirante') // Cargamos al inquilino que envió la solicitud
+            ->orderBy('created_at', 'desc')
+            ->get();
         } else {
-            // Inquilino: solicitudes que él mismo envió
-            $solicitudes = Solicitud::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+            // Inquilino: solo lo que él envió
+            $solicitudes = Solicitud::where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
 
         return response()->json($solicitudes);
