@@ -83,11 +83,13 @@ class SolicitudApiController extends Controller
         $user = Auth::user();
         
         if ($user->rol == 'propietario') {
+            // Buscamos solicitudes donde la propiedad pertenece al usuario autenticado
             $solicitudes = Solicitud::whereHas('propiedad', function ($q) {
                 $q->where('user_id', Auth::id());
-            })->with('aspirante')->get(); // 'aspirante' es la relación con User
+            })->with('aspirante')->orderBy('created_at', 'desc')->get();
         } else {
-            $solicitudes = Solicitud::where('user_id', Auth::id())->get();
+            // Inquilino: solicitudes que él mismo envió
+            $solicitudes = Solicitud::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         }
 
         return response()->json($solicitudes);
