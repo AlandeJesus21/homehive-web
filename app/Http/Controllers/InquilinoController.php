@@ -21,28 +21,41 @@ class InquilinoController extends Controller {
         return view('inquilino.index',['propiedades' => $propiedades, 'barrios' => $barrios]);
     }
 
-    public function filtrado(Request $request) {
+     public function search(Request $request)
+    {
         $query = Propiedad::query();
 
-        if($request->tipo) {
-            $query->where('tipo', $request->tipo);
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->input('tipo'));
         }
 
-        if ($request->start_precio && $request->end_precio) {
-            $query->whereBetween('precio', [
-                $request->start_precio,
-                $request->end_precio
-            ]);
+        if ($request->filled('barrio_id')) {
+            $query->where('barrio_id', $request->input('barrio_id'));
         }
 
-        if ($request->barrio) {
-            $query->where('barrio', $request->barrio);
+        if ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->input('precio_min'));
         }
 
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->input('precio_max'));
+        }
 
-        $propiedades = $query->paginate(10);
+        if ($request->filled('servicio')) {
+            foreach ($request->servicio as $s) {
+                $query->whereJsonContains('servicio', $s);
+            }
+        }
 
-        return view('inquilino.index', compact('propiedades'));
+        $cuartos = (clone $query)->where('tipo', 'cuarto')->get();
+        $departamentos = (clone $query)->where('tipo', 'departamento')->get();
+        $casas = (clone $query)->where('tipo', 'casa')->get();
+
+        $barrios = Barrio::all();
+        
+
+
+        return view('inquilino.index', compact('cuartos', 'departamentos', 'casas', 'barrios'));
     }
 
     public function vermas($id){

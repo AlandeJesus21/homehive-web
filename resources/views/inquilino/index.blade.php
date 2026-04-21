@@ -3,7 +3,8 @@
         <div class="container">
             <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
 
-            <form method="GET" action="{{ route('busqueda') }}" class="filtros-desktop">
+            <form method="GET" action="{{ route('filtro') }}" 
+      class="d-none d-md-flex justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2">
 
@@ -103,7 +104,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -118,7 +119,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -133,7 +134,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -148,7 +149,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -309,7 +310,7 @@
         </div>
     </div>
 
-    <script>
+   <script>
         function initCarousel(id) {
             const container = document.getElementById(id);
             if (!container) return;
@@ -336,7 +337,10 @@
 
         function setTipo(tipo) {
             document.getElementById('tipo_input').value = tipo;
-            document.querySelector('form').submit();
+
+            setTimeout(() => {
+                document.getElementById('searchForm').submit();
+            }, 50);
         }
 
         function updatePrecio() {
