@@ -66,9 +66,25 @@ class SolicitudApiController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Solicitud aceptada. Pago pendiente generado.',
+            'message' => 'Solicitud aceptada con éxito.',
             'pago_id' => $pago->id
-        ]);
+        ], 200);
+    }
+
+    public function rechazarApi($id)
+    {
+        $solicitud = Solicitud::findOrFail($id);
+        $propiedadReal = Propiedad::findOrFail($solicitud->propiedad_id);
+
+        if ($propiedadReal->user_id !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $solicitud->update(['estatus' => 'Rechazado']);
+
+        return response()->json([
+            'message' => 'La solicitud ha sido rechazada.'
+        ], 200);
     }
 
     public function historialApi()

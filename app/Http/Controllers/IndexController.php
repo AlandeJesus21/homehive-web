@@ -61,9 +61,9 @@ class IndexController extends Controller
             $query->where('precio', '<=', $request->input('precio_max'));
         }
 
-        if ($request->filled('servicios')) {
-            foreach ($request->servicios as $servicio) {
-                $query->whereJsonContains('servicios', $servicio);
+        if ($request->filled('servicio')) {
+            foreach ($request->servicio as $s) {
+                $query->whereJsonContains('servicio', $s);
             }
         }
 

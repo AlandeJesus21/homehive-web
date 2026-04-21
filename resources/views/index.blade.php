@@ -104,7 +104,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -119,7 +119,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -134,7 +134,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -149,7 +149,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
                                                type="checkbox" 
-                                               name="servicios[]" 
+                                               name="servicio[]" 
                                                value="{{ $value }}" 
                                                id="servicio-{{ $value }}" 
                                                title="Incluir {{ $label }}"
@@ -337,7 +337,10 @@
 
         function setTipo(tipo) {
             document.getElementById('tipo_input').value = tipo;
-            document.querySelector('form').submit();
+
+            setTimeout(() => {
+                document.querySelector('form').submit();
+            }, 50);
         }
 
         function updatePrecio() {

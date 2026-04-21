@@ -319,7 +319,7 @@ Route::middleware(['auth','role:inquilino', 'nocache', 'verified'])->group(funct
     Route::put('/inquilino/editreview/{id}', [ReviewController::class,'update'])->name('updatereview');
     Route::delete('/inquilino/destroyreview/{id}', [ReviewController::class,'destroy'])->name('destroyreview');
     //Route::post('/inquilino/editreview/{id}', [ReviewController::class,'edit'])->name('editreview');
-    Route::get('/filtro', [InquilinoController::class, 'filtrado']);
+    Route::get('/filtro', [InquilinoController::class, 'search'])->name('filtro');
     Route::get('/mispagos/{id}/checkout', [App\Http\Controllers\PagoController::class, 'checkout'])->name('pagos.checkout');
 
 });
