@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SolicitudApiController;
+use App\Http\Controllers\Api\PagoApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NotificationController;
@@ -54,6 +55,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/solicitudes/{id}/rechazar', [SolicitudApiController::class, 'rechazarApi']);
     
     Route::get('/mis-solicitudes', [SolicitudApiController::class, 'historialApi']);
+    Route::post('/pagos/checkout/{id}', [PagoApiController::class, 'crearSesionCheckout']);
+    Route::get('/pago/exito', function () {
+        return "<h1>¡Pago completado con éxito!</h1><p>Ya puedes cerrar esta ventana y regresar a HomeHive.</p>";
+    })->name('api.pago.exito');
+
+    Route::get('/pago/cancelado', function () {
+        return "<h1>Pago cancelado</h1><p>No se realizó ningún cargo. Puedes intentarlo de nuevo desde la app.</p>";
+    })->name('api.pago.cancelado');
+    Route::get('/mis-pagos', [PagoApiController::class, 'index']);
+
+    Route::get('/pagos/recibo/{id}', [PagoApiController::class, 'generarReciboApi']);
+    
+    Route::get('/pagos/contrato/{id}', [PagoApiController::class, 'generarContratoApi']);
 });
 
 
