@@ -71,29 +71,23 @@ class SolicitudApiController extends Controller
         ]);
     }
 
-    public function rechazarApi($id)
-    {
-        $solicitud = Solicitud::findOrFail($id);
-        $solicitud->update(['estatus' => 'Rechazado']);
-        return response()->json(['message' => 'Solicitud rechazada']);
-    }
-
     public function historialApi()
     {
         $user = Auth::user();
-        $userId = Auth::id(); // Guardamos el ID en una variable
-
+        
+        // IMPORTANTE: Asegúrate de que en tu DB la columna sea 'role' (con e)
         if ($user->role == 'propietario') {
-            // Buscamos solicitudes de propiedades que le pertenecen a este usuario
-            $solicitudes = Solicitud::whereHas('propiedad', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
+            // Buscamos solicitudes donde la propiedad pertenece al dueño actual
+            $solicitudes = Solicitud::whereHas('propiedad', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
             })
-            ->with('aspirante') // Cargamos al inquilino que envió la solicitud
+            ->with(['aspirante', 'propiedad']) // Cargamos relaciones para que Flutter tenga datos
             ->orderBy('created_at', 'desc')
             ->get();
         } else {
-            // Inquilino: solo lo que él envió
-            $solicitudes = Solicitud::where('user_id', $userId)
+            // Inquilino: solicitudes que él mismo creó
+            $solicitudes = Solicitud::where('user_id', $user->id)
+                ->with('propiedad')
                 ->orderBy('created_at', 'desc')
                 ->get();
         }

@@ -2,11 +2,15 @@
 
 use App\Http\Controllers\Api\PropiedadController;
 use App\Http\Controllers\Api\ReseñasController;
+use App\Http\Controllers\Api\ConversationController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SolicitudApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\FcmController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -51,6 +55,19 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('/mis-solicitudes', [SolicitudApiController::class, 'historialApi']);
 });
+
+
+Route::get('/conversations/{userId}', [ConversationController::class, 'index']);
+Route::post('/conversations', [ConversationController::class, 'store']);
+
+Route::get('/messages/{conversationId}', [MessageController::class, 'index']);
+Route::post('/messages', [MessageController::class, 'store']);
+
+
+    Route::post('/test-push', [NotificationController::class, 'testPush']);
+
+    Route::post('/fcm-token', [FcmController::class, 'saveFcmToken'])
+    ->middleware('auth:sanctum');
 
 
 
