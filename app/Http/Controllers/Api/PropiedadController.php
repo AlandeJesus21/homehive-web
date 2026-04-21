@@ -15,14 +15,20 @@ class PropiedadController extends Controller
     }   
     
     public function propiedades() {
-        $propiedades = Propiedad::with('barrio', 'imagenes')->get();
+        $propiedades = Propiedad::with(['barrio', 'imagenes'])
+            ->whereDoesntHave('solicitudes', function ($q) {
+                $q->where('estatus', 'Aceptado');
+            })
+            ->whereDoesntHave('pagos', function ($q) {
+                $q->whereIn('status', ['pagado', 'pendiente']);
+            })
+            ->get();
 
         if($propiedades->isEmpty()) {
-            $data = [
-                'message' => 'No se encontraron propiedades',
-                'status' => 200,
-            ];
-            return response()->json(['success' => false, 'data' => ['message' => 'No se encontraron propiedades']], 404);
+            return response()->json([
+                'success' => false, 
+                'data' => ['message' => 'No se encontraron propiedades disponibles']
+            ], 404);
         }
 
         $data = [
@@ -30,7 +36,7 @@ class PropiedadController extends Controller
             'status' => 200,
         ];
 
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     public function getByUser()

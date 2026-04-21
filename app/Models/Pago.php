@@ -39,6 +39,11 @@ class Pago extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function arrendador()
     {
         return $this->belongsTo(User::class, 'arrendador_id');

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class SolicitudApiController extends Controller
 {
-    // 1. Inquilino envía desde Flutter
     public function storeApi(Request $request, $id)
     {
         $request->validate([
@@ -57,7 +56,7 @@ class SolicitudApiController extends Controller
 
         $pago = Pago::create([
             'propiedad_id'  => $solicitud->propiedad_id,
-            'user_id'       => $solicitud->user_id, // El inquilino
+            'user_id'       => $solicitud->user_id,
             'arrendador_id' => Auth::id(),
             'monto'         => $solicitud->precio,
             'fecha_inicio'  => now(),
@@ -87,26 +86,28 @@ class SolicitudApiController extends Controller
         ], 200);
     }
 
-    public function historialApi()
+    public function historialApi(Request $request)
     {
         $user = Auth::user();
-        
-        // IMPORTANTE: Asegúrate de que en tu DB la columna sea 'role' (con e)
+        $desde = $request->query('desde');
+        $hasta = $request->query('hasta');
+
+        $query = Solicitud::with(['aspirante', 'propiedad']);
+
         if ($user->role == 'propietario') {
-            // Buscamos solicitudes donde la propiedad pertenece al dueño actual
-            $solicitudes = Solicitud::whereHas('propiedad', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->with(['aspirante', 'propiedad']) // Cargamos relaciones para que Flutter tenga datos
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $query->whereHas('propiedad', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
         } else {
-            // Inquilino: solicitudes que él mismo creó
-            $solicitudes = Solicitud::where('user_id', $user->id)
-                ->with('propiedad')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $query->where('user_id', $user->id);
         }
+
+        if ($desde && $hasta) {
+            $query->whereDate('created_at', '>=', $desde)
+                ->whereDate('created_at', '<=', $hasta);
+        }
+
+        $solicitudes = $query->orderBy('created_at', 'desc')->get();
 
         return response()->json($solicitudes);
     }
