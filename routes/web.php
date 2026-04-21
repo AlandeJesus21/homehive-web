@@ -78,6 +78,22 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::get('/pagos/{id}/recibo', [PagoController::class, 'descargarRecibo'])->name('pagos.recibo')->middleware('auth');
 Route::get('/pagos/{id}/contrato', [PagoController::class, 'descargarContrato'])->name('pagos.contrato')->middleware('auth');
 
+
+Route::get('/descargar-app', function () {
+    $file = public_path('downloads/HomeHive.apk');
+    
+    if (!file_exists($file)) {
+        return "El archivo no existe en la ruta: " . $file;
+    }
+
+    return response()->download($file, 'HomeHive.apk', [
+        'Content-Type' => 'application/vnd.android.package-archive',
+        'Content-Description' => 'File Transfer',
+        'Content-Transfer-Encoding' => 'binary',
+        'Cache-Control' => 'no-cache, must-revalidate',
+    ]);
+})->name('apk.download');
+
 /*
 | AUTENTICACION
 */
