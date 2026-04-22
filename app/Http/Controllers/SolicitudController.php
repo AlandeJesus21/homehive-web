@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Solicitud;
 use App\Models\Propiedad;
+use App\Models\User;
+use App\Services\FirebaseService;
 use App\Models\Pago;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,9 +39,10 @@ class SolicitudController extends Controller
         return view('propietario.solicitudes.show', compact('solicitud'));
     }
 
-    public function aceptar($id)
+    public function aceptar($id, FirebaseService $firebase)
     {
         $solicitud = Solicitud::findOrFail($id);
+        $solicitud->load('propiedad');
 
         $propiedadReal = Propiedad::findOrFail($solicitud->propiedad_id);
 
@@ -55,13 +58,32 @@ class SolicitudController extends Controller
             'status'        => 'pendiente',
         ]);
 
+        $user = User::find($solicitud->user_id);
+        
+        if ($user && $user->fcm_token) {
+            $firebase->sendNotification(
+                $user->fcm_token,
+                '¡Solicitud Aceptada!',
+                "Tu solicitud para '{$solicitud->propiedad}' ha sido aceptada. Se ha generado un registro de pago."
+            );
+        }
+
         return redirect()->route('solicitudes.index')->with('success', 'Solicitud aceptada y registro de pago generado.');
     }
 
-    public function rechazar($id)
+    public function rechazar($id, FirebaseService $firebase)
     {
         $solicitud = Solicitud::findOrFail($id);
         $solicitud->update(['estatus' => 'Rechazado']);
+
+        $user = User::find($solicitud->user_id);
+        if ($user && $user->fcm_token) {
+            $firebase->sendNotification(
+                $user->fcm_token,
+                '¡Solicitud Rechazada!',
+                "Tu solicitud para '{$solicitud->propiedad}' ha sido rechazada."
+            );
+        }
 
         return redirect()->back()->with('success', 'La solicitud ha sido rechazada.');
     }
@@ -91,7 +113,7 @@ class SolicitudController extends Controller
         return view('inquilino.solicitud', compact('propiedad'));
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request, $id, FirebaseService $firebase)
     {
         $datos =$request->validate([
             'titulo'    => 'required|string',
@@ -117,6 +139,17 @@ class SolicitudController extends Controller
             'telefono'  => $request->telefono,
             'mensaje'   => $request->mensaje,
         ]);
+
+        $propiedad = Propiedad::findOrFail($id);
+        $propietario = User::find($propiedad->user_id);
+
+        if ($propietario && $propietario->fcm_token) {
+            $firebase->sendNotification(
+                $propietario->fcm_token,
+                '¡Nueva Solicitud Recibida!',
+                "Has recibido una nueva solicitud para tu propiedad '{$propiedad->titulo}'. Revisa los detalles en tu panel de control."
+            );
+        }
 
         return redirect()->route('solicitudes')->with('success', 'Solicitud enviada correctamente');
     }

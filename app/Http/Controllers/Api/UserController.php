@@ -14,10 +14,6 @@ use Illuminate\Testing\Fluent\Concerns\Has;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['login', 'register']);
-    }
     public function Users(){
         $user = User::all();
 

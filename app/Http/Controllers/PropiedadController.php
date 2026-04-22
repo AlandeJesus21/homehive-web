@@ -9,6 +9,7 @@ use App\Models\Pago;
 use App\Models\Review;
 use App\Models\PropiedadImagen;
 use Illuminate\Http\Request;
+use App\Services\FirebaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
@@ -74,7 +75,7 @@ class PropiedadController extends Controller
         return view('propietario.propiedades.create', compact('barrios'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, FirebaseService $firebase)
     {
         $request->validate([
             'titulo'      => 'required|string|max:255',
@@ -121,6 +122,12 @@ class PropiedadController extends Controller
                     ]);
                 }
             }
+
+            $firebase->sendToTopic(
+                'propiedades',
+                '¡Nueva propiedad publicada!',
+                "La propiedad '{$propiedad->titulo}' ha sido publicada. ¡Échale un vistazo!"
+            );
 
             return redirect()->route('propietario.index')
                              ->with('success', 'La propiedad se publicó correctamente.');

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Solicitud;
 use App\Models\Propiedad;
 use App\Models\Pago;
+use App\Services\FirebaseService;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +39,16 @@ class SolicitudApiController extends Controller
             'mensaje'      => $request->mensaje,
         ]);
 
+        $propietario = User::find($propiedad->user_id);
+
+        if ($propietario && $propietario->fcm_token) {
+            $firebase->sendNotification(
+                $propietario->fcm_token,
+                '¡Nueva solicitud recibida!',
+                "Tienes una nueva solicitud para '{$propiedad->titulo}'. Revisa los detalles."
+            );
+        }
+
         return response()->json([
             'message' => 'Solicitud enviada con éxito',
             'data' => $solicitud
@@ -64,6 +76,15 @@ class SolicitudApiController extends Controller
             'status'        => 'pendiente',
         ]);
 
+        $user = User::find($solicitud->user_id);
+        if ($user && $user->fcm_token) {
+            $firebase->sendNotification(
+                $user->fcm_token,
+                '¡Solicitud Aceptada!',
+                "Tu solicitud para '{$solicitud->propiedad}' ha sido aceptada. Se ha generado un registro de pago."
+            );
+        }
+
         return response()->json([
             'message' => 'Solicitud aceptada con éxito.',
             'pago_id' => $pago->id
@@ -80,6 +101,15 @@ class SolicitudApiController extends Controller
         }
 
         $solicitud->update(['estatus' => 'Rechazado']);
+
+        $user = User::find($solicitud->user_id);
+        if ($user && $user->fcm_token) {
+            $firebase->sendNotification(
+                $user->fcm_token,
+                '¡Solicitud Rechazada!',
+                "Tu solicitud para '{$solicitud->propiedad}' ha sido rechazada."
+            );
+        }
 
         return response()->json([
             'message' => 'La solicitud ha sido rechazada.'

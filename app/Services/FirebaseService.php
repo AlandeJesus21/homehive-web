@@ -56,4 +56,31 @@ class FirebaseService
 
         return $response->json();
     }
+
+    public function sendToTopic($topic, $title, $body)
+    {
+        $projectId = json_decode(
+            file_get_contents(storage_path('app/firebase/firebase.json')),
+            true
+        )['project_id'];
+
+        $accessToken = $this->getAccessToken();
+
+        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+
+        $message = [
+            "message" => [
+                "topic" => $topic,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $body,
+                ],
+                "data" => [
+                    "click_action" => "FLUTTER_NOTIFICATION_CLICK"
+                ]
+            ]
+        ];
+
+        return Http::withToken($accessToken)->post($url, $message)->json();
+    }
 }

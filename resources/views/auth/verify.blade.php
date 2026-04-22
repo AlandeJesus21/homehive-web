@@ -54,7 +54,7 @@
     <!-- NAVBAR -->
     <nav class="navbar bg-white shadow-sm px-4">
         <a href="/" class="navbar-brand fw-bold d-flex align-items-center gap-2">
-            <img src="{{ asset('images/Logo2.png') }}" class="logo">
+            <img src="{{ asset('images/Logo2.png') }}" class="logo" style="width: 40px; height: 40px; margin-left: 20px;">
             HomeHive
         </a>
     </nav>
@@ -64,8 +64,10 @@
 
         <div class="card shadow-lg border-0 card-custom text-center" style="max-width: 500px; width:100%;">
 
-    <img src="http://82.25.91.145/images/gmail.png" width="120" class="img-email">
-            <div class="icon-mail mb-3">  </div>
+            <div class="text-cen">
+                <img src="{{ asset('images/gmail.png') }}" width="120" class="img-email" style="margin-right: 50px;">
+
+            </div>
 
             <h4 class="mb-3">Verifica tu correo electrónico</h4>
 
