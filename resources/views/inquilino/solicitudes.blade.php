@@ -1,111 +1,87 @@
 <x-layout>
-
-    <main class="container-fluid" title="Sección para visualizar y gestionar solicitudes de renta">
+    <main class="container-fluid" style="font-family: Arial, sans-serif; margin-bottom: 60px;">
         <div class="container py-5">
             <div class="d-flex flex-column mb-4 gap-3">
-                <div>
-                    <h2 class="fw-bold m-0 border-bottom border-secondary border-2 pb-1" title="Listado de solicitudes realizadas">Mis solicitudes</h2>
-                </div>
-                
-                <div class="d-flex justify-content-end">
-                    <div class="d-inline-flex align-items-center bg-white rounded-4 shadow-sm border px-4 py-2" title="Filtro por rango de fechas">
-                        <div class="px-3">
-                            <label class="d-block small fw-semibold text-dark mb-1" title="Fecha inicial">Desde</label>
-                            <input type="date" 
-                                id="fechaDesde"
-                                class="form-control form-control-sm border rounded-3 px-2 text-muted" 
-                                value="2026-02-07"
-                                style="font-size: 0.85rem;"
-                                title="Selecciona la fecha inicial">
+                <div style="position: relative; border-bottom: 2px solid #99A1B7; margin-bottom: 40px; margin-top: 20px;">
+                    <h2 class="fw-bold m-0 pb-1" style="font-size: 20px; color: #1F2937; display: inline-block;">Mis solicitudes</h2>
+                    
+                    <form action="{{ route('solicitudes') }}" method="GET" style="position: absolute; right: 0; bottom: -85px; background: white; padding: 10px 20px; border-radius: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; z-index: 10;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Desde</label>
+                            <input type="date" name="desde" value="{{ request('desde') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
                         </div>
 
-                        <div class="px-3">
-                            <label class="d-block small fw-semibold text-dark mb-1" title="Fecha final">Hasta</label>
-                            <input type="date" 
-                                id="fechaHasta"
-                                class="form-control form-control-sm border rounded-3 px-2 text-muted" 
-                                value="2026-02-08"
-                                style="font-size: 0.85rem;"
-                                title="Selecciona la fecha final">
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Hasta</label>
+                            <input type="date" name="hasta" value="{{ request('hasta') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
                         </div>
+                        
+                        <div style="width: 1px; height: 40px; background: #E5E7EB; margin: 0 5px;"></div>
 
-                        <div class="vr mx-2 opacity-25" style="height: 40px;" title="Separador visual"></div>
-
-                        <button id="btnFiltrar" 
-                                class="btn btn-link text-dark ms-2 p-0"
-                                title="Filtrar solicitudes por fecha">
-                            <i class="bi bi-search fs-4 fw-bold" title="Buscar"></i> 
+                        <button type="submit" style="border: none; background: transparent; cursor: pointer;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
-            <div class="bg-white rounded-5 shadow-sm p-4" title="Tabla de solicitudes">
+            <div class="bg-white rounded-5 shadow-sm p-4" style="margin-top: 80px;">
                 <div class="table-responsive">
-                    <table class="table align-middle" title="Listado de solicitudes">
-                        <thead class="table-light">
+                    <table class="table align-middle">
+                        <thead>
                             <tr>
-                                <th class="ps-4 py-3 border-0" style="background-color: #d1d9f0;" title="Nombre de la propiedad">Propiedad</th>
-                                <th class="py-3 border-0" style="background-color: #d1d9f0;" title="Precio de la propiedad">Precio</th>
-                                <th class="py-3 border-0" style="background-color: #d1d9f0;" title="Fecha en que se realizó la solicitud">Fecha de solicitud</th>
-                                <th class="py-3 border-0" style="background-color: #d1d9f0;" title="Estado de la solicitud">Estatus</th>
-                                <th class="pe-4 py-3 border-0 text-center" style="background-color: #d1d9f0;" title="Acciones disponibles">
-                                    Acciones
-                                </th>
+                                <th class="ps-4 py-3 border-0" style="background-color: #d1d9f0; font-weight: 700; color: #000;">Propiedad</th>
+                                <th class="py-3 border-0" style="background-color: #d1d9f0; font-weight: 700; color: #000;">Precio</th>
+                                <th class="py-3 border-0" style="background-color: #d1d9f0; font-weight: 700; color: #000;">Fecha de solicitud</th>
+                                <th class="py-3 border-0" style="background-color: #d1d9f0; font-weight: 700; color: #000;">Estatus</th>
+                                <th class="pe-4 py-3 border-0 text-center" style="background-color: #d1d9f0; font-weight: 700; color: #000;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="border-top-0">
                             @foreach ($solicitudes as $solicitud)
-                                <tr title="Registro de solicitud">
-                                    <td class="ps-4" title="Nombre de la propiedad">{{ $solicitud->propiedad }}</td>
-                                    <td title="Precio de la solicitud">${{ number_format($solicitud->precio, 2) }}</td>
-                                    <td title="Fecha de creación">{{ $solicitud->created_at->format('d/m/Y H:i') }}</td>
-                                    <td title="Estado actual">
+                                <tr style="border-bottom: 1px solid #99A1B7;">
+                                    <td class="ps-4" style="color: #000;">{{ $solicitud->propiedad }}</td>
+                                    <td style="color: #000;">${{ number_format($solicitud->precio, 2) }}</td>
+                                    <td style="color: #000;">{{ $solicitud->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>
                                         @php
-                                            $color = 'bg-warning text-dark';
-                                            if ($solicitud->estatus == 'Aceptado') {
-                                                $color = 'bg-success text-white';
-                                            }
-                                            if ($solicitud->estatus == 'Rechazado') {
-                                                $color = 'bg-danger text-white';
-                                            }
+                                            $colorStatus = match($solicitud->estatus) {
+                                                'Pendiente' => '#FBBF24',
+                                                'Aceptado', 'Aceptada' => '#065F46',
+                                                'Rechazado', 'Rechazada' => '#DC2626',
+                                                default => '#6B7280'
+                                            };
                                         @endphp
-                                        <span class="badge rounded-pill {{ $color }} px-3"
-                                              title="Estado: {{ $solicitud->estatus }}">
+                                        <span style="background: {{ $colorStatus }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
                                             {{ $solicitud->estatus }}
                                         </span>
                                     </td>
-
-                                    <td class="text-center align-middle" title="Opciones disponibles">
+                                    <td class="text-center align-middle">
                                         <div class="dropdown">
                                             <button class="btn border-0 shadow-sm px-3"
-                                                style="background-color: #f3e2e2; border-radius: 8px;"
-                                                data-bs-toggle="dropdown"
-                                                title="Mostrar acciones">
-                                                <i class="bi bi-three-dots" title="Menú"></i>
+                                                style="background-color: #f3e2e2; border: 1.5px solid #7F1D1D; border-radius: 8px;"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots" style="color: #7F1D1D;"></i>
                                             </button>
 
-                                            <ul class="dropdown-menu shadow border-0 rounded-3 py-2" title="Opciones de solicitud">
+                                            <ul class="dropdown-menu shadow border-0 rounded-3 py-2" style="font-family: Arial;">
                                                 <li>
                                                     <a class="dropdown-item d-flex align-items-center gap-3 py-2"
-                                                        href="{{ route('inquilino.versolicitud', $solicitud->id) }}"
-                                                        title="Ver detalles de la solicitud">
+                                                        href="{{ route('inquilino.versolicitud', $solicitud->id) }}">
                                                         <i class="bi bi-eye fs-5"></i>
                                                         <span class="fw-normal">Ver solicitud</span>
                                                     </a>
                                                 </li>
-
                                                 @if($solicitud->estatus !== 'Aceptado')
                                                     <li>
-                                                        <form action="{{ route('cancelarsolicitud', $solicitud->id) }}" 
-                                                              method="POST" 
-                                                              onsubmit="return confirm('¿Estás seguro de que deseas cancelar y eliminar esta solicitud?');"
-                                                              title="Cancelar solicitud">
+                                                        <form action="{{ route('cancelarsolicitud', $solicitud->id) }}" method="POST" 
+                                                            onsubmit="return confirm('¿Estás seguro de que deseas cancelar y eliminar esta solicitud?');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button class="dropdown-item d-flex align-items-center gap-3 py-2 text-danger" 
-                                                                    type="submit"
-                                                                    title="Eliminar solicitud">
+                                                            <button class="dropdown-item d-flex align-items-center gap-3 py-2 text-danger" type="submit">
                                                                 <i class="bi bi-slash-circle fs-5"></i>
                                                                 <span class="fw-normal">Cancelar</span>
                                                             </button>
@@ -113,10 +89,9 @@
                                                     </li>
                                                 @else
                                                     <li>
-                                                        <span class="dropdown-item d-flex align-items-center gap-3 py-2 text-muted italic"
-                                                              title="No se puede cancelar una solicitud aceptada">
+                                                        <span class="dropdown-item d-flex align-items-center gap-3 py-2 text-muted italic">
                                                             <i class="bi bi-info-circle fs-5"></i>
-                                                            <span class="fw-normal">No se puede cancelar (Aceptado)</span>
+                                                            <span class="fw-normal">No cancelable</span>
                                                         </span>
                                                     </li>
                                                 @endif
@@ -130,39 +105,5 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const btn = document.getElementById('btnFiltrar');
-                const inputDesde = document.getElementById('fechaDesde');
-                const inputHasta = document.getElementById('fechaHasta');
-
-                btn.addEventListener('click', function() {
-                    const desde = new Date(inputDesde.value + "T00:00:00");
-                    const hasta = new Date(inputHasta.value + "T23:59:59");
-
-                    const filas = document.querySelectorAll('table tbody tr');
-
-                    filas.forEach(fila => {
-                        const celdaFecha = fila.cells[2];
-
-                        if (celdaFecha) {
-                            const partes = celdaFecha.innerText.split(' ')[0].split('/');
-                            const fechaFila = new Date(
-                                `${partes[2]}-${partes[1]}-${partes[0]}T12:00:00`
-                            );
-
-                            if (fechaFila >= desde && fechaFila <= hasta) {
-                                fila.style.display = "";
-                            } else {
-                                fila.style.display = "none";
-                            }
-                        }
-                    });
-                });
-            });
-        </script>
-
     </main>
-
-</x-layout>
+</x-inquilino.layout>
