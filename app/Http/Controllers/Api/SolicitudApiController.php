@@ -117,28 +117,35 @@ class SolicitudApiController extends Controller
     }
 
     public function historialApi(Request $request)
-    {
-        $user = Auth::user();
-        $desde = $request->query('desde');
-        $hasta = $request->query('hasta');
+        {
+            $user = Auth::user();
+            $desde = $request->query('desde');
+            $hasta = $request->query('hasta');
 
-        $query = Solicitud::with(['aspirante', 'propiedad']);
+            $query = Solicitud::with(['aspirante', 'propiedad']);
 
-        if ($user->role == 'propietario') {
-            $query->whereHas('propiedad', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
+            if ($user->role == 'propietario') {
+                $query->whereHas('propiedad', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            } else {
+                $query->where('user_id', $user->id);
+            }
+
+            if ($desde && $hasta) {
+                $query->whereDate('created_at', '>=', $desde)
+                    ->whereDate('created_at', '<=', $hasta);
+            }
+
+            $solicitudes = $query->orderBy('created_at', 'desc')->get();
+
+            $solicitudes->map(function ($solicitud) {
+                $solicitud->pago = \App\Models\Pago::where('propiedad_id', $solicitud->propiedad_id)
+                    ->where('user_id', $solicitud->user_id)
+                    ->first(); // Buscamos el pago que coincida con el inquilino y la casa
+                return $solicitud;
             });
-        } else {
-            $query->where('user_id', $user->id);
+
+            return response()->json($solicitudes);
         }
-
-        if ($desde && $hasta) {
-            $query->whereDate('created_at', '>=', $desde)
-                ->whereDate('created_at', '<=', $hasta);
-        }
-
-        $solicitudes = $query->orderBy('created_at', 'desc')->get();
-
-        return response()->json($solicitudes);
-    }
 }
