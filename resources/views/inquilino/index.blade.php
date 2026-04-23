@@ -1,12 +1,13 @@
 <x-layout>
     <section class="py-5 text-center">
         <div class="container">
-            <h2 class="mb-4">Donde cada estancia se siente como un hogar</h2>
+            <h2 class="mb-4" title="Explora opciones de renta disponibles">Donde cada estancia se siente como un hogar</h2>
 
-            <form method="GET" action="{{ route('filtro') }}" 
-      class="d-none d-md-flex justify-content-center">
+            <form id="searchForm" method="GET" action="{{ route('filtro') }}" 
+                  class="d-none d-md-flex justify-content-center" 
+                  title="Formulario de búsqueda de propiedades">
                 <div class="d-flex justify-content-center">
-                    <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2">
+                    <div class="search-bar shadow rounded-pill d-flex align-items-center px-3 py-2" title="Filtros principales de búsqueda">
 
                         <div class="filter-item dropdown">
                             <div data-bs-toggle="dropdown" 
@@ -16,7 +17,7 @@
                                 <i class="bi bi-geo-alt"></i> Zona
                             </div>
 
-                            <div class="dropdown-menu p-3 rounded-4 shadow">
+                            <div class="dropdown-menu p-3 rounded-4 shadow" title="Lista de zonas disponibles">
                                 @foreach ($barrios as $barrio)
                                     <div class="form-check">
                                         <input class="form-check-input" 
@@ -27,7 +28,9 @@
                                                title="Filtrar por {{ $barrio->nombre }}"
                                                {{ request('barrio_id') == $barrio->id ? 'checked' : '' }} 
                                                onchange="this.form.submit()">
-                                        <label class="form-check-label" for="barrio-{{ $barrio->id }}">
+                                        <label class="form-check-label" 
+                                               for="barrio-{{ $barrio->id }}" 
+                                               title="Seleccionar {{ $barrio->nombre }}">
                                             {{ $barrio->nombre }}
                                         </label>
                                     </div>
@@ -45,7 +48,7 @@
                                 <i class="bi bi-house"></i> Tipo de propiedad
                             </div>
 
-                            <div class="dropdown-menu p-3 rounded-4 shadow">
+                            <div class="dropdown-menu p-3 rounded-4 shadow" title="Tipos de propiedad disponibles">
                                 @foreach (['casa','departamento','cuarto'] as $tipo)
                                     <div class="dropdown-item" 
                                          onclick="setTipo('{{ $tipo }}')" 
@@ -67,8 +70,8 @@
                                 <i class="bi bi-currency-dollar"></i> Precio
                             </div>
 
-                            <div class="dropdown-menu p-3 rounded-4 shadow">
-                                <label>Precio min:</label>
+                            <div class="dropdown-menu p-3 rounded-4 shadow" title="Seleccionar rango de precios">
+                                <label title="Campo de precio mínimo">Precio min:</label>
                                 <input type="number" 
                                        name="min" 
                                        value="{{ request('min') }}" 
@@ -76,7 +79,7 @@
                                        title="Ingresar precio mínimo"
                                        oninput="updatePrecio()">
 
-                                <label>Precio max:</label>
+                                <label title="Campo de precio máximo">Precio max:</label>
                                 <input type="number" 
                                        name="max" 
                                        value="{{ request('max') }}" 
@@ -96,10 +99,10 @@
                                 <i class="bi bi-wifi"></i> Servicios
                             </div>
 
-                            <div class="dropdown-menu p-3 rounded-4 shadow" style="width:300px; max-height:300px; overflow:auto;">
+                            <div class="dropdown-menu p-3 rounded-4 shadow" style="width:300px; max-height:300px; overflow:auto;" title="Seleccionar servicios disponibles">
                                 @php $serviciosSeleccionados = request('servicios', []); @endphp
 
-                                <p class="fw-bold mb-2">Servicios básicos</p>
+                                <p class="fw-bold mb-2" title="Servicios básicos incluidos">Servicios básicos</p>
                                 @foreach(['wifi' => 'WiFi / Internet', 'agua' => 'Agua', 'luz' => 'Luz', 'gas' => 'Gas', 'basura' => 'Recolección de basura'] as $value => $label)
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
@@ -110,11 +113,15 @@
                                                title="Incluir {{ $label }}"
                                                {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
                                                onchange="updateServicios()">
-                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                        <label class="form-check-label" 
+                                               for="servicio-{{ $value }}" 
+                                               title="Seleccionar {{ $label }}">
+                                               {{ $label }}
+                                        </label>
                                     </div>
                                 @endforeach
 
-                                <p class="fw-bold mt-3 mb-2">Comodidades</p>
+                                <p class="fw-bold mt-3 mb-2" title="Comodidades adicionales">Comodidades</p>
                                 @foreach(['baño_privado' => 'Baño propio', 'baño_compartido' => 'Baño compartido', 'aire' => 'Aire acondicionado', 'ventilador' => 'Ventilador de techo', 'entrada_independiente' => 'Entrada independiente', 'cama' => 'Cama incluida'] as $value => $label)
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
@@ -125,11 +132,15 @@
                                                title="Incluir {{ $label }}"
                                                {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
                                                onchange="updateServicios()">
-                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                        <label class="form-check-label" 
+                                               for="servicio-{{ $value }}" 
+                                               title="Seleccionar {{ $label }}">
+                                               {{ $label }}
+                                        </label>
                                     </div>
                                 @endforeach
 
-                                <p class="fw-bold mt-3 mb-2">Mobiliario</p>
+                                <p class="fw-bold mt-3 mb-2" title="Mobiliario incluido">Mobiliario</p>
                                 @foreach(['escritorio' => 'Escritorio y silla', 'closet' => 'Clóset', 'frigobar' => 'Frigobar', 'parrilla' => 'Parrilla'] as $value => $label)
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
@@ -140,11 +151,15 @@
                                                title="Incluir {{ $label }}"
                                                {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
                                                onchange="updateServicios()">
-                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                        <label class="form-check-label" 
+                                               for="servicio-{{ $value }}" 
+                                               title="Seleccionar {{ $label }}">
+                                               {{ $label }}
+                                        </label>
                                     </div>
                                 @endforeach
 
-                                <p class="fw-bold mt-3 mb-2">Áreas comunes</p>
+                                <p class="fw-bold mt-3 mb-2" title="Áreas comunes disponibles">Áreas comunes</p>
                                 @foreach(['cocina' => 'Cocina compartida', 'cocina_propia' => 'Cocina propia', 'lavado' => 'Área de lavado', 'estacionamiento' => 'Estacionamiento', 'camaras' => 'Cámaras de seguridad', 'limpieza' => 'Limpieza de áreas comunes'] as $value => $label)
                                     <div class="form-check">
                                         <input class="form-check-input servicio-check" 
@@ -155,14 +170,20 @@
                                                title="Incluir {{ $label }}"
                                                {{ in_array($value, $serviciosSeleccionados) ? 'checked' : '' }} 
                                                onchange="updateServicios()">
-                                        <label class="form-check-label" for="servicio-{{ $value }}">{{ $label }}</label>
+                                        <label class="form-check-label" 
+                                               for="servicio-{{ $value }}" 
+                                               title="Seleccionar {{ $label }}">
+                                               {{ $label }}
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
 
                         <button class="search-btn" title="Ejecutar búsqueda">
-                            <i class="search_btn"><img src="{{ asset('images/busqueda.png') }}" width="20" height="20" alt="Buscar"></i>
+                            <i class="search_btn">
+                                <img src="{{ asset('images/busqueda.png') }}" width="20" height="20" alt="Buscar" title="Buscar propiedades">
+                            </i>
                         </button>
                     </div>
                 </div>

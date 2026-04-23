@@ -85,7 +85,7 @@
 
     <img src="{{ public_path('images/Logo2.png') }}" alt="Logo" class="logo">
 
-    <h1>Reporte Mensual de Usuarios</h1>
+    <h1>Listado de Usuarios</h1>
     <div style="text-align: right; font-size: 12pt;">
         Fecha del reporte: {{ date('d/m/Y') }}
     </div>

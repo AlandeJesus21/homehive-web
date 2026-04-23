@@ -51,7 +51,7 @@ class AdminController extends Controller {
 
         $reviews = $query->get();
 
-        return view('admin.reviews.index', compact('admin.reviews.index', 'reviews'));
+        return view('admin.reviews.index', compact('reviews'));
     }
 
     public function propiedadessearch() {

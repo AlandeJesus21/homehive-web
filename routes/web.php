@@ -250,6 +250,8 @@ Route::middleware(['auth','role:admin', 'verified', 'nocache'])->group(function 
 
     Route::get('/admin/backup', [AdminController::class, 'backupDatabase'])->name('admin.backup');
 
+    Route::get('admin/reporeview', [PdfController::class,'reporteReviews'])->name('admin.reviews');
+
 
 });
 
