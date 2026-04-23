@@ -1,5 +1,5 @@
 <x-layout>
-    <div style="background: linear-gradient(180deg, #D7DCF3 0%, #ADB5D9 100%); padding: 20px 0 60px 0; font-family: 'Segoe UI', sans-serif; min-height: 100vh;">
+    <div style="background: linear-gradient(180deg, #D7DCF3 0%, #ADB5D9 100%); padding: 20px 0 80px 0; font-family: Arial, sans-serif; min-height: 100vh;">
         <div class="container" style="max-width: 1200px;">
 
             <div style="position: relative; border-bottom: 2px solid #99A1B7; margin-bottom: 40px; margin-top: 20px;">
@@ -10,12 +10,12 @@
                 <form action="{{ route('solicitudes.index') }}" method="GET" style="position: absolute; right: 0; bottom: -85px; background: white; padding: 10px 20px; border-radius: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; z-index: 10;">
                     <div style="display: flex; flex-direction: column;">
                         <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Desde</label>
-                        <input type="date" name="desde" value="{{ request('desde') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
+                        <input type="date" name="desde" value="{{ request('desde') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px; font-family: Arial;">
                     </div>
                     
                     <div style="display: flex; flex-direction: column;">
                         <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Hasta</label>
-                        <input type="date" name="hasta" value="{{ request('hasta') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
+                        <input type="date" name="hasta" value="{{ request('hasta') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px; font-family: Arial;">
                     </div>
                     
                     <div style="width: 1px; height: 40px; background: #E5E7EB; margin: 0 5px;"></div>
@@ -29,11 +29,10 @@
                 </form>
             </div>
 
-            <div style="background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); margin-top: 120px;">
-                
+            <div style="background: white; border-radius: 35px; padding: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); margin-top: 120px;">
                 <div class="table-responsive">
                     <div style="min-width: 950px;">
-                        <div style="background: #D7DCF3; border-radius: 8px; display: flex; align-items: center; padding: 15px 25px; margin-bottom: 20px;">
+                        <div style="background: #d1d9f0; border-radius: 8px; display: flex; align-items: center; padding: 15px 25px; margin-bottom: 20px;">
                             <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Propiedad</div>
                             <div style="width: 20%; font-weight: 700; color: #000; font-size: 16px;">Aspirante</div>
                             <div style="width: 25%; font-weight: 700; color: #000; font-size: 16px;">Fecha de solicitud</div>
@@ -43,19 +42,9 @@
 
                         @forelse ($solicitudes as $solicitud)
                             <div style="display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #99A1B7;">
-                                
-                                <div style="width: 25%; color: #000; font-size: 15px;">
-                                    {{ $solicitud->propiedad }} 
-                                </div>
-
-                                <div style="width: 20%; color: #000; font-size: 15px;">
-                                    {{ $solicitud->aspirante->name ?? 'Usuario desconocido' }}
-                                </div>
-
-                                <div style="width: 25%; color: #000; font-size: 15px;">
-                                    {{ $solicitud->created_at ? $solicitud->created_at->format('d \d\e M Y, h:i a') : 'N/A' }}
-                                </div>
-
+                                <div style="width: 25%; color: #000; font-size: 15px;">{{ $solicitud->propiedad }}</div>
+                                <div style="width: 20%; color: #000; font-size: 15px;">{{ $solicitud->aspirante->name ?? 'Usuario desconocido' }}</div>
+                                <div style="width: 25%; color: #000; font-size: 15px;">{{ $solicitud->created_at ? $solicitud->created_at->format('d/m/Y H:i') : 'N/A' }}</div>
                                 <div style="width: 15%;">
                                     @php
                                         $color = match($solicitud->estatus) {
@@ -65,29 +54,18 @@
                                             default => '#6B7280'
                                         };
                                     @endphp
-                                    <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
-                                        {{ $solicitud->estatus }}
-                                    </span>
+                                    <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">{{ $solicitud->estatus }}</span>
                                 </div>
-
                                 <div style="width: 15%; text-align: center;">
-                                    <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" 
-                                    style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
-                                        Ver solicitud
-                                    </a>
+                                    <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 15px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-block;">Ver solicitud</a>
                                 </div>
                             </div>
                         @empty
-                            <div style="padding: 40px; text-align: center; color: #6B7280;">
-                                No se encontraron solicitudes.
-                            </div>
+                            <div style="padding: 40px; text-align: center; color: #6B7280;">No se encontraron solicitudes.</div>
                         @endforelse
                     </div>
                 </div>
-
-                <div class="mt-4">
-                    {{ $solicitudes->links() }}
-                </div>
+                <div class="mt-4">{{ $solicitudes->links() }}</div>
             </div>
         </div>
     </div>
