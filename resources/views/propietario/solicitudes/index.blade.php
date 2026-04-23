@@ -4,18 +4,18 @@
 
             <div style="position: relative; border-bottom: 2px solid #99A1B7; margin-bottom: 40px; margin-top: 20px;">
                 <h2 style="font-size: 20px; font-weight: 700; color: #1F2937; margin-bottom: 5px; display: inline-block;">
-                    Solicitudes
+                    Solicitudes Recibidas
                 </h2>
                 
                 <form action="{{ route('solicitudes.index') }}" method="GET" style="position: absolute; right: 0; bottom: -85px; background: white; padding: 10px 20px; border-radius: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; z-index: 10;">
                     <div style="display: flex; flex-direction: column;">
                         <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Desde</label>
-                        <input type="date" name="desde" value="{{ request('desde') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px; font-family: Arial;">
+                        <input type="date" name="desde" value="{{ request('desde') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
                     </div>
                     
                     <div style="display: flex; flex-direction: column;">
                         <label style="font-size: 13px; font-weight: 600; color: #1F2937;">Hasta</label>
-                        <input type="date" name="hasta" value="{{ request('hasta') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px; font-family: Arial;">
+                        <input type="date" name="hasta" value="{{ request('hasta') }}" style="border: 1px solid #D1D5DB; border-radius: 8px; padding: 2px 8px; font-size: 14px;">
                     </div>
                     
                     <div style="width: 1px; height: 40px; background: #E5E7EB; margin: 0 5px;"></div>
@@ -54,7 +54,9 @@
                                             default => '#6B7280'
                                         };
                                     @endphp
-                                    <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">{{ $solicitud->estatus }}</span>
+                                    <span style="background: {{ $color }}; color: white; padding: 6px 15px; border-radius: 8px; font-size: 14px; display: inline-block; font-weight: 600;">
+                                        {{ $solicitud->estatus }}
+                                    </span>
                                 </div>
                                 <div style="width: 15%; text-align: center;">
                                     <a href="{{ route('propietario.solicitudes.show', $solicitud->id) }}" style="background: #FCE7E7; color: #000; border: 1.5px solid #7F1D1D; padding: 6px 15px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-block;">Ver solicitud</a>
@@ -65,8 +67,13 @@
                         @endforelse
                     </div>
                 </div>
-                <div class="mt-4">{{ $solicitudes->links() }}</div>
+                
+                @if(method_exists($solicitudes, 'links'))
+                    <div class="mt-4">
+                        {{ $solicitudes->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-</x-propietario.layout>
+</x-layout>

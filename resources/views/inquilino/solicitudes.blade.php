@@ -75,7 +75,7 @@
                                                         <span class="fw-normal">Ver solicitud</span>
                                                     </a>
                                                 </li>
-                                                @if($solicitud->estatus !== 'Aceptado')
+                                                @if($solicitud->estatus !== 'Aceptado' && $solicitud->estatus !== 'Aceptada')
                                                     <li>
                                                         <form action="{{ route('cancelarsolicitud', $solicitud->id) }}" method="POST" 
                                                             onsubmit="return confirm('¿Estás seguro de que deseas cancelar y eliminar esta solicitud?');">
@@ -106,4 +106,4 @@
             </div>
         </div>
     </main>
-</x-inquilino.layout>
+</x-layout>

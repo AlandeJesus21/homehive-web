@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="{{ asset('css/inquilinostyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        .hero {
+            height: 92vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+            url('{{ asset('images/j.jpg') }}') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="fondo fade-in d-flex flex-column min-vh-100" title="Aplicación HomeHive">
@@ -39,7 +52,7 @@
                    class="btn btn-primary btn-sm" 
                    download="HomeHive.apk"
                    title="Descargar aplicación móvil">
-                   Descarga la app
+                    Descarga la app
                 </a>
             </div>
 
@@ -79,7 +92,7 @@
         <div class="ms-auto">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link d-flex align-items-center" data-bs-toggle="dropdown" title="Opciones de usuario">
+                    <a class="nav-link d-flex align-items-center" data-bs-toggle="dropdown" style="cursor: pointer" title="Opciones de usuario">
                         <span class="text-muted me-2 d-none d-lg-inline">
                             {{ Auth::user()->name }}
                         </span>
@@ -112,41 +125,14 @@
         <h5 class="offcanvas-title">Menú</h5>
         <button class="btn-close" data-bs-dismiss="offcanvas" title="Cerrar menú"></button>
     </div>
-
     <div class="offcanvas-body">
         <div class="mb-3">
-            <a href="{{ asset('downloads/HomeHive.apk') }}" class="btn btn-primary btn-sm w-100" download="HomeHive.apk" title="Descargar aplicación móvil">Descarga la app</a>
+            <a href="{{ asset('downloads/HomeHive.apk') }}" class="btn btn-primary btn-sm w-100" download="HomeHive.apk">Descarga la app</a>
         </div>
-
         <ul class="navbar-nav">
-            @guest
-                <li class="nav-item"><a class="nav-link" href="/" title="Ir al inicio">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('register') }}" title="Crear cuenta">Registrarse</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}" title="Acceder a tu cuenta">Iniciar sesión</a></li>
-            @endguest
-
             @auth
-                @if(Auth::user()->role == 'admin')
-                    <li class="nav-item"><a class="nav-link" href="/home" title="Panel principal">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/users" title="Gestionar usuarios">Usuarios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/propiedades" title="Gestionar propiedades">Propiedades</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/reviews" title="Ver comentarios">Comentarios</a></li>
-                @endif
-
-                @if(Auth::user()->role == 'inquilino')
-                    <li class="nav-item"><a class="nav-link" href="{{ route('buscar') }}" title="Buscar propiedades">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pagos') }}" title="Ver pagos">Pagos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('favoritos') }}" title="Ver favoritos">Favoritos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes') }}" title="Ver solicitudes">Solicitudes</a></li>
-                @endif
-
-                @if(Auth::user()->role == 'propietario')
-                    <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}" title="Panel principal">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('propietario.index') }}#propiedades-section" title="Ver propiedades">Propiedades</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('solicitudes.index') }}" title="Ver solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pagos.index') }}" title="Ver pagos">Pagos</a></li>
-                @endif
-            @endauth
+                <li class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
+                @endauth
         </ul>
     </div>
 </div>
@@ -155,7 +141,7 @@
     {{ $slot }}
 </main>
 
-<footer title="Pie de página">
+<footer title="Pie de página" class="bg-white border-top mt-auto">
     <div class="container text-center py-4">
         <div class="row">
             <div class="col-md-4">
@@ -167,16 +153,16 @@
             </div>
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 text-start">
                         <h6>MÁS</h6>
-                        <a href="{{ asset('downloads/HomeHive.apk') }}" download title="Descargar aplicación">Descargar la app</a><br>
-                        <a href="/comentarios" title="Ver comentarios">Comentarios</a><br>
-                        <a href="/acerca" title="Información sobre la plataforma">Acerca</a>
+                        <a href="{{ asset('downloads/HomeHive.apk') }}" download>Descargar app</a><br>
+                        <a href="/comentarios">Comentarios</a><br>
+                        <a href="/acerca">Acerca</a>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 text-start">
                         <h6>LEGAL</h6>
-                        <a href="/politica" title="Política de privacidad">Privacidad</a><br>
-                        <a href="/terminos" title="Términos y condiciones">Términos</a>
+                        <a href="/politica">Privacidad</a><br>
+                        <a href="/terminos">Términos</a>
                     </div>
                 </div>
             </div>
@@ -190,10 +176,10 @@
         <div class="modal-content rounded-4">
             <div class="modal-header border-0">
                 <h5>Editar Perfil</h5>
-                <button class="btn-close" data-bs-dismiss="modal" title="Cerrar ventana"></button>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data" title="Formulario de perfil">
+                <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="text-center mb-3 position-relative">
@@ -201,16 +187,15 @@
                             ? asset('storage/' . Auth::user()->avatar)
                             : asset('images/user.svg') }}"
                             class="rounded-circle"
-                            width="100" height="100"
-                            title="Foto actual">
-                        <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;" title="Cambiar imagen">✏️</label>
-                        <input type="file" name="avatar" id="avatar" hidden title="Seleccionar nueva imagen">
+                            width="100" height="100">
+                        <label for="avatar" style="position:absolute; bottom:0; right:40%; cursor:pointer;">✏️</label>
+                        <input type="file" name="avatar" id="avatar" hidden>
                     </div>
-                    <input type="text" name="name" class="form-control mb-2" value="{{ Auth::user()->name }}" required title="Nombre completo">
-                    <input type="email" name="email" class="form-control mb-2" value="{{ Auth::user()->email }}" required title="Correo electrónico">
-                    <input type="password" name="password" class="form-control mb-2" placeholder="Nueva contraseña" title="Nueva contraseña">
-                    <input type="password" name="password_confirmation" class="form-control mb-3" placeholder="Confirmar contraseña" title="Confirmar contraseña">
-                    <button class="btn btn-primary w-100" title="Guardar cambios">Guardar cambios</button>
+                    <input type="text" name="name" class="form-control mb-2" value="{{ Auth::user()->name }}" required>
+                    <input type="email" name="email" class="form-control mb-2" value="{{ Auth::user()->email }}" required>
+                    <input type="password" name="password" class="form-control mb-2" placeholder="Nueva contraseña">
+                    <input type="password" name="password_confirmation" class="form-control mb-3" placeholder="Confirmar contraseña">
+                    <button class="btn btn-primary w-100">Guardar cambios</button>
                 </form>
             </div>
         </div>
