@@ -43,10 +43,10 @@ protected $fillable = [
     }
 
     public function barrio() 
-{
-    
-    return $this->belongsTo(Barrio::class, 'barrio_id'); 
-}
+    {
+        
+        return $this->belongsTo(Barrio::class, 'barrio_id'); 
+    }
 
     public function solicitudes()
     {
@@ -56,5 +56,10 @@ protected $fillable = [
     public function pagos()
     {
         return $this->hasMany(Pago::class, 'propiedad_id');
+    }
+
+    public function favoritos()
+    {
+        return $this->belongsToMany(Propiedad::class, 'favoritos');
     }
 }

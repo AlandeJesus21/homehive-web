@@ -126,7 +126,10 @@ class PropiedadController extends Controller
             $firebase->sendToTopic(
                 'propiedades',
                 '¡Nueva propiedad publicada!',
-                "La propiedad '{$propiedad->titulo}' ha sido publicada. ¡Échale un vistazo!"
+                "La propiedad '{$propiedad->titulo}' ha sido publicada. ¡Échale un vistazo!",
+                ['type'=> 'propiedad',
+                 'id' => $propiedad->id
+                ]
             );
 
             return redirect()->route('propietario.index')
