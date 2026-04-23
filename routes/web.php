@@ -101,7 +101,7 @@ Route::post('/logout', function() {
 
 Route::get('/google-auth/redirect', function () { return Socialite::driver('google')->redirect(); });
 Route::get('/google-auth/callback', function () {
-    $user_google = Socialite::driver('google')->user();
+    $user_google = Socialite::driver('google')->stateless()->user();
     $user = User::updateOrCreate(['google_id' => $user_google->id], ['email' => $user_google->email, 'name' => $user_google->name]);
     
     if(!$user->avatar){
