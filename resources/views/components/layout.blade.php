@@ -141,28 +141,37 @@
     {{ $slot }}
 </main>
 
-<footer title="Pie de página" class="bg-white border-top mt-auto">
-    <div class="container text-center py-4">
+<footer title="Pie de página" class="mt-auto" style="background-color: #1a1a2e; color: #ffffff; border-top: 1px solid #2d2d44;">
+    <div class="container text-center py-5">
         <div class="row">
-            <div class="col-md-4">
-                <h6>COMPROMISO</h6>
-                <small>En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres.</small>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h6 class="fw-bold mb-3" style="color: #ffffff;">COMPROMISO</h6>
+                <p class="small mb-0" style="color: #d1d1e0; line-height: 1.6;">
+                    En HomeHive, nos dedicamos a ofrecer la mejor experiencia en alquileres de propiedades. 
+                    Valoramos tus comentarios y sugerencias para mejorar continuamente nuestra plataforma y servicios.
+                </p>
             </div>
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <strong>© 2026 DevSquad</strong>
+            
+            <div class="col-md-4 d-flex align-items-center justify-content-center mb-4 mb-md-0">
+                <span class="fs-5 fw-medium">© 2026 DevSquad</span>
             </div>
+            
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-6 text-start">
-                        <h6>MÁS</h6>
-                        <a href="{{ asset('downloads/HomeHive.apk') }}" download>Descargar app</a><br>
-                        <a href="/comentarios">Comentarios</a><br>
-                        <a href="/acerca">Acerca</a>
+                    <div class="col-6">
+                        <h6 class="fw-bold mb-3" style="color: #ffffff;">MÁS</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ asset('downloads/HomeHive.apk') }}" download="HomeHive.apk" class="text-decoration-underline small" style="color: #d1d1e0;">Descargar app</a></li>
+                            <li><a href="/comentarios" class="text-decoration-underline small" style="color: #d1d1e0;">Comentarios</a></li>
+                            <li><a href="/acerca" class="text-decoration-underline small" style="color: #d1d1e0;">Acerca de nosotros</a></li>
+                        </ul>
                     </div>
-                    <div class="col-6 text-start">
-                        <h6>LEGAL</h6>
-                        <a href="/politica">Privacidad</a><br>
-                        <a href="/terminos">Términos</a>
+                    <div class="col-6">
+                        <h6 class="fw-bold mb-3" style="color: #ffffff;">LEGAL</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="/politica" class="text-decoration-underline small" style="color: #d1d1e0;">Política de privacidad</a></li>
+                            <li><a href="/terminos" class="text-decoration-underline small" style="color: #d1d1e0;">Términos y condiciones</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
