@@ -68,7 +68,7 @@
                     color:#111827;
                     box-shadow: 0 5px 10px rgba(0,0,0,0.05);
                 ">
-                ➕ Generar reporte
+                <i class="bi bi-plus"></i> Generar reporte
             </a>
         </div>
 
@@ -76,7 +76,7 @@
         <div
             style="
                 background:#FFFFFF;
-                border-radius:20px;
+                /* border-radius:20px; */
                 box-shadow: 0 10px 25px rgba(0,0,0,0.08);
                 padding: 25px;
             ">

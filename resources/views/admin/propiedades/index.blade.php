@@ -42,7 +42,7 @@
 
         <div class="text-end mb-3">
             <a href="/reportepropiedades?{{ http_build_query(request()->all()) }}" class="btn btn-light shadow-sm">
-                ➕ Generar reporte
+                <i class="bi bi-plus"></i>Generar reporte
             </a>
         </div>
 

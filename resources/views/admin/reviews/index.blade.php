@@ -9,12 +9,12 @@
 
                 <div>
                     <label class="form-label small">Desde</label>
-                    <input type="date" name="start_date" class="form-control form-control-sm">
+                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control form-control-sm">
                 </div>
 
                 <div>
                     <label class="form-label small">Hasta</label>
-                    <input type="date" name="end_date" class="form-control form-control-sm">
+                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control form-control-sm">
                 </div>
 
                 <button class="btn btn-sm mt-2">
@@ -27,8 +27,8 @@
         </div>
 
         <div class="text-end mb-3">
-            <a href="#" class="btn btn-light shadow-sm">
-                ➕ Generar reporte
+            <a href=" {{ route('admin.reviews') }}?{{ http_build_query(request()->all()) }}" class="btn btn-light shadow-sm">
+                <i class="bi bi-plus"></i> Generar reporte
             </a>
         </div>
 

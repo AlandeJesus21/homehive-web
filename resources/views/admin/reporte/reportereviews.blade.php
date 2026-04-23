@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Propiedades</title>
+    <title>Reporte Mensual de Propiedades</title>
     <style>
     body {
         font-family: Arial, sans-serif;
@@ -85,39 +85,34 @@
 
     <img src="{{ public_path('images/Logo2.png') }}" alt="Logo" class="logo">
 
-    <h1>Listado de Propiedades</h1>
+    <h1>Listado de reseñas</h1>
     <div style="text-align: right; font-size: 12pt;">
         Fecha del reporte: {{ date('d/m/Y') }}
     </div>
     @php
     \Carbon\Carbon::setLocale('es');
     @endphp
-    <p>
-        Reporte de las propiedades registradas en el barrio <strong>{{$barrio->first()->nombre}}</strong> <br>
 
-    </p>
+    <br>
 
     <table>
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Tipo</th>
-                <th>Barrio</th>
-                <th>Arrendador</th>
-                <th>Fecha de registro</th>
+                <th>Nombre</th>
+                <th>Propiedad</th>
+                <th>Calificación</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($propiedades as $propiedad)
+            @foreach($review as $r)
             <tr>
-                <td>{{ $propiedad->titulo }}</td>
-                <td>{{ ucfirst($propiedad->tipo) }}</td>
-                <td>{{ $propiedad->barrio->nombre }}</td>
-                <td>{{ $propiedad->user->name }}
-                    <br>
-                    <small>{{ $propiedad->user->email }}</small>
-                </td>
-                <td>{{ $propiedad->created_at->format('d/m/Y') }}</td>
+                <td>{{ $r->usuario->name}}</td>
+                <td>{{ ucfirst($r->propiedad->titulo) }}</td>
+                <td>{{ $r->rating }}</td>
+                <td>{{ $r->comentario }}</td>
+                <td>{{ $r->created_at->format('d/m/Y') }}</td>
             </tr>
             @endforeach
         </tbody>
