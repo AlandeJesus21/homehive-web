@@ -40,7 +40,7 @@ class RegisterController extends Controller
         $token = $user->createToken('mobile')->plainTextToken;
 
         if ($request->has('from') && $request->from === 'app') {
-            return response()->view('redirect_app', ['token' => $token]);
+            return view('auth.verified-success');
         }
 
         return redirect($this->redirectTo);
@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'string'],
+            'from' => ['nullable', 'string'],
         ]);
     }
 
@@ -85,6 +86,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
+            'from_app' => isset($data['from']) && $data['from'] === 'app',
         ]);
     }
 }
