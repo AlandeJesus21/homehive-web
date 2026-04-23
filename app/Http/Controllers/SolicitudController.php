@@ -147,7 +147,10 @@ class SolicitudController extends Controller
             $firebase->sendNotification(
                 $propietario->fcm_token,
                 '¡Nueva Solicitud Recibida!',
-                "Has recibido una nueva solicitud para tu propiedad '{$propiedad->titulo}'. Revisa los detalles en tu panel de control."
+                "Has recibido una nueva solicitud para tu propiedad '{$propiedad->titulo}'. Revisa los detalles en tu panel de control.",   
+                ['type' => 'solicitud',
+                 'id' => $id
+                ]
             );
         }
 

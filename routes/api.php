@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SolicitudApiController;
 use App\Http\Controllers\Api\PagoApiController;
+use App\Http\Controllers\Api\FavoritosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NotificationController;
@@ -68,6 +69,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pagos/recibo/{id}', [PagoApiController::class, 'generarReciboApi']);
     
     Route::get('/pagos/contrato/{id}', [PagoApiController::class, 'generarContratoApi']);
+
+    Route::post('/favoritos', [FavoritosController::class, 'store']);
+    Route::get('/favoritos', [FavoritosController::class, 'index']);
+    Route::delete('/favoritos/{propiedad_id}', [FavoritosController::class, 'destroy']);
 });
 
 
@@ -82,6 +87,7 @@ Route::post('/messages', [MessageController::class, 'store']);
 
     Route::post('/fcm-token', [FcmController::class, 'saveFcmToken'])
     ->middleware('auth:sanctum');
+
 
 
 
