@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Barrio;
 use Illuminate\Http\Request;
 use App\Models\Favoritos;
 
@@ -17,8 +18,11 @@ class FavoritosController extends Controller
             ->get()
             ->pluck('propiedad');
 
+        $barrio = Barrio::all();
+
         return response()->json([
-            'data' => $favoritos
+            'data' => $favoritos,
+            'barrio' => $barrio,
         ], 200);
     }
 

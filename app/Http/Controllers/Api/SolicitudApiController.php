@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SolicitudApiController extends Controller
 {
-    public function storeApi(Request $request, $id)
+    public function storeApi(Request $request, $id, FirebaseService $firebase)
     {
         $request->validate([
             'curp'      => 'required|string|max:18',
@@ -55,7 +55,7 @@ class SolicitudApiController extends Controller
         ], 201);
     }
 
-    public function aceptarApi($id)
+    public function aceptarApi($id, FirebaseService $firebase)
     {
         $solicitud = Solicitud::findOrFail($id);
         $propiedadReal = Propiedad::findOrFail($solicitud->propiedad_id);
@@ -91,7 +91,7 @@ class SolicitudApiController extends Controller
         ], 200);
     }
 
-    public function rechazarApi($id)
+    public function rechazarApi($id, FirebaseService $firebase)
     {
         $solicitud = Solicitud::findOrFail($id);
         $propiedadReal = Propiedad::findOrFail($solicitud->propiedad_id);

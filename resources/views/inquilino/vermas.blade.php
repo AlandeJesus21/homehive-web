@@ -253,6 +253,13 @@
         const mapa = new google.maps.Map(document.getElementById("mapa-detalle"), { zoom: 15, center: ubicacion });
         const marcador = new google.maps.Marker({ position: ubicacion, map: mapa, title: "{{ $propiedad->titulo }}" });
     }
+<<<<<<< Updated upstream
+=======
+</script>
+
+    <script async defer
+        <!-- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw7lhTRLQ6R2Hfd5--jj3goydB0ysifys&callback=initMap"> -->
+>>>>>>> Stashed changes
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY_AQUI&callback=initMap"></script>
 </x-layout>
