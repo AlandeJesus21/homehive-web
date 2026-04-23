@@ -39,4 +39,11 @@ class Solicitud extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function pago()
+    {
+        return $this->hasOne(Pago::class, 'propiedad_id', 'propiedad_id')
+                    ->where('user_id', $this->user_id)
+                    ->latest(); // Trae el más reciente para evitar errores
+    }
 }
