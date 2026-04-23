@@ -94,7 +94,7 @@
 
                         <button type="submit" 
                                 class="btn w-100 btn-lg shadow-sm boton"
-                                style="background-color: #f3e2e2; color: #5a1a1a; border: 1px solid #5a1a1a;"
+                                style="background-color: #1E3A8A; color: white; border: 1px solid #1E3A8A;"
                                 title="Enviar solicitud de renta">
                             Enviar Solicitud
                         </button>

@@ -10,9 +10,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagoController extends Controller
 {
-    /**
-     * Historial de pagos para el Inquilino
-     */
     public function misPagos()
     {
         $pagos = Pago::with('propiedad')
@@ -23,9 +20,6 @@ class PagoController extends Controller
         return view('inquilino.mispagos', compact('pagos'));
     }
 
-    /**
-     * Proceso de cobro con Stripe (Usando Laravel Cashier)
-     */
     public function checkout($id)
     {
         $pago = Pago::where('id', $id)
@@ -33,7 +27,6 @@ class PagoController extends Controller
                     ->where('status', 'pendiente')
                     ->firstOrFail();
 
-        // Usamos checkoutCharge de Cashier (compatible con Stripe ^17.0)
         return auth()->user()->checkoutCharge(
             $pago->monto * 100, 
             "Pago de Renta - " . ($pago->propiedad->titulo ?? 'Propiedad'), 
@@ -48,9 +41,6 @@ class PagoController extends Controller
         );
     }
 
-    /**
-     * VISTA DEL PROPIETARIO: Historial de pagos recibidos
-     */
     public function index(Request $request)
     {
         $query = Pago::with(['propiedad', 'inquilino'])
@@ -75,9 +65,6 @@ class PagoController extends Controller
         return view('propietario.pagos.index', compact('pagos'));
     }
 
-    /**
-     * Generar Recibo en PDF
-     */
     public function descargarRecibo($id, Request $request)
     {
         $pago = Pago::with(['propiedad', 'inquilino', 'arrendador'])
@@ -97,9 +84,6 @@ class PagoController extends Controller
         return view('pdf.recibo', compact('pago'));
     }
 
-    /**
-     * Generar Contrato en PDF
-     */
     public function descargarContrato($id)
     {
         $pago = Pago::with(['propiedad.barrio', 'inquilino', 'arrendador'])

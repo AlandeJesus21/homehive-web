@@ -79,8 +79,8 @@
 
                         @guest
                         <a href="{{ route('login', [ 'redirect' => url()->current()]) }}" 
-                           class="btn boton w-100"
-                           style="background-color: #f3e2e2; color: #5a1a1a; border: 1px solid #5a1a1a;">
+                        class="btn boton w-100"
+                        style="background-color: #1E3A8A; color: white; border: 1px solid #1E3A8A;">
                             Solicitud
                         </a>
                         @endguest
@@ -88,8 +88,8 @@
                         @auth
                         @if (auth()->user()->rol != 'propietario')
                         <a href="{{ route('solicitarpropiedad', $propiedad->id) }}" 
-                           class="btn boton w-100"
-                           style="background-color: #f3e2e2; color: #5a1a1a; border: 1px solid #5a1a1a;">
+                        class="btn boton w-100"
+                        style="background-color: #1E3A8A; color: white; border: 1px solid #1E3A8A;">
                             Solicitud
                         </a>
                         @endif

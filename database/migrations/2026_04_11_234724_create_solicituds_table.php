@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('solicituds', function (Blueprint $table) {
             $table->id();
             
-            // Relaciones
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('propiedad_id')->nullable()->constrained('propiedades')->onDelete('cascade');
             
-            // Datos de la Solicitud
-            $table->string('propiedad'); // Nombre/Título de la propiedad al momento de solicitar
+            $table->string('propiedad'); 
             $table->decimal('precio', 10, 2);
             $table->string('estatus')->default('Pendiente');
             $table->string('curp', 18);
@@ -33,9 +31,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('solicituds');
