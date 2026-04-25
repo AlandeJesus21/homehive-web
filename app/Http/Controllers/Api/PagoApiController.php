@@ -10,6 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PagoApiController extends Controller
 {
+  
+
     public function index(Request $request)
     {
         $user = auth()->user();

@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PropiedadController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['propiedades', 'vermas']);
-    }   
     
     public function propiedades() {
         $propiedades = Propiedad::with(['barrio', 'imagenes'])

@@ -310,6 +310,6 @@ document.querySelector('form[action*="propiedades"]').addEventListener('submit',
 
 });
 </script>
-</x-propietario.layout>
+</x-layout>
 
 </div>

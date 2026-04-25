@@ -9,6 +9,8 @@ use App\Models\Favoritos;
 
 class FavoritosController extends Controller
 {
+    
+
     public function index(Request $request)
     {
         $user = $request->user();

@@ -68,4 +68,4 @@
             </div>
         </div>
     </main>
-</x-propietario.layout>
+</x-layout>

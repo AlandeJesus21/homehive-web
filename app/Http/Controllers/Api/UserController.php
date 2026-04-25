@@ -14,6 +14,8 @@ use Illuminate\Testing\Fluent\Concerns\Has;
 
 class UserController extends Controller
 {
+ 
+
     public function Users(){
         $user = User::all();
 

@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class SolicitudApiController extends Controller
 {
-    public function storeApi(Request $request, $id, FirebaseService $firebase)
+  
+    public function storeApi(Request $request, $id)
     {
         $request->validate([
             'curp'      => 'required|string|max:18',

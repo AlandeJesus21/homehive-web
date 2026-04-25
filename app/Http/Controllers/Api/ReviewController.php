@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
+  
     public function index()
     {
         $reviews = Review::with(['usuario:id,name', 'propiedad:id,titulo'])->get();

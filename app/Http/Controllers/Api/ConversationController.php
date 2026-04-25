@@ -8,6 +8,7 @@ use App\Models\Conversation;
 
 class ConversationController extends Controller
 {
+  
     public function store(Request $request)
     {
         $user1 = $request->user_one_id;

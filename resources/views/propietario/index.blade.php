@@ -157,10 +157,6 @@
                                     Editar
                                 </a>
 
-                                <button class="btn btn-primary btn-sm flex-fill">
-                                    Comentarios
-                                </button>
-
                                 <a href="{{ route('propiedades.show', $propiedad->id) }}"
                                    class="btn btn-primary btn-sm flex-fill">
                                     Ver
@@ -263,5 +259,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</x-propietario.layout>
+</x-layout>
 

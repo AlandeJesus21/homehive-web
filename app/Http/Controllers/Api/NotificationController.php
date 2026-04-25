@@ -9,7 +9,7 @@ use App\Models\Conversation;
 use App\Models\User;
 use App\Services\FirebaseService;
 
-class MessageController extends Controller
+class NotificationController extends Controller
 {
     public function index($conversationId)
     {
